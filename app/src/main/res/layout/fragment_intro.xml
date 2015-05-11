@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:padding="15dp">
+
+    <Button
+        android:id="@+id/loginButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/login_button"
+        android:layout_centerVertical="true"
+        android:background="@color/dark_blue"
+        android:textColor="@color/white"/>
+    <TextView
+        android:id="@+id/orLabel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/or_label"
+        android:layout_margin="10dp"
+        android:gravity="center"
+        android:layout_below="@id/loginButton"/>
+    <Button
+        android:id="@+id/registerButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/register_button"
+        android:layout_below="@+id/orLabel"
+        android:background="@color/dark_blue"
+        android:textColor="@color/white"/>
+
+</RelativeLayout>

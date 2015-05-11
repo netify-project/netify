@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/background"
+    >
+
+    <com.google.android.youtube.player.YouTubePlayerView
+        android:id="@+id/playerView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+    <LinearLayout
+        android:id="@+id/titleLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/youtube_list_item"
+        android:layout_margin="8dp"
+        android:padding="10dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/videoTitle"
+            android:textSize="20dp"
+            android:singleLine="true"
+            android:ellipsize="end"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:textColor="@color/black"/>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/dark_blue"
+            android:padding="5dp"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/video_added_by"/>
+
+        </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/descriptionLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/youtube_list_item"
+        android:layout_margin="8dp"
+        android:padding="10dp"
+        android:visibility="gone">
+    <TextView
+        android:id="@+id/videoDescription"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/propositionLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/dark_blue"
+                android:textColor="@color/white"
+                android:text="@string/proposition_list_header"
+                android:textSize="16dp"
+                android:textStyle="bold"
+                android:padding="5dp"
+                android:gravity="center"
+                />
+            <ListView
+                android:id="@+id/propositionList"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                </ListView>
+
+        </LinearLayout>
+    </LinearLayout>
+    </ScrollView>
+</LinearLayout>

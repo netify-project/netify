@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset=utf-8 />
+<title>Cytoscape.js initialisation</title>
+    <style>
+        body {
+        font: 14px helvetica neue, helvetica, arial, sans-serif;
+        }
+
+        #cy {
+        height: 100%;
+        width: 100%;
+        position: absolute;
+        left: 0;
+        top: 0;
+        background: -webkit-radial-gradient(rgba(38, 123, 242, 0.25), rgba(38, 123, 242, 0.5)); /* Safari 5.1 to 6.0 */
+        background: -o-radial-gradient(rgba(38, 123, 242, 0.25), rgba(38, 123, 242, 0.5)); /* For Opera 11.6 to 12.0 */
+        background: -moz-radial-gradient(rgba(38, 123, 242, 0.25), rgba(38, 123, 242, 0.5)); /* For Firefox 3.6 to 15 */
+        background: radial-gradient(rgba(38, 123, 242, 0.25), rgba(38, 123, 242, 0.5)); /* Standard syntax */
+        }
+
+        #eat {
+        position: absolute;
+        left: 1em;
+        top: 1em;
+        font-size: 1em;
+        z-index: -1;
+        color: #c88;
+        }
+    </style>
+<script src="jquery-1.11.2.min.js"></script>
+<script src="cytoscape.min.js"></script>
+<script>
+function setNodesAndEdges(nodes, edges){
+$(function(){ // on dom ready
+
+// photos from flickr with creative commons license
+
+var cy = cytoscape({
+  container: document.getElementById('cy'),
+
+  style: cytoscape.stylesheet()
+    .selector('node')
+      .css({
+        'height': 80,
+        'width': 80,
+        'background-fit': 'cover',
+        'border-color': 'rgba(38, 123, 242, 1)',
+        'border-width': 4,
+        'border-opacity': 1,
+        'content': 'song',
+        'text-outline-width': 1,
+        'text-outline-color': '#000',
+        'color': 'white',
+        'font-size': 15,
+        'text-valign': 'center',
+        'min-zoomed-font-size': 12
+      })
+    .selector('edge')
+      .css({
+        'width': 5,
+        'target-arrow-shape': 'triangle-backcurve',
+        'line-color': 'rgba(38, 123, 242, 1)',
+        'target-arrow-color': 'rgba(38, 123, 242, 1)'
+      }),
+
+  elements: {
+    nodes: nodes,
+    edges: edges
+  },
+
+  layout: {
+    name: 'cose',
+    animate: false,
+    directed: true,
+    padding: 10
+  }
+}); // cy init
+
+cy.on('tap', 'node', function(){
+    this.animate({css: {'width': '105%', 'height': '105%' }},
+        {duration: 200, complete:
+            function(){
+                Android.songClicked(JSON.stringify(this.data()));
+                this.animate({css: {'width': '81%', 'height': '81%' }},{duration: 800, complete: function(){
+
+                }});
+            }
+    });
+
+
+
+}); // on tap
+
+cy.ready(function(){cy.nodes().forEach(function( ele ){
+  //set bg-image for each node
+  //'content': ele.json().data.title,
+  ele.css({ 'background-image': ele.json().data.thumbnail});
+});
+});
+}); // on dom ready
+}; //setNodesAndEdges
+</script>
+</head>
+<body>
+<div id="cy"></div>
+</body>
+</html>

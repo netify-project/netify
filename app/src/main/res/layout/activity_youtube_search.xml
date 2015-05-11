@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/background"
+    android:padding="8dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="10dp">
+
+        <EditText
+            android:layout_width="0dp"
+            android:layout_weight="0.75"
+            android:layout_height="wrap_content"
+            android:hint="@string/youtube_search_box"
+            android:id="@+id/searchInput"
+            android:singleLine="true"
+            android:background="@drawable/edittext_style"
+            android:layout_marginRight="5dp"
+            />
+        <Button
+            android:id="@+id/searchButton"
+            android:layout_width="0dp"
+            android:layout_weight="0.25"
+            android:layout_height="wrap_content"
+            android:text="@string/youtube_search_button"
+            android:background="@color/dark_blue"
+            android:textColor="@color/white"
+            android:layout_marginLeft="5dp"
+            android:onClick="searchbuttonClick"/>
+
+        </LinearLayout>
+
+
+    <ListView
+        android:id="@+id/videosFound"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:dividerHeight="5dp"
+        />
+
+</LinearLayout>
