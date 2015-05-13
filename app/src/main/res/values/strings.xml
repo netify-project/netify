@@ -22,5 +22,9 @@
     <string name="display_name">Display name</string>
     <string name="proposition_list_header">What\'s next</string>
     <string name="video_added_by">Added by</string>
+    <string name="drawer_open">Open</string>
+    <string name="drawer_close">Close</string>
+    <string name="title_home">Home</string>
+    <string name="my_groups">My groups</string>
 
 </resources>

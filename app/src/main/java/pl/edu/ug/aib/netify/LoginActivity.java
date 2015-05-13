@@ -99,8 +99,8 @@ implements IntroFragment.OnIntroFragmentCommunicationListener,
         preferences.email().put(user.email);
         preferences.password().put(password);
         //starts main activity
-        //HomeActivity_.intent(this).start();
-        GroupActivity_.intent(this).start();
+        HomeActivity_.intent(this).start();
+        //GroupActivity_.intent(this).start();
         //removes activity from back stack
         finish();
     }
