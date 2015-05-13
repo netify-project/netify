@@ -11,6 +11,7 @@ import org.androidannotations.annotations.ViewById;
 
 import pl.edu.ug.aib.netify.R;
 import pl.edu.ug.aib.netify.data.UserRegistrationData;
+import pl.edu.ug.aib.netify.eventListener.OnEditTextFocusChangeListener;
 
 @EFragment(R.layout.fragment_register)
 public class RegisterFragment extends Fragment {
@@ -32,6 +33,13 @@ public class RegisterFragment extends Fragment {
 
     @AfterViews
     void init(){
+        OnEditTextFocusChangeListener onEditTextFocusChangeListener = new OnEditTextFocusChangeListener();
+        emailField.setOnFocusChangeListener(onEditTextFocusChangeListener);
+        passwordField.setOnFocusChangeListener(onEditTextFocusChangeListener);
+        confirmPasswordField.setOnFocusChangeListener(onEditTextFocusChangeListener);
+        firstNameField.setOnFocusChangeListener(onEditTextFocusChangeListener);
+        lastNameField.setOnFocusChangeListener(onEditTextFocusChangeListener);
+        displayNameField.setOnFocusChangeListener(onEditTextFocusChangeListener);
         emailField.requestFocus();
     }
 
