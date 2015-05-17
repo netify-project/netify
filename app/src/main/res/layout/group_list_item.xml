@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="?android:attr/listPreferredItemHeight"
+    android:padding="5dp"
+    android:background="@drawable/youtube_list_item"
+    >
+
+    <ImageView
+        android:id="@+id/groupThumbnail"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginRight="10dp"
+        />
+
+    <TextView android:id="@+id/groupName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/groupThumbnail"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="5dp"
+        android:singleLine="true"
+        android:ellipsize="end"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        />
+
+    <TextView android:id="@+id/groupDescription"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/groupThumbnail"
+        android:layout_below="@+id/groupName"
+        android:textSize="12sp"
+        android:singleLine="true"
+        android:ellipsize="end"
+        />
+
+</RelativeLayout>

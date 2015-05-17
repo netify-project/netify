@@ -42,6 +42,8 @@ public class GroupActivity extends ActionBarActivity {
     WebView webView;
     Gson gson;
     @Extra
+    String groupId;
+    @Extra
     SongDataList songDataList;
     ArrayList<Node> nodes;
     ArrayList<Edge> edges;
@@ -62,7 +64,7 @@ public class GroupActivity extends ActionBarActivity {
         webView.setWebChromeClient(new WebChromeClient());
         webView.addJavascriptInterface(new WebViewInterface(this), "Android");
         webView.loadUrl("file:///android_asset/cytoscape1.html");
-        if(songDataList == null) restSongGraphBackgroundTask.getSongs(preferences.sessionId().get());
+        if(songDataList == null) restSongGraphBackgroundTask.getSongs(preferences.sessionId().get(), groupId);
         else updateSongGraph(songDataList);
     }
 

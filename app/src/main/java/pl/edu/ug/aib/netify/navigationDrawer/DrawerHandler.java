@@ -17,6 +17,8 @@ import org.androidannotations.annotations.ViewById;
 
 import pl.edu.ug.aib.netify.HomeActivity;
 import pl.edu.ug.aib.netify.R;
+import pl.edu.ug.aib.netify.fragment.ProgressBarFragment;
+import pl.edu.ug.aib.netify.fragment.ProgressBarFragment_;
 
 @EBean
 public class DrawerHandler implements ListView.OnItemClickListener {
@@ -32,6 +34,12 @@ public class DrawerHandler implements ListView.OnItemClickListener {
     @ViewById(R.id.left_drawer)
     ListView drawerList;
     private ActionBarDrawerToggle drawerToggle;
+    ProgressBarFragment progressBarFragment;
+    Fragment currentFragment;
+
+    public Fragment getCurrentFragment() {
+        return currentFragment;
+    }
 
     public void init() {
         drawerToggle = new ActionBarDrawerToggle(
@@ -83,9 +91,27 @@ public class DrawerHandler implements ListView.OnItemClickListener {
             fragmentManager.beginTransaction()
                     .replace(R.id.content_frame, fragment)
                     .commit();
+            currentFragment = fragment;
         } catch (Exception e) {
             Log.e(LOG_TAG, "Error in drawer item selection", e);
         }
+    }
+    //Shows progress bar fragment
+    private void replaceWithProgressBarFragment(){
+        FragmentManager fragmentManager = drawerActivity.getSupportFragmentManager();
+        progressBarFragment = new ProgressBarFragment_();
+        fragmentManager.beginTransaction()
+                .setCustomAnimations(R.anim.abc_fade_in, R.anim.abc_fade_out, R.anim.abc_fade_in, R.anim.abc_fade_out)
+                .replace(R.id.contentFrame, progressBarFragment)
+                .commit();
+    }
+    //Removes progress bar from fragment manager and from backstack
+    private void removeProgressBarFragment(){
+        FragmentManager fragmentManager = drawerActivity.getSupportFragmentManager();
+        fragmentManager.beginTransaction()
+                .remove(progressBarFragment)
+                .commit();
+        //fragmentManager.popBackStack();
     }
 
     public boolean drawerToggleSelected(MenuItem item) {

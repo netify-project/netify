@@ -3,13 +3,10 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background">
-    <Button
-        android:id="@+id/temporaryButton"
+
+    <ListView
+        android:id="@+id/groupList"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/dark_blue"
-        android:textColor="@color/white"
-        android:text="Example group playlist"
-        android:layout_margin="20dp"/>
+        android:layout_height="match_parent"></ListView>
 
 </LinearLayout>

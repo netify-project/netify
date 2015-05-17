@@ -22,12 +22,12 @@ public class RestSongGraphBackgroundTask {
     NetifyRestClient restClient;
 
     @Background
-    public void getSongs(String sessionId){
+    public void getSongs(String sessionId, String groupId){
         try{
             restClient.setHeader("X-Dreamfactory-Application-Name", "netify");
             //later will have to identify if user has access to the group, also requires header in RestClient
             //restClient.setHeader("X-Dreamfactory-Session-Token", sessionId);
-            SongDataList songDataList = restClient.getSongs();
+            SongDataList songDataList = restClient.getSongsByGroupId("groupid=" + groupId);
             publishResult(songDataList);
        }
         catch(Exception e){
