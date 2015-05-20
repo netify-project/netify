@@ -12,21 +12,29 @@ import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.NonConfigurationInstance;
+import org.androidannotations.annotations.OnActivityResult;
 import org.androidannotations.annotations.OptionsItem;
 import org.androidannotations.annotations.sharedpreferences.Pref;
 
+import pl.edu.ug.aib.netify.data.GroupData;
 import pl.edu.ug.aib.netify.data.GroupDataList;
+import pl.edu.ug.aib.netify.data.SongData;
+import pl.edu.ug.aib.netify.fragment.AddGroupFragment;
+import pl.edu.ug.aib.netify.fragment.LogoutFragment;
 import pl.edu.ug.aib.netify.fragment.UserGroupsFragment;
 import pl.edu.ug.aib.netify.fragment.UserGroupsFragment_;
 import pl.edu.ug.aib.netify.navigationDrawer.DrawerHandler;
 import pl.edu.ug.aib.netify.rest.RestHomeBackgroundTask;
 
 @EActivity(R.layout.activity_home)
-public class HomeActivity extends ActionBarActivity implements UserGroupsFragment.OnUserGroupsFragmentCommunicationListener {
+public class HomeActivity extends ActionBarActivity implements UserGroupsFragment.OnUserGroupsFragmentCommunicationListener,
+        AddGroupFragment.OnAddGroupFragmentCommunicationListener, LogoutFragment.OnLogoutFragmentCommunicationListener
+{
 
     @Pref
     UserPreferences_ preferences;
 
+    public static final int INTENT_FIRST_SONG_ADDED = 1;
     public final String LOG_TAG = this.getClass().getSimpleName();
     @Bean
     DrawerHandler drawerHandler;
@@ -86,6 +94,50 @@ public class HomeActivity extends ActionBarActivity implements UserGroupsFragmen
         }
         catch (ClassCastException e){
             Log.d(this.getClass().getSimpleName(), "Fragment must be instance of UserGroupsFragment");
+        }
+    }
+    //AddGroupFragment communication
+    @Override
+    public void addNewGroup(GroupData groupData, SongData firstSong) {
+        restBackgroundTask.addNewGroup(Integer.toString(preferences.id().get()), preferences.sessionId().get(), groupData, firstSong);
+    }
+
+    @Override
+    public void addFirstSong(SongData songData) {
+        YoutubeSearchActivity_.intent(this).parentSongData(songData).startForResult(INTENT_FIRST_SONG_ADDED);
+    }
+
+    @OnActivityResult(INTENT_FIRST_SONG_ADDED)
+    void onFirstSongAdded(int result, @OnActivityResult.Extra SongData songData){
+        if(result == RESULT_OK){
+            try {
+                AddGroupFragment fragment = (AddGroupFragment)drawerHandler.getCurrentFragment();
+                fragment.setFirstSong(songData);
+            }
+            catch (ClassCastException e){
+                Log.d(this.getClass().getSimpleName(), "Fragment must be instance of UserGroupsFragment");
+            }
+        }
+    }
+    public void onNewGroupAdded(GroupData groupData){
+        GroupActivity_.intent(this).groupId(groupData.id).start();
+    }
+    //Logout
+    @Override
+    public void logout(){
+        restBackgroundTask.logout(preferences.sessionId().get());
+    }
+    public void onLogout(Boolean success){
+        if(success) {
+            preferences.id().put(0);
+            preferences.sessionId().put("");
+            preferences.email().put("");
+            preferences.password().put("");
+            preferences.firstName().put("");
+            preferences.lastName().put("");
+            preferences.displayName().put("");
+            LoginActivity_.intent(this).start();
+            finish();
         }
     }
 }

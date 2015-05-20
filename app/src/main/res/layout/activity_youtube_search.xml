@@ -14,20 +14,22 @@
 
         <EditText
             android:layout_width="0dp"
-            android:layout_weight="0.75"
+            android:layout_weight="0.8"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
             android:hint="@string/youtube_search_box"
             android:id="@+id/searchInput"
             android:singleLine="true"
             android:background="@drawable/edittext_style"
             android:layout_marginRight="5dp"
             />
-        <Button
+        <ImageButton
             android:id="@+id/searchButton"
             android:layout_width="0dp"
-            android:layout_weight="0.25"
+            android:layout_weight="0.2"
             android:layout_height="wrap_content"
-            android:text="@string/youtube_search_button"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/ic_action_search"
             android:background="@color/dark_blue"
             android:textColor="@color/white"
             android:layout_marginLeft="5dp"

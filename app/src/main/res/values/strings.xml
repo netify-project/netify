@@ -15,8 +15,12 @@
     <string name="register_button">Register</string>
     <string name="or_label">-- or --</string>
     <string name="email">e-mail</string>
+    <string name="email_missing">Your e-mail is missing</string>
     <string name="password">password</string>
+    <string name="password_missing">Your password is missing</string>
     <string name="confirm_password">confirm password</string>
+    <string name="password_confirmation_missing">Password confirmation is missing</string>
+    <string name="password_confirmation_mismatch">Password confirmation does not match</string>
     <string name="first_name">First name</string>
     <string name="last_name">Last name</string>
     <string name="display_name">Display name</string>
@@ -25,6 +29,15 @@
     <string name="drawer_open">Open</string>
     <string name="drawer_close">Close</string>
     <string name="title_home">Home</string>
+    <string name="title_addgroup">Add new group</string>
     <string name="my_groups">My groups</string>
+    <string name="group_name">Group name</string>
+    <string name="add_group_name">Add group name</string>
+    <string name="group_genre">Genre (pop, heavy metal, etc.)</string>
+    <string name="group_description">Add group description</string>
+    <string name="add_first_song">Add your first song</string>
+    <string name="radio_public_text">Public group</string>
+    <string name="radio_private_text">Private group</string>
+    <string name="no_song_added">No song added</string>
 
 </resources>

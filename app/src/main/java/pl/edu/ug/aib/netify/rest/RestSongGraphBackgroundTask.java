@@ -8,6 +8,7 @@ import org.androidannotations.annotations.rest.RestService;
 
 import pl.edu.ug.aib.netify.GroupActivity;
 import pl.edu.ug.aib.netify.data.EmailAndPassword;
+import pl.edu.ug.aib.netify.data.IdData;
 import pl.edu.ug.aib.netify.data.SongData;
 import pl.edu.ug.aib.netify.data.SongDataList;
 import pl.edu.ug.aib.netify.data.User;
@@ -39,7 +40,7 @@ public class RestSongGraphBackgroundTask {
         try{
             restClient.setHeader("X-Dreamfactory-Application-Name", "netify");
             restClient.setHeader("X-Dreamfactory-Session-Token", sessionId);
-            SongData result = restClient.addSongToGraph(songData);
+            IdData result = restClient.addSongToGraph(songData);
             songData.id = result.id;
             publishPostResult(songData);
         }

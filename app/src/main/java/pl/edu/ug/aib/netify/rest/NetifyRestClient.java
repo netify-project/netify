@@ -9,7 +9,10 @@ import org.androidannotations.api.rest.RestClientHeaders;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 
 import pl.edu.ug.aib.netify.data.EmailAndPassword;
+import pl.edu.ug.aib.netify.data.GroupData;
 import pl.edu.ug.aib.netify.data.GroupDataList;
+import pl.edu.ug.aib.netify.data.IdData;
+import pl.edu.ug.aib.netify.data.MemberGroupData;
 import pl.edu.ug.aib.netify.data.MemberGroupDataList;
 import pl.edu.ug.aib.netify.data.SongData;
 import pl.edu.ug.aib.netify.data.SongDataList;
@@ -27,15 +30,23 @@ public interface NetifyRestClient extends RestClientHeaders{
 
     @Post("/db/songdata")
     @RequiresHeader({"X-Dreamfactory-Session-Token","X-Dreamfactory-Application-Name" })
-    SongData addSongToGraph(SongData songData);
+    IdData addSongToGraph(SongData songData);
 
     //GROUP_DATA
     @Get("/db/groupdata?ids={ids}")
     GroupDataList getGroupsById(String ids);
 
+    @Post("/db/groupdata")
+    @RequiresHeader({"X-Dreamfactory-Session-Token","X-Dreamfactory-Application-Name" })
+    IdData addGroup(GroupData groupData);
+
     //MEMBER_GROUP_DATA
     @Get("/db/membergroupdata?filter={filter}")
     MemberGroupDataList getMemberGroupsByUserId(String filter);
+
+    @Post("/db/membergroupdata")
+    @RequiresHeader({"X-Dreamfactory-Session-Token","X-Dreamfactory-Application-Name" })
+    IdData addMemberGroupData(MemberGroupData memberGroupData);
 
     //AUTH
     @Post("/user/session")

@@ -3,6 +3,7 @@ package pl.edu.ug.aib.netify.fragment;
 import android.app.Activity;
 import android.support.v4.app.Fragment;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
@@ -44,8 +45,15 @@ public class LoginFragment extends Fragment {
 
     @Click
     void loginButtonClicked(){
-        //TODO email and password verification
-
+        //email and password verification
+        if(emailField.getText().toString().trim().isEmpty()){
+            Toast.makeText(getActivity(), getString(R.string.email_missing), Toast.LENGTH_LONG).show();
+            return;
+        }
+        if(passwordField.getText().toString().trim().isEmpty()){
+            Toast.makeText(getActivity(), getString(R.string.password_missing), Toast.LENGTH_LONG).show();
+            return;
+        }
         //creates object with login data and passes to activity
         EmailAndPassword emailAndPassword = new EmailAndPassword();
         emailAndPassword.email = emailField.getText().toString().trim();

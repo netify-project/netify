@@ -3,6 +3,7 @@ package pl.edu.ug.aib.netify.fragment;
 import android.app.Activity;
 import android.support.v4.app.Fragment;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
@@ -56,10 +57,26 @@ public class RegisterFragment extends Fragment {
 
     @Click
     void registerButtonClicked(){
-        //TODO registration data verification
+        //registration data verification
+        if(emailField.getText().toString().trim().isEmpty()){
+            Toast.makeText(getActivity(), getString(R.string.email_missing), Toast.LENGTH_LONG).show();
+            return;
+        }
+        //password verification
         String password = passwordField.getText().toString().trim();
         String confirmPassword = confirmPasswordField.getText().toString().trim();
-        if(!password.equals(confirmPassword)) return;
+        if(password.isEmpty()){
+            Toast.makeText(getActivity(), getString(R.string.password_missing), Toast.LENGTH_LONG).show();
+            return;
+        }
+        if(confirmPassword.isEmpty()){
+            Toast.makeText(getActivity(), getString(R.string.password_confirmation_missing), Toast.LENGTH_LONG).show();
+            return;
+        }
+        if(!password.equals(confirmPassword)) {
+            Toast.makeText(getActivity(), getString(R.string.password_confirmation_mismatch), Toast.LENGTH_LONG).show();
+            return;
+        }
         //creates object with registration data and passes to activity
         UserRegistrationData userRegistrationData = new UserRegistrationData();
         userRegistrationData.email = emailField.getText().toString().trim();

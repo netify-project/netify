@@ -13,6 +13,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import pl.edu.ug.aib.netify.R;
+import pl.edu.ug.aib.netify.fragment.AddGroupFragment_;
+import pl.edu.ug.aib.netify.fragment.LogoutFragment_;
 import pl.edu.ug.aib.netify.fragment.UserGroupsFragment_;
 
 @EBean
@@ -24,9 +26,12 @@ public class DrawerListAdapter extends BaseAdapter {
     @AfterInject
     void init() {
         items.clear();
-        items.add(new DrawerItem(R.string.title_home, R.drawable.icon_about,
+        items.add(new DrawerItem(R.string.title_home, R.drawable.ic_action_group,
                 UserGroupsFragment_.class));
-
+        items.add(new DrawerItem(R.string.title_addgroup, R.drawable.ic_action_add_group,
+                AddGroupFragment_.class));
+        items.add(new DrawerItem(R.string.logout, R.drawable.ic_action_logout,
+                LogoutFragment_.class));
     }
 
     @Override
