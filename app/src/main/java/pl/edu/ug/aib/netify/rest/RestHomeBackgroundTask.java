@@ -37,9 +37,15 @@ public class RestHomeBackgroundTask {
         try {
             restClient.setHeader("X-Dreamfactory-Application-Name", "netify");
             MemberGroupDataList memberGroupDataList = restClient.getMemberGroupsByUserId("UserId=" + userId);
-            HashSet<String> groupIds = new HashSet<String>();
-            for(MemberGroupData item : memberGroupDataList.records) groupIds.add(item.groupId);
-            GroupDataList groupDataList = restClient.getGroupsById(TextUtils.join(",", groupIds));
+            GroupDataList groupDataList;
+            //Check if user has any groups, if true, return empty object without sending request
+            if(memberGroupDataList.records.isEmpty()) groupDataList = new GroupDataList();
+            else {
+                //used to provide unique ids
+                HashSet<String> groupIds = new HashSet<String>();
+                for (MemberGroupData item : memberGroupDataList.records) groupIds.add(item.groupId);
+                groupDataList = restClient.getGroupsById(TextUtils.join(",", groupIds));
+            }
             publishUserGroupsResult(groupDataList);
         }catch(Exception e){
             publishError(e);

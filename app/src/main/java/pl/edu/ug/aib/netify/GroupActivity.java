@@ -133,22 +133,9 @@ public class GroupActivity extends ActionBarActivity {
         if(result == RESULT_OK) restSongGraphBackgroundTask.addSongToGraph(songData, preferences.sessionId().get()); //addSongToGraph(songData);
     }
 
-    @OptionsItem(R.id.action_logout)
-    void actionLogoutSelected(){
-        restSongGraphBackgroundTask.logout(preferences.sessionId().get());
+    @OptionsItem(R.id.action_joingroup)
+    void actionJoinGroupSelected(){
+        //restSongGraphBackgroundTask.logout(preferences.sessionId().get());
     }
 
-    public void onLogout(Boolean success){
-        if(success) {
-            preferences.id().put(0);
-            preferences.sessionId().put("");
-            preferences.email().put("");
-            preferences.password().put("");
-            preferences.firstName().put("");
-            preferences.lastName().put("");
-            preferences.displayName().put("");
-            LoginActivity_.intent(this).start();
-            finish();
-        }
-    }
 }

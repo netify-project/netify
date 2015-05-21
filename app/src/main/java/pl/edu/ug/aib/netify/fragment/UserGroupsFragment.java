@@ -2,7 +2,10 @@ package pl.edu.ug.aib.netify.fragment;
 
 import android.app.Activity;
 import android.support.v4.app.Fragment;
+import android.view.View;
 import android.widget.ListView;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Bean;
@@ -22,7 +25,11 @@ import pl.edu.ug.aib.netify.data.GroupDataList;
 public class UserGroupsFragment extends Fragment {
 
     @ViewById
+    ProgressBar progressBar;
+    @ViewById
     ListView groupList;
+    @ViewById
+    TextView noGroupsInfo;
     @Bean
     GroupListAdapter adapter;
     GroupDataList userGroups;
@@ -37,6 +44,8 @@ public class UserGroupsFragment extends Fragment {
     public void setUserGroups(GroupDataList userGroups) {
         this.userGroups = userGroups;
         adapter.update(userGroups);
+        progressBar.setVisibility(View.GONE);
+        if(adapter.getCount() == 0) noGroupsInfo.setVisibility(View.VISIBLE);
     }
 
     @Override

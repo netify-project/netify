@@ -42,6 +42,8 @@
     <string name="no_song_added">No song added</string>
     <string name="no_groups_found">No groups have been found</string>
     <string name="search_results">Search results</string>
+    <string name="no_user_groups_info">You don\'t have any groups yet.\nFind some groups you like and join them\n or create your own!</string>
+    <string name="action_joingroup">Join</string>
 
 
 </resources>

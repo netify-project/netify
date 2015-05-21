@@ -48,18 +48,6 @@ public class RestSongGraphBackgroundTask {
             publishError(e);
         }
     }
-    @Background
-    public void logout(String sessionId){
-        try{
-            restClient.setHeader("X-Dreamfactory-Application-Name", "netify");
-            restClient.setHeader("X-Dreamfactory-Session-Token", sessionId);
-            UserLogout userLogout = restClient.logout();
-            publishLogoutResult(userLogout.success);
-        }
-        catch(Exception e){
-            publishError(e);
-        }
-    }
 
     @UiThread
     void publishResult(SongDataList songDataList){
@@ -70,10 +58,6 @@ public class RestSongGraphBackgroundTask {
     @UiThread
      void publishPostResult(SongData songData){
         activity.addSongToGraph(songData);
-    }
-    @UiThread
-    void publishLogoutResult(Boolean success){
-        activity.onLogout(success);
     }
 
     @UiThread
