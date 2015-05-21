@@ -29,6 +29,7 @@
     <string name="drawer_open">Open</string>
     <string name="drawer_close">Close</string>
     <string name="title_home">Home</string>
+    <string name="title_mygroups">My groups</string>
     <string name="title_addgroup">Add new group</string>
     <string name="title_searchgroup">Find a group</string>
     <string name="my_groups">My groups</string>
@@ -44,6 +45,8 @@
     <string name="search_results">Search results</string>
     <string name="no_user_groups_info">You don\'t have any groups yet.\nFind some groups you like and join them\n or create your own!</string>
     <string name="action_joingroup">Join</string>
+    <string name="join_to_add_songs_info">Join the group to add your own songs.</string>
+    <string name="join_group_successful">You have successfully joined this group.</string>
 
 
 </resources>

@@ -35,7 +35,9 @@ public class DrawerHandler implements ListView.OnItemClickListener {
     ListView drawerList;
     private ActionBarDrawerToggle drawerToggle;
     ProgressBarFragment progressBarFragment;
+    //stores current fragment and position
     Fragment currentFragment;
+    int currentPosition;
 
     public Fragment getCurrentFragment() {
         return currentFragment;
@@ -56,7 +58,8 @@ public class DrawerHandler implements ListView.OnItemClickListener {
                 if (checkedItemPosition < 0) {
                     checkedItemPosition = DEFAULT_MENU_ITEM_POSITION;
                 }
-                showFragment(checkedItemPosition);
+                //act only if fragment was changed
+                if(checkedItemPosition != currentPosition) showFragment(checkedItemPosition);
             }
         };
         drawerActivity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -92,6 +95,7 @@ public class DrawerHandler implements ListView.OnItemClickListener {
                     .replace(R.id.content_frame, fragment)
                     .commit();
             currentFragment = fragment;
+            currentPosition = position;
         } catch (Exception e) {
             Log.e(LOG_TAG, "Error in drawer item selection", e);
         }

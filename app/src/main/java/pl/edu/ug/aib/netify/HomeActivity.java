@@ -121,7 +121,10 @@ public class HomeActivity extends ActionBarActivity implements UserGroupsFragmen
         }
     }
     public void onNewGroupAdded(GroupData groupData){
+        //open new group playlist
         GroupActivity_.intent(this).groupId(groupData.id).start();
+        //clears addgroup screen in case of clicking back button
+        drawerHandler.showDefaultScreen();
     }
 
     //SearchGroupFragment communication

@@ -27,7 +27,7 @@ public class DrawerListAdapter extends BaseAdapter {
     @AfterInject
     void init() {
         items.clear();
-        items.add(new DrawerItem(R.string.title_home, R.drawable.ic_action_group,
+        items.add(new DrawerItem(R.string.title_mygroups, R.drawable.ic_action_group,
                 UserGroupsFragment_.class));
         items.add(new DrawerItem(R.string.title_addgroup, R.drawable.ic_action_add_group,
                 AddGroupFragment_.class));

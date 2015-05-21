@@ -6,9 +6,13 @@ import org.androidannotations.annotations.RootContext;
 import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.rest.RestService;
 
+import java.util.ArrayList;
+
 import pl.edu.ug.aib.netify.GroupActivity;
 import pl.edu.ug.aib.netify.data.EmailAndPassword;
 import pl.edu.ug.aib.netify.data.IdData;
+import pl.edu.ug.aib.netify.data.MemberGroupData;
+import pl.edu.ug.aib.netify.data.MemberGroupDataList;
 import pl.edu.ug.aib.netify.data.SongData;
 import pl.edu.ug.aib.netify.data.SongDataList;
 import pl.edu.ug.aib.netify.data.User;
@@ -48,6 +52,37 @@ public class RestSongGraphBackgroundTask {
             publishError(e);
         }
     }
+    @Background
+    public void getGroupMembers(String groupId, String sessionId){
+        try{
+            restClient.setHeader("X-Dreamfactory-Application-Name", "netify");
+            restClient.setHeader("X-Dreamfactory-Session-Token", sessionId);
+            //TODO
+            MemberGroupDataList memberGroupDataList = restClient.getMemberGroupsByUserId("groupId=" + groupId);
+            ArrayList<String> memberIds = new ArrayList<String>();
+            for(MemberGroupData memberGroupData : memberGroupDataList.records) memberIds.add(memberGroupData.userId);
+            publishGroupMembersResult(memberIds);
+        }
+        catch(Exception e){
+            publishError(e);
+        }
+    }
+    @Background
+    public void addGroupMember(String groupId, String userId, String sessionId){
+        try{
+            restClient.setHeader("X-Dreamfactory-Application-Name", "netify");
+            restClient.setHeader("X-Dreamfactory-Session-Token", sessionId);
+            //TODO
+            MemberGroupData memberGroupData = new MemberGroupData();
+            memberGroupData.userId = userId; memberGroupData.groupId = groupId;
+            IdData result = restClient.addMemberGroupData(memberGroupData);
+            publishAddGroupMemberResult(userId);
+        }
+        catch(Exception e){
+            publishError(e);
+        }
+    }
+
 
     @UiThread
     void publishResult(SongDataList songDataList){
@@ -60,6 +95,14 @@ public class RestSongGraphBackgroundTask {
         activity.addSongToGraph(songData);
     }
 
+    @UiThread
+    void publishGroupMembersResult(ArrayList<String> memberIds){
+        activity.onGroupMembersDownloaded(memberIds);
+    }
+    @UiThread
+    void publishAddGroupMemberResult(String userId){
+        activity.addGroupMemberConfirmed(userId);
+    }
     @UiThread
     void publishError(Exception e) {
         activity.showError(e);
