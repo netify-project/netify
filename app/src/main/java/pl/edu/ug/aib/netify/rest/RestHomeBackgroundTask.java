@@ -67,6 +67,17 @@ public class RestHomeBackgroundTask {
         }
     }
 
+    @Background
+    public void searchGroups(String query){
+        try {
+            restClient.setHeader("X-Dreamfactory-Application-Name", "netify");
+            //Sets search conditions: looks for query in name, description and genre in public groups
+            GroupDataList groupDataList = restClient.getGroupsByQuery("(name like '%" + query + "%'||description like '%"+ query + "%'||genre like '%"+ query + "%')and isPrivate=false");
+            publishSearchGroupsResult(groupDataList);
+        }catch(Exception e){
+            publishError(e);
+        }
+    }
     //TODO
 
     @Background
@@ -81,7 +92,7 @@ public class RestHomeBackgroundTask {
             publishError(e);
         }
     }
-
+    //Calls to activity and pushing objects to UiThread
     @UiThread
     void publishUserGroupsResult(GroupDataList groupDataList){
         activity.onUserGroupListDownloaded(groupDataList);
@@ -89,6 +100,10 @@ public class RestHomeBackgroundTask {
     @UiThread
     void publishAddNewGroupResult(GroupData groupData){
         activity.onNewGroupAdded(groupData);
+    }
+    @UiThread
+    void publishSearchGroupsResult(GroupDataList groupDataList){
+        activity.onSearchGroupCompleted(groupDataList);
     }
     @UiThread
     void publishLogoutResult(Boolean success){

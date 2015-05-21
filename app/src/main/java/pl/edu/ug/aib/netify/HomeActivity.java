@@ -21,6 +21,7 @@ import pl.edu.ug.aib.netify.data.GroupDataList;
 import pl.edu.ug.aib.netify.data.SongData;
 import pl.edu.ug.aib.netify.fragment.AddGroupFragment;
 import pl.edu.ug.aib.netify.fragment.LogoutFragment;
+import pl.edu.ug.aib.netify.fragment.SearchGroupsFragment;
 import pl.edu.ug.aib.netify.fragment.UserGroupsFragment;
 import pl.edu.ug.aib.netify.fragment.UserGroupsFragment_;
 import pl.edu.ug.aib.netify.navigationDrawer.DrawerHandler;
@@ -28,7 +29,9 @@ import pl.edu.ug.aib.netify.rest.RestHomeBackgroundTask;
 
 @EActivity(R.layout.activity_home)
 public class HomeActivity extends ActionBarActivity implements UserGroupsFragment.OnUserGroupsFragmentCommunicationListener,
-        AddGroupFragment.OnAddGroupFragmentCommunicationListener, LogoutFragment.OnLogoutFragmentCommunicationListener
+        AddGroupFragment.OnAddGroupFragmentCommunicationListener,
+        SearchGroupsFragment.OnSearchGroupsFragmentCommunicationListener,
+        LogoutFragment.OnLogoutFragmentCommunicationListener
 {
 
     @Pref
@@ -45,8 +48,6 @@ public class HomeActivity extends ActionBarActivity implements UserGroupsFragmen
     @AfterViews
     void init() {
         drawerHandler.init();
-        //Get current user's Group List
-        //getUserGroupList(Integer.toString(preferences.id().get()));
     }
 
     @Override
@@ -122,6 +123,22 @@ public class HomeActivity extends ActionBarActivity implements UserGroupsFragmen
     public void onNewGroupAdded(GroupData groupData){
         GroupActivity_.intent(this).groupId(groupData.id).start();
     }
+
+    //SearchGroupFragment communication
+    @Override
+    public void searchForGroups(String query) {
+        restBackgroundTask.searchGroups(query);
+    }
+    public void onSearchGroupCompleted(GroupDataList groupDataList){
+        try {
+            SearchGroupsFragment fragment = (SearchGroupsFragment)drawerHandler.getCurrentFragment();
+            fragment.setSearchedGroups(groupDataList);
+        }
+        catch (ClassCastException e){
+            Log.d(this.getClass().getSimpleName(), "Fragment must be instance of UserGroupsFragment");
+        }
+    }
+
     //Logout
     @Override
     public void logout(){
@@ -140,4 +157,5 @@ public class HomeActivity extends ActionBarActivity implements UserGroupsFragmen
             finish();
         }
     }
+
 }

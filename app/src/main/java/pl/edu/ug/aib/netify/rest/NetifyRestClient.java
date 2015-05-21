@@ -36,6 +36,9 @@ public interface NetifyRestClient extends RestClientHeaders{
     @Get("/db/groupdata?ids={ids}")
     GroupDataList getGroupsById(String ids);
 
+    @Get("/db/groupdata?filter={filter}")
+    GroupDataList getGroupsByQuery(String filter);
+
     @Post("/db/groupdata")
     @RequiresHeader({"X-Dreamfactory-Session-Token","X-Dreamfactory-Application-Name" })
     IdData addGroup(GroupData groupData);

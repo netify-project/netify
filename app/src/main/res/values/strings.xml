@@ -30,6 +30,7 @@
     <string name="drawer_close">Close</string>
     <string name="title_home">Home</string>
     <string name="title_addgroup">Add new group</string>
+    <string name="title_searchgroup">Find a group</string>
     <string name="my_groups">My groups</string>
     <string name="group_name">Group name</string>
     <string name="add_group_name">Add group name</string>
@@ -39,5 +40,8 @@
     <string name="radio_public_text">Public group</string>
     <string name="radio_private_text">Private group</string>
     <string name="no_song_added">No song added</string>
+    <string name="no_groups_found">No groups have been found</string>
+    <string name="search_results">Search results</string>
+
 
 </resources>
