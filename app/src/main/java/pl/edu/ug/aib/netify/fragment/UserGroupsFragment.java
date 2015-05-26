@@ -66,6 +66,6 @@ public class UserGroupsFragment extends Fragment {
     }
     @ItemClick
     void groupListItemClicked(GroupData group){
-        GroupActivity_.intent(this).groupId(group.id).start();
+        GroupActivity_.intent(this).groupData(group).start();
     }
 }

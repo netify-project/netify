@@ -47,7 +47,7 @@ public class YoutubeSearchActivity extends ActionBarActivity {
     @AfterViews
     void init(){
         handler = new Handler();
-
+        getSupportActionBar().setTitle(R.string.title_youtubesearchactivity);
     }
     @Click
     void searchButtonClicked(){

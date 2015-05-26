@@ -2,6 +2,7 @@ package pl.edu.ug.aib.netify;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.os.Handler;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.MenuItem;
@@ -29,6 +30,7 @@ import java.util.ArrayList;
 
 import pl.edu.ug.aib.netify.data.Edge;
 import pl.edu.ug.aib.netify.data.EdgeData;
+import pl.edu.ug.aib.netify.data.GroupData;
 import pl.edu.ug.aib.netify.data.Node;
 import pl.edu.ug.aib.netify.data.SongData;
 import pl.edu.ug.aib.netify.data.SongDataList;
@@ -40,13 +42,14 @@ import pl.edu.ug.aib.netify.rest.RestSongGraphBackgroundTask;
 public class GroupActivity extends ActionBarActivity {
 
     public static final int INTENT_SONG_ADDED = 1;
+    public static final int JS_HANDLER_TIMEOUT = 500;
     @OptionsMenuItem
     MenuItem action_joingroup; //not visible by default
     @ViewById
     WebView webView;
     Gson gson;
     @Extra
-    String groupId;
+    GroupData groupData;
     @Extra
     SongDataList songDataList;
     ArrayList<Node> nodes;
@@ -61,20 +64,39 @@ public class GroupActivity extends ActionBarActivity {
 
     @Pref
     UserPreferences_ preferences;
+    //keep information if html page already loaded
+    Boolean isPageFinished = false;
+    //Handler checking if page is finished after nodes and edges were downloaded
+    Handler pageLoadedHandler = new Handler();
+    //runnable called by handler at specified intervals
+    Runnable runnable = new Runnable() {
+        @Override
+        public void run() {
+            loadNodesAndEdges(nodes, edges);
+        }
+    };
 
     @AfterViews
     void init(){
         //get group members Ids
-        restSongGraphBackgroundTask.getGroupMembers(groupId, preferences.sessionId().get());
+        restSongGraphBackgroundTask.getGroupMembers(groupData.id, preferences.sessionId().get());
+        getSupportActionBar().setTitle(groupData.name);
         //get SongGraph data from Rest Client and initialize webView
         gson = new Gson();
         WebSettings webSettings = webView.getSettings();
         webSettings.setJavaScriptEnabled(true);
-        webView.setWebViewClient(new WebViewClient(){});
+        webView.setWebViewClient(new WebViewClient(){
+            @Override
+            public void onPageFinished(WebView view, String url) {
+                super.onPageFinished(view, url);
+                //set flag to true to allow sending data to JS function
+                isPageFinished = true;
+            }
+        });
         webView.setWebChromeClient(new WebChromeClient());
         webView.addJavascriptInterface(new WebViewInterface(this), "Android");
         webView.loadUrl("file:///android_asset/cytoscape1.html");
-        if(songDataList == null) restSongGraphBackgroundTask.getSongs(preferences.sessionId().get(), groupId);
+        if(songDataList == null) restSongGraphBackgroundTask.getSongs(preferences.sessionId().get(), groupData.id);
         else updateSongGraph(songDataList);
     }
 
@@ -108,9 +130,16 @@ public class GroupActivity extends ActionBarActivity {
             nodes.add(new Node(songData));
             if(songData.parentId != null) edges.add(new Edge(new EdgeData(songData.parentId, songData.id)));
         }
-        webView.loadUrl("javascript:setNodesAndEdges(" + gson.toJson(nodes) + "," + gson.toJson(edges) + ")");
-        //FOR TESTING ON EMULATOR
-        //YoutubePlayerActivity_.intent(this).initVideo(songDataList.records.get(0)).songDataList(songDataList).start();
+        loadNodesAndEdges(nodes, edges);
+    }
+    //send nodes and edges to webView or wait for the next chance
+    private void loadNodesAndEdges(ArrayList<Node> nodes, ArrayList<Edge> edges){
+        if(isPageFinished) {
+            webView.loadUrl("javascript:setNodesAndEdges(" + gson.toJson(nodes) + "," + gson.toJson(edges) + ")");
+        }
+        else{
+            pageLoadedHandler.postDelayed(runnable, JS_HANDLER_TIMEOUT);
+        }
     }
 
     public void addSongToGraph(SongData songData){
@@ -167,7 +196,7 @@ public class GroupActivity extends ActionBarActivity {
     void actionJoinGroupSelected(){
         //check if request is currently processed
         if(isProcessingAddMember) return;
-        restSongGraphBackgroundTask.addGroupMember(groupId, Integer.toString(preferences.id().get()), preferences.sessionId().get());
+        restSongGraphBackgroundTask.addGroupMember(groupData.id, Integer.toString(preferences.id().get()), preferences.sessionId().get());
         isProcessingAddMember = true;
     }
 

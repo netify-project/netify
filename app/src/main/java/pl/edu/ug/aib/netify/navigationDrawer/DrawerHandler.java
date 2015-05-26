@@ -96,6 +96,8 @@ public class DrawerHandler implements ListView.OnItemClickListener {
                     .commit();
             currentFragment = fragment;
             currentPosition = position;
+            //Show current fragment title on actionbar
+            drawerActivity.setTitle(drawerItem.getTitleResId());
         } catch (Exception e) {
             Log.e(LOG_TAG, "Error in drawer item selection", e);
         }

@@ -120,6 +120,8 @@ public class AddGroupFragment extends Fragment {
         newGroup.description = groupDescription.getText().toString().trim();
         newGroup.isPrivate = radioPrivate.isChecked();
         newGroup.genre = groupGenre.getText().toString().trim();
+        //set first song's thumbnail as group's thumbnail
+        newGroup.thumbnail = firstSong.thumbnail;
         listener.addNewGroup(newGroup, firstSong);
     }
 
