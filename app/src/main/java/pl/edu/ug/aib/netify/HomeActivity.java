@@ -19,9 +19,11 @@ import org.androidannotations.annotations.sharedpreferences.Pref;
 import pl.edu.ug.aib.netify.data.GroupData;
 import pl.edu.ug.aib.netify.data.GroupDataList;
 import pl.edu.ug.aib.netify.data.SongData;
+import pl.edu.ug.aib.netify.data.UserList;
 import pl.edu.ug.aib.netify.fragment.AddGroupFragment;
 import pl.edu.ug.aib.netify.fragment.LogoutFragment;
 import pl.edu.ug.aib.netify.fragment.SearchGroupsFragment;
+import pl.edu.ug.aib.netify.fragment.SearchUsersFragment;
 import pl.edu.ug.aib.netify.fragment.UserGroupsFragment;
 import pl.edu.ug.aib.netify.fragment.UserGroupsFragment_;
 import pl.edu.ug.aib.netify.navigationDrawer.DrawerHandler;
@@ -31,6 +33,7 @@ import pl.edu.ug.aib.netify.rest.RestHomeBackgroundTask;
 public class HomeActivity extends ActionBarActivity implements UserGroupsFragment.OnUserGroupsFragmentCommunicationListener,
         AddGroupFragment.OnAddGroupFragmentCommunicationListener,
         SearchGroupsFragment.OnSearchGroupsFragmentCommunicationListener,
+        SearchUsersFragment.OnSearchUsersFragmentCommunicationListener,
         LogoutFragment.OnLogoutFragmentCommunicationListener
 {
 
@@ -142,6 +145,22 @@ public class HomeActivity extends ActionBarActivity implements UserGroupsFragmen
         }
     }
 
+    //SearchUsersFragment communication
+    @Override
+    public void searchForUsers(String query) {
+        restBackgroundTask.searchUsers(query, preferences.sessionId().get());
+    }
+
+    public void onSearchUsersCompleted(UserList userList){
+        try {
+            SearchUsersFragment fragment = (SearchUsersFragment)drawerHandler.getCurrentFragment();
+            fragment.setSearchedUsers(userList);
+        }
+        catch (ClassCastException e){
+            Log.d(this.getClass().getSimpleName(), "Fragment must be instance of SearchUsersFragment");
+        }
+    }
+
     //Logout
     @Override
     public void logout(){
@@ -160,5 +179,6 @@ public class HomeActivity extends ActionBarActivity implements UserGroupsFragmen
             finish();
         }
     }
+
 
 }

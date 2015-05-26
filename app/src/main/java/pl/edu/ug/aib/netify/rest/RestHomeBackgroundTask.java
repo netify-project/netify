@@ -20,6 +20,7 @@ import pl.edu.ug.aib.netify.data.MemberGroupData;
 import pl.edu.ug.aib.netify.data.MemberGroupDataList;
 import pl.edu.ug.aib.netify.data.SongData;
 import pl.edu.ug.aib.netify.data.User;
+import pl.edu.ug.aib.netify.data.UserList;
 import pl.edu.ug.aib.netify.data.UserLogout;
 import pl.edu.ug.aib.netify.data.UserRegistrationData;
 
@@ -65,7 +66,7 @@ public class RestHomeBackgroundTask {
             MemberGroupData memberGroupData = new MemberGroupData();
             memberGroupData.groupId = groupData.id; memberGroupData.userId = userId;
             result = restClient.addMemberGroupData(memberGroupData);
-            //TODO send first song data
+            //send first song
             result = restClient.addSongToGraph(firstSong);
             publishAddNewGroupResult(groupData);
         }catch(Exception e){
@@ -80,6 +81,19 @@ public class RestHomeBackgroundTask {
             //Sets search conditions: looks for query in name, description and genre in public groups
             GroupDataList groupDataList = restClient.getGroupsByQuery("(name like '%" + query + "%'||description like '%"+ query + "%'||genre like '%"+ query + "%')and isPrivate=false");
             publishSearchGroupsResult(groupDataList);
+        }catch(Exception e){
+            publishError(e);
+        }
+    }
+
+    @Background
+    public void searchUsers(String query, String sessionId){
+        try {
+            restClient.setHeader("X-Dreamfactory-Application-Name", "netify");
+            restClient.setHeader("X-Dreamfactory-Session-Token", sessionId);
+            //Sets search conditions: looks for query in name, description and genre in public groups
+            UserList userList = restClient.getUsersByQuery("first_name like '%" + query + "%'||last_name like '%"+ query + "%'||email like '%"+ query +"%'");
+            publishSearchUsersResult(userList);
         }catch(Exception e){
             publishError(e);
         }
@@ -110,6 +124,10 @@ public class RestHomeBackgroundTask {
     @UiThread
     void publishSearchGroupsResult(GroupDataList groupDataList){
         activity.onSearchGroupCompleted(groupDataList);
+    }
+    @UiThread
+    void publishSearchUsersResult(UserList userList){
+        activity.onSearchUsersCompleted(userList);
     }
     @UiThread
     void publishLogoutResult(Boolean success){

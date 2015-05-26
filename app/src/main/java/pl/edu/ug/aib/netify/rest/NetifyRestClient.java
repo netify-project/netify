@@ -9,6 +9,7 @@ import org.androidannotations.api.rest.RestClientHeaders;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 
 import pl.edu.ug.aib.netify.data.EmailAndPassword;
+import pl.edu.ug.aib.netify.data.FriendDataList;
 import pl.edu.ug.aib.netify.data.GroupData;
 import pl.edu.ug.aib.netify.data.GroupDataList;
 import pl.edu.ug.aib.netify.data.IdData;
@@ -17,6 +18,7 @@ import pl.edu.ug.aib.netify.data.MemberGroupDataList;
 import pl.edu.ug.aib.netify.data.SongData;
 import pl.edu.ug.aib.netify.data.SongDataList;
 import pl.edu.ug.aib.netify.data.User;
+import pl.edu.ug.aib.netify.data.UserList;
 import pl.edu.ug.aib.netify.data.UserLogout;
 import pl.edu.ug.aib.netify.data.UserRegistrationData;
 
@@ -50,6 +52,20 @@ public interface NetifyRestClient extends RestClientHeaders{
     @Post("/db/membergroupdata")
     @RequiresHeader({"X-Dreamfactory-Session-Token","X-Dreamfactory-Application-Name" })
     IdData addMemberGroupData(MemberGroupData memberGroupData);
+
+    //FRIENDDATA
+    @Get("/db/frienddata?filter={filter}")
+    FriendDataList getFriendDataByUserId(String filter);
+
+
+    //USER
+    @Get("/system/user?ids={ids}")
+    @RequiresHeader({"X-Dreamfactory-Session-Token","X-Dreamfactory-Application-Name" })
+    UserList getUsersById(String ids);
+
+    @Get("/system/user?filter={filter}")
+    @RequiresHeader({"X-Dreamfactory-Session-Token","X-Dreamfactory-Application-Name" })
+    UserList getUsersByQuery(String filter);
 
     //AUTH
     @Post("/user/session")
