@@ -13,6 +13,8 @@ import java.util.HashSet;
 import pl.edu.ug.aib.netify.HomeActivity;
 import pl.edu.ug.aib.netify.LoginActivity;
 import pl.edu.ug.aib.netify.data.EmailAndPassword;
+import pl.edu.ug.aib.netify.data.FriendData;
+import pl.edu.ug.aib.netify.data.FriendDataList;
 import pl.edu.ug.aib.netify.data.GroupData;
 import pl.edu.ug.aib.netify.data.GroupDataList;
 import pl.edu.ug.aib.netify.data.IdData;
@@ -92,8 +94,33 @@ public class RestHomeBackgroundTask {
             restClient.setHeader("X-Dreamfactory-Application-Name", "netify");
             restClient.setHeader("X-Dreamfactory-Session-Token", sessionId);
             //Sets search conditions: looks for query in name, description and genre in public groups
-            UserList userList = restClient.getUsersByQuery("first_name like '%" + query + "%'||last_name like '%"+ query + "%'||email like '%"+ query +"%'");
+            UserList userList = restClient.getUsersByQuery("first_name like '%" + query + "%'||last_name like '%" + query + "%'||email like '%" + query + "%'");
             publishSearchUsersResult(userList);
+        }catch(Exception e){
+            publishError(e);
+        }
+    }
+
+    @Background
+    public void getUserFriends(String userId, String sessionId){
+        try {
+            restClient.setHeader("X-Dreamfactory-Application-Name", "netify");
+            restClient.setHeader("X-Dreamfactory-Session-Token", sessionId);
+            //search for userId on both positions of relation
+            FriendDataList friendDataList = restClient.getFriendDataByUserId("UserId=" + userId + "||User2Id=" + userId);
+            UserList userFriendsList;
+            //Check if user has any friends, if true, return empty object without sending request
+            if(friendDataList.records.isEmpty()) userFriendsList = new UserList();
+            else {
+                //used to provide unique ids
+                HashSet<String> friendIds = new HashSet<String>();
+                for (FriendData item : friendDataList.records){
+                    if(item.userId.equals(userId)) friendIds.add(item.user2Id);
+                    else friendIds.add(item.userId);
+                }
+                userFriendsList = restClient.getUsersById(TextUtils.join(",", friendIds));
+            }
+            publishUserFriendsResult(userFriendsList);
         }catch(Exception e){
             publishError(e);
         }
@@ -128,6 +155,10 @@ public class RestHomeBackgroundTask {
     @UiThread
     void publishSearchUsersResult(UserList userList){
         activity.onSearchUsersCompleted(userList);
+    }
+    @UiThread
+    void publishUserFriendsResult(UserList userList) {
+        activity.onUserFriendsListDownloaded(userList);
     }
     @UiThread
     void publishLogoutResult(Boolean success){

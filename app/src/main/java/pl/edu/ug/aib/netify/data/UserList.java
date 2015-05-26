@@ -13,4 +13,13 @@ public class UserList implements Serializable{
     @JsonProperty("record")
     public List<User> records = new ArrayList<User>();
 
+    public void deleteUser(int userId){
+        for(User user : records){
+            if(user.id == userId){
+                records.remove(user);
+                return;
+            }
+        }
+    }
+
 }

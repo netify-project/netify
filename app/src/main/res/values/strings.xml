@@ -44,11 +44,13 @@
     <string name="no_groups_found">No groups have been found</string>
     <string name="search_results">Search results</string>
     <string name="no_user_groups_info">You don\'t have any groups yet.\nFind some groups you like and join them\n or create your own!</string>
+    <string name="no_user_friends_info">You don\'t have any friends yet.\nFind some users you know and send them friend request!</string>
     <string name="action_joingroup">Join</string>
     <string name="join_to_add_songs_info">Join the group to add your own songs.</string>
     <string name="join_group_successful">You have successfully joined this group.</string>
     <string name="no_friends_found">No friends have been found</string>
     <string name="title_searchusers">Search friends</string>
+    <string name="title_friends">Friends</string>
     <string name="action_sendrequest">Send request</string>
 
 </resources>

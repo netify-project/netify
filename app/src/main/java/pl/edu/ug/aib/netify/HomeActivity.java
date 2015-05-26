@@ -21,6 +21,7 @@ import pl.edu.ug.aib.netify.data.GroupDataList;
 import pl.edu.ug.aib.netify.data.SongData;
 import pl.edu.ug.aib.netify.data.UserList;
 import pl.edu.ug.aib.netify.fragment.AddGroupFragment;
+import pl.edu.ug.aib.netify.fragment.FriendsFragment;
 import pl.edu.ug.aib.netify.fragment.LogoutFragment;
 import pl.edu.ug.aib.netify.fragment.SearchGroupsFragment;
 import pl.edu.ug.aib.netify.fragment.SearchUsersFragment;
@@ -34,6 +35,7 @@ public class HomeActivity extends ActionBarActivity implements UserGroupsFragmen
         AddGroupFragment.OnAddGroupFragmentCommunicationListener,
         SearchGroupsFragment.OnSearchGroupsFragmentCommunicationListener,
         SearchUsersFragment.OnSearchUsersFragmentCommunicationListener,
+        FriendsFragment.OnUserFriendsFragmentCommunicationListener,
         LogoutFragment.OnLogoutFragmentCommunicationListener
 {
 
@@ -154,10 +156,27 @@ public class HomeActivity extends ActionBarActivity implements UserGroupsFragmen
     public void onSearchUsersCompleted(UserList userList){
         try {
             SearchUsersFragment fragment = (SearchUsersFragment)drawerHandler.getCurrentFragment();
+            //delete current user if on the list
+            userList.deleteUser(preferences.id().get());
             fragment.setSearchedUsers(userList);
         }
         catch (ClassCastException e){
             Log.d(this.getClass().getSimpleName(), "Fragment must be instance of SearchUsersFragment");
+        }
+    }
+
+    //FriendsFragment communication
+    @Override
+    public void getUserFriendsList() {
+        restBackgroundTask.getUserFriends(Integer.toString(preferences.id().get()), preferences.sessionId().get());
+    }
+    public void onUserFriendsListDownloaded(UserList userFriendsList){
+        try {
+            FriendsFragment fragment = (FriendsFragment)drawerHandler.getCurrentFragment();
+            fragment.setUserFriends(userFriendsList);
+        }
+        catch (ClassCastException e){
+            Log.d(this.getClass().getSimpleName(), "Fragment must be instance of FriendsFragment");
         }
     }
 

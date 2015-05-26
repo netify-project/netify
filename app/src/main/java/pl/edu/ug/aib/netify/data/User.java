@@ -16,4 +16,5 @@ public class User implements Serializable {
     @JsonProperty("last_name")
     public String lastName;
     public String email;
+
 }
