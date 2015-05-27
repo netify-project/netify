@@ -16,6 +16,7 @@ import pl.edu.ug.aib.netify.R;
 import pl.edu.ug.aib.netify.fragment.AddGroupFragment_;
 import pl.edu.ug.aib.netify.fragment.FriendsFragment;
 import pl.edu.ug.aib.netify.fragment.FriendsFragment_;
+import pl.edu.ug.aib.netify.fragment.InviteFragment_;
 import pl.edu.ug.aib.netify.fragment.LogoutFragment_;
 import pl.edu.ug.aib.netify.fragment.SearchGroupsFragment_;
 import pl.edu.ug.aib.netify.fragment.SearchUsersFragment_;
@@ -40,6 +41,8 @@ public class DrawerListAdapter extends BaseAdapter {
                 FriendsFragment_.class));
         items.add(new DrawerItem(R.string.title_searchusers, R.drawable.ic_action_search,
                 SearchUsersFragment_.class));
+        items.add(new DrawerItem(R.string.title_invites, R.drawable.ic_action_person,
+                InviteFragment_.class));
         items.add(new DrawerItem(R.string.logout, R.drawable.ic_action_logout,
                 LogoutFragment_.class));
     }
