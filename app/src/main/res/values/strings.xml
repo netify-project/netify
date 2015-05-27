@@ -31,7 +31,9 @@
     <string name="title_home">Home</string>
     <string name="title_mygroups">My groups</string>
     <string name="title_addgroup">Add new group</string>
-    <string name="title_searchgroup">Find a group</string>
+    <string name="title_searchgroup">Find groups</string>
+    <string name="title_groupactivity">Group graph</string>
+    <string name="title_youtubesearchactivity">Find songs</string>
     <string name="my_groups">My groups</string>
     <string name="group_name">Group name</string>
     <string name="add_group_name">Add group name</string>
@@ -49,7 +51,7 @@
     <string name="join_to_add_songs_info">Join the group to add your own songs.</string>
     <string name="join_group_successful">You have successfully joined this group.</string>
     <string name="no_friends_found">No friends have been found</string>
-    <string name="title_searchusers">Search friends</string>
+    <string name="title_searchusers">Find users</string>
     <string name="title_friends">Friends</string>
     <string name="action_sendrequest">Send request</string>
     <string name="send_invite_successful">Invite sent</string>

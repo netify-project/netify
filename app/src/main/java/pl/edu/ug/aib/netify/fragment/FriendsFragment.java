@@ -70,6 +70,7 @@ public class FriendsFragment extends Fragment {
 
             listener = (OnUserFriendsFragmentCommunicationListener)activity;
             listener.getUserFriendsList();
+
         }
         catch (ClassCastException e){
             throw new ClassCastException(activity.toString() + " must implement OnUserFriendsFragmentCommunicationListener");

@@ -158,7 +158,7 @@ public class HomeActivity extends ActionBarActivity implements UserGroupsFragmen
     }
     public void onNewGroupAdded(GroupData groupData){
         //open new group playlist
-        GroupActivity_.intent(this).groupId(groupData.id).start();
+        GroupActivity_.intent(this).groupData(groupData).start();
         //clears addgroup screen in case of clicking back button
         drawerHandler.showDefaultScreen();
     }
