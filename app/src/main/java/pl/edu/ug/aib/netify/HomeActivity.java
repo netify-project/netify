@@ -19,15 +19,18 @@ import org.androidannotations.annotations.sharedpreferences.Pref;
 import pl.edu.ug.aib.netify.data.GroupData;
 import pl.edu.ug.aib.netify.data.GroupDataList;
 import pl.edu.ug.aib.netify.data.InviteData;
+import pl.edu.ug.aib.netify.data.InviteDataList;
 import pl.edu.ug.aib.netify.data.SongData;
 import pl.edu.ug.aib.netify.data.UserList;
 import pl.edu.ug.aib.netify.fragment.AddGroupFragment;
 import pl.edu.ug.aib.netify.fragment.FriendsFragment;
+import pl.edu.ug.aib.netify.fragment.InviteFragment;
 import pl.edu.ug.aib.netify.fragment.LogoutFragment;
 import pl.edu.ug.aib.netify.fragment.SearchGroupsFragment;
 import pl.edu.ug.aib.netify.fragment.SearchUsersFragment;
 import pl.edu.ug.aib.netify.fragment.UserGroupsFragment;
 import pl.edu.ug.aib.netify.fragment.UserGroupsFragment_;
+import pl.edu.ug.aib.netify.itemView.InviteListItemView;
 import pl.edu.ug.aib.netify.itemView.UserListItemView;
 import pl.edu.ug.aib.netify.navigationDrawer.DrawerHandler;
 import pl.edu.ug.aib.netify.rest.RestHomeBackgroundTask;
@@ -39,7 +42,9 @@ public class HomeActivity extends ActionBarActivity implements UserGroupsFragmen
         SearchUsersFragment.OnSearchUsersFragmentCommunicationListener,
         FriendsFragment.OnUserFriendsFragmentCommunicationListener,
         LogoutFragment.OnLogoutFragmentCommunicationListener,
-        UserListItemView.OnUserListCommunicationListener
+        UserListItemView.OnUserListCommunicationListener,
+        InviteFragment.OnUserInvitesFragmentCommunicationListener,
+        InviteListItemView.OnInviteListCommunicationListener
 
 {
 
@@ -106,6 +111,23 @@ public class HomeActivity extends ActionBarActivity implements UserGroupsFragmen
             Log.d(this.getClass().getSimpleName(), "Fragment must be instance of UserGroupsFragment");
         }
     }
+
+    //InvitesFragment communication
+    @Override
+    public void getUserInvitesList() {
+        restBackgroundTask.getUserInvites(Integer.toString(preferences.id().get()), preferences.sessionId().get());
+    }
+    public void onUserInvitesListDownloaded(InviteDataList inviteDataList){
+        try {
+            InviteFragment fragment = (InviteFragment)drawerHandler.getCurrentFragment();
+            fragment.setUserInvite(inviteDataList);
+        }
+        catch (ClassCastException e){
+            Log.d(this.getClass().getSimpleName(), "Fragment must be instance of InviteFragment");
+        }
+    }
+
+
     //AddGroupFragment communication
     @Override
     public void addNewGroup(GroupData groupData, SongData firstSong) {
@@ -189,6 +211,11 @@ public class HomeActivity extends ActionBarActivity implements UserGroupsFragmen
         }
     }
 
+    @Override
+    public void onDeleteInviteSuccess() {
+   Toast.makeText(this, "Invite deleted", Toast.LENGTH_LONG).show();
+
+}
     //Logout
     @Override
     public void logout(){

@@ -14,6 +14,7 @@ import pl.edu.ug.aib.netify.data.GroupData;
 import pl.edu.ug.aib.netify.data.GroupDataList;
 import pl.edu.ug.aib.netify.data.IdData;
 import pl.edu.ug.aib.netify.data.InviteData;
+import pl.edu.ug.aib.netify.data.InviteDataList;
 import pl.edu.ug.aib.netify.data.MemberGroupData;
 import pl.edu.ug.aib.netify.data.MemberGroupDataList;
 import pl.edu.ug.aib.netify.data.SongData;
@@ -63,6 +64,12 @@ public interface NetifyRestClient extends RestClientHeaders{
     @Post("/db/invitedata")
     @RequiresHeader({"X-Dreamfactory-Session-Token","X-Dreamfactory-Application-Name" })
     IdData sendInvite(InviteData inviteData);
+
+    @Get("/db/invitedata?filter={filter}")
+    InviteDataList getInviteDataByUserId(String filter);
+
+    @Delete("/db/invitedata?filter={filter}")
+    InviteDataList deleteInviteById(String filter);
 
     //USER
     @Get("/system/user?ids={ids}")

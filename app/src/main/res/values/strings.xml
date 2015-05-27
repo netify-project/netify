@@ -53,5 +53,7 @@
     <string name="title_friends">Friends</string>
     <string name="action_sendrequest">Send request</string>
     <string name="send_invite_successful">Invite sent</string>
+    <string name="no_user_invites_info">You don\'t have any invites.</string>
+    <string name="title_invites">Invites</string>
 
 </resources>
