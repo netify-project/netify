@@ -18,6 +18,7 @@ import pl.edu.ug.aib.netify.data.FriendDataList;
 import pl.edu.ug.aib.netify.data.GroupData;
 import pl.edu.ug.aib.netify.data.GroupDataList;
 import pl.edu.ug.aib.netify.data.IdData;
+import pl.edu.ug.aib.netify.data.InviteData;
 import pl.edu.ug.aib.netify.data.MemberGroupData;
 import pl.edu.ug.aib.netify.data.MemberGroupDataList;
 import pl.edu.ug.aib.netify.data.SongData;
@@ -25,12 +26,14 @@ import pl.edu.ug.aib.netify.data.User;
 import pl.edu.ug.aib.netify.data.UserList;
 import pl.edu.ug.aib.netify.data.UserLogout;
 import pl.edu.ug.aib.netify.data.UserRegistrationData;
+import pl.edu.ug.aib.netify.itemView.UserListItemView;
 
 @EBean
 public class RestHomeBackgroundTask {
 
     @RootContext
     HomeActivity activity;
+    UserListItemView list;
     @RestService
     NetifyRestClient restClient;
 
@@ -50,27 +53,6 @@ public class RestHomeBackgroundTask {
                 groupDataList = restClient.getGroupsById(TextUtils.join(",", groupIds));
             }
             publishUserGroupsResult(groupDataList);
-        }catch(Exception e){
-            publishError(e);
-        }
-    }
-
-    @Background
-    public void addNewGroup(String userId, String sessionId, GroupData groupData, SongData firstSong){
-        try {
-            restClient.setHeader("X-Dreamfactory-Application-Name", "netify");
-            restClient.setHeader("X-Dreamfactory-Session-Token", sessionId);
-            //send group data and receive group id
-            IdData result = restClient.addGroup(groupData);
-            groupData.id = result.id;
-            firstSong.groupId = Integer.parseInt(result.id);
-            //send data about user membership in the group and receive confirmation
-            MemberGroupData memberGroupData = new MemberGroupData();
-            memberGroupData.groupId = groupData.id; memberGroupData.userId = userId;
-            result = restClient.addMemberGroupData(memberGroupData);
-            //send first song
-            result = restClient.addSongToGraph(firstSong);
-            publishAddNewGroupResult(groupData);
         }catch(Exception e){
             publishError(e);
         }
@@ -139,6 +121,42 @@ public class RestHomeBackgroundTask {
             publishError(e);
         }
     }
+
+    @Background
+    public void addNewGroup(String userId, String sessionId, GroupData groupData, SongData firstSong){
+        try {
+            restClient.setHeader("X-Dreamfactory-Application-Name", "netify");
+            restClient.setHeader("X-Dreamfactory-Session-Token", sessionId);
+            //send group data and receive group id
+            IdData result = restClient.addGroup(groupData);
+            groupData.id = result.id;
+            firstSong.groupId = Integer.parseInt(result.id);
+            //send data about user membership in the group and receive confirmation
+            MemberGroupData memberGroupData = new MemberGroupData();
+            memberGroupData.groupId = groupData.id; memberGroupData.userId = userId;
+            result = restClient.addMemberGroupData(memberGroupData);
+            //send first song
+            result = restClient.addSongToGraph(firstSong);
+            publishAddNewGroupResult(groupData);
+        }catch(Exception e){
+            publishError(e);
+        }
+    }
+    @Background
+    public void sendInvite(String userId, String sessionId, InviteData inviteData){
+        try{
+            restClient.setHeader("X-Dreamfactory-Application-Name", "netify");
+            restClient.setHeader("X-Dreamfactory-Session-Token", sessionId);
+            IdData send = restClient.sendInvite(inviteData);
+            inviteData.id = send.id;
+            inviteData.fromUser = userId;
+
+            publishSendInviteResult(inviteData);
+        }
+        catch(Exception e){
+            publishError(e);
+        }
+    }//TODO
     //Calls to activity and pushing objects to UiThread
     @UiThread
     void publishUserGroupsResult(GroupDataList groupDataList){
@@ -152,6 +170,8 @@ public class RestHomeBackgroundTask {
     void publishSearchGroupsResult(GroupDataList groupDataList){
         activity.onSearchGroupCompleted(groupDataList);
     }
+
+
     @UiThread
     void publishSearchUsersResult(UserList userList){
         activity.onSearchUsersCompleted(userList);
@@ -163,6 +183,10 @@ public class RestHomeBackgroundTask {
     @UiThread
     void publishLogoutResult(Boolean success){
         activity.onLogout(success);
+    }
+    @UiThread
+    void publishSendInviteResult(InviteData inviteData){
+        list.sendInviteConfirmed(inviteData);
     }
     @UiThread
     void publishError(Exception e) {

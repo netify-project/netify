@@ -18,6 +18,7 @@ import org.androidannotations.annotations.sharedpreferences.Pref;
 
 import pl.edu.ug.aib.netify.data.GroupData;
 import pl.edu.ug.aib.netify.data.GroupDataList;
+import pl.edu.ug.aib.netify.data.InviteData;
 import pl.edu.ug.aib.netify.data.SongData;
 import pl.edu.ug.aib.netify.data.UserList;
 import pl.edu.ug.aib.netify.fragment.AddGroupFragment;
@@ -27,6 +28,7 @@ import pl.edu.ug.aib.netify.fragment.SearchGroupsFragment;
 import pl.edu.ug.aib.netify.fragment.SearchUsersFragment;
 import pl.edu.ug.aib.netify.fragment.UserGroupsFragment;
 import pl.edu.ug.aib.netify.fragment.UserGroupsFragment_;
+import pl.edu.ug.aib.netify.itemView.UserListItemView;
 import pl.edu.ug.aib.netify.navigationDrawer.DrawerHandler;
 import pl.edu.ug.aib.netify.rest.RestHomeBackgroundTask;
 
@@ -36,7 +38,9 @@ public class HomeActivity extends ActionBarActivity implements UserGroupsFragmen
         SearchGroupsFragment.OnSearchGroupsFragmentCommunicationListener,
         SearchUsersFragment.OnSearchUsersFragmentCommunicationListener,
         FriendsFragment.OnUserFriendsFragmentCommunicationListener,
-        LogoutFragment.OnLogoutFragmentCommunicationListener
+        LogoutFragment.OnLogoutFragmentCommunicationListener,
+        UserListItemView.OnUserListCommunicationListener
+
 {
 
     @Pref
@@ -107,6 +111,11 @@ public class HomeActivity extends ActionBarActivity implements UserGroupsFragmen
     public void addNewGroup(GroupData groupData, SongData firstSong) {
         restBackgroundTask.addNewGroup(Integer.toString(preferences.id().get()), preferences.sessionId().get(), groupData, firstSong);
     }
+//UserListItemView
+    @Override
+    public void sendInvite(InviteData inviteData) {
+    restBackgroundTask.sendInvite(Integer.toString(preferences.id().get()), preferences.sessionId().get(), inviteData);
+}
 
     @Override
     public void addFirstSong(SongData songData) {
