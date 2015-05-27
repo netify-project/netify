@@ -21,6 +21,7 @@
         <activity android:name=".YoutubePlayerActivity_" android:configChanges="orientation|screenSize"/>
         <activity android:name=".GroupActivity_" android:configChanges="orientation|screenSize"/>
         <activity android:name=".HomeActivity_" android:configChanges="orientation|screenSize"/>
+        <activity android:name=".ProfileActivity_" android:configChanges="orientation|screenSize"/>
     </application>
     <uses-permission android:name="android.permission.INTERNET"/>
 

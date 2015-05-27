@@ -2,7 +2,6 @@ package pl.edu.ug.aib.netify.fragment;
 
 
 import android.app.Activity;
-import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.View;
 import android.widget.ListView;
@@ -12,10 +11,11 @@ import android.widget.TextView;
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EFragment;
-import org.androidannotations.annotations.InstanceState;
+import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.ItemClick;
 import org.androidannotations.annotations.ViewById;
 
+import pl.edu.ug.aib.netify.ProfileActivity_;
 import pl.edu.ug.aib.netify.R;
 import pl.edu.ug.aib.netify.adapter.UserListAdapter;
 import pl.edu.ug.aib.netify.data.User;
@@ -40,9 +40,6 @@ public class FriendsFragment extends Fragment {
     @Bean
     UserListAdapter adapter;
     UserList userFriends;
-
-    @InstanceState
-    User user;
 
     OnUserFriendsFragmentCommunicationListener listener;
 
@@ -77,12 +74,9 @@ public class FriendsFragment extends Fragment {
     }
 
     @ItemClick
-    void listItemClicked(User item){
+    void friendsListItemClicked(User item){
         if(item.id == null) return;
-        Bundle bundle = new Bundle();
-        bundle.putSerializable(USER, user);
-        bundle.putSerializable(FRIEND, item);
-        //FriendActivity_.intent(this).bundle(bundle).start();
+        ProfileActivity_.intent(this).user(item).start();
     }
 
 

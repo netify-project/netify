@@ -3,17 +3,23 @@
     <style name="NetifyActionBarTheme"
         parent="AppTheme">
 
-
         <!-- Support library compatibility -->
         <item name="actionBarStyle">@style/MyActionBar</item>
+
     </style>
 
     <!-- ActionBar styles -->
     <style name="MyActionBar"
         parent="@style/Widget.AppCompat.Light.ActionBar.Solid.Inverse">
         <item name="android:background">@color/dark_blue</item>
-
         <!-- Support library compatibility -->
         <item name="background">@color/dark_blue</item>
+        <item name="backgroundStacked">@color/dark_blue</item>
+    </style>
+    <style name="MyActionBarTabs"
+        parent="@style/Widget.AppCompat.Light.ActionBar.TabView.Inverse">
+        <item name="android:background">@color/white</item>
+        <!-- Support library compatibility -->
+        <item name="background">@color/white</item>
     </style>
 </resources>

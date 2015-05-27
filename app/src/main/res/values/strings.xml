@@ -54,5 +54,7 @@
     <string name="title_searchusers">Find users</string>
     <string name="title_friends">Friends</string>
     <string name="action_sendrequest">Send request</string>
+    <string name="title_profile">Profile</string>
+    <string name="title_groups">Groups</string>
 
 </resources>
