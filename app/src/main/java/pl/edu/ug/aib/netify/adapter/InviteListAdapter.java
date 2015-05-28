@@ -32,6 +32,10 @@ public class InviteListAdapter extends BaseAdapter {
         invites.addAll(inviteDataList.records);
         notifyDataSetChanged();
     }
+    public void remove(InviteData invite){
+        invites.remove(invite);
+        notifyDataSetChanged();
+    }
 
     @Override
     public int getCount() {
@@ -56,25 +60,7 @@ public class InviteListAdapter extends BaseAdapter {
         } else {
             inviteListItemView = (InviteListItemView) convertView;
         }
-
         inviteListItemView.bind(getItem(position));
-
-        Button accept = (Button) convertView .findViewById(R.id.accept);
-        Button delete = (Button) convertView.findViewById(R.id.delete);
-
-        accept.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
-                 }
-             });
-        delete.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
-                }
-            });
-
         return inviteListItemView;
     }
 }

@@ -1,7 +1,6 @@
 package pl.edu.ug.aib.netify;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -29,7 +28,6 @@ import pl.edu.ug.aib.netify.fragment.LogoutFragment;
 import pl.edu.ug.aib.netify.fragment.SearchGroupsFragment;
 import pl.edu.ug.aib.netify.fragment.SearchUsersFragment;
 import pl.edu.ug.aib.netify.fragment.UserGroupsFragment;
-import pl.edu.ug.aib.netify.fragment.UserGroupsFragment_;
 import pl.edu.ug.aib.netify.itemView.InviteListItemView;
 import pl.edu.ug.aib.netify.itemView.UserListItemView;
 import pl.edu.ug.aib.netify.navigationDrawer.DrawerHandler;
@@ -44,7 +42,7 @@ public class HomeActivity extends ActionBarActivity implements UserGroupsFragmen
         LogoutFragment.OnLogoutFragmentCommunicationListener,
         UserListItemView.OnUserListCommunicationListener,
         InviteFragment.OnUserInvitesFragmentCommunicationListener,
-        InviteListItemView.OnInviteListCommunicationListener
+        InviteListItemView.OnInviteListItemViewCommunicationListener
 
 {
 
@@ -133,11 +131,6 @@ public class HomeActivity extends ActionBarActivity implements UserGroupsFragmen
     public void addNewGroup(GroupData groupData, SongData firstSong) {
         restBackgroundTask.addNewGroup(Integer.toString(preferences.id().get()), preferences.sessionId().get(), groupData, firstSong);
     }
-//UserListItemView
-    @Override
-    public void sendInvite(InviteData inviteData) {
-    restBackgroundTask.sendInvite(Integer.toString(preferences.id().get()), preferences.sessionId().get(), inviteData);
-}
 
     @Override
     public void addFirstSong(SongData songData) {
@@ -211,12 +204,51 @@ public class HomeActivity extends ActionBarActivity implements UserGroupsFragmen
         }
     }
 
-    @Override
-    public void onDeleteInviteSuccess() {
-   Toast.makeText(this, "Invite deleted", Toast.LENGTH_LONG).show();
 
-}
-    //Logout
+    //InviteListItemView communication
+    @Override
+    public void acceptInvite(InviteData invite) {
+        //Toast.makeText(this, "Invite accepted", Toast.LENGTH_LONG).show();
+        //if no groupId then it is friend invite, else it is group invite
+        if(invite.groupId == null) restBackgroundTask.addFriendData(preferences.sessionId().get() ,invite);
+        else restBackgroundTask.addMemberToGroup(preferences.sessionId().get(), invite);
+    }
+
+    @Override
+    public void deleteInvite(InviteData invite) {
+        //Toast.makeText(this, "Invite set to delete", Toast.LENGTH_LONG).show();
+        restBackgroundTask.deleteInvite(preferences.sessionId().get(), invite);
+    }
+
+    public void onAcceptFriendInviteSuccess(InviteData inviteData) {
+        onInviteSuccess(inviteData, getString(R.string.add_friend_successful) + " " + inviteData.fullName);
+    }
+    public void onAcceptGroupInviteSuccess(InviteData inviteData) {
+        onInviteSuccess(inviteData, getString(R.string.join_group_successful));
+    }
+    public void onDeleteInviteSuccess(InviteData inviteData) {
+        onInviteSuccess(inviteData, null);
+    }
+    private void onInviteSuccess(InviteData inviteData, String message){
+        //Display toast with appropriate message
+        if(message != null) Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+        try {
+            InviteFragment fragment = (InviteFragment)drawerHandler.getCurrentFragment();
+            //remove the invite from the list
+            fragment.removeInvite(inviteData);
+        }
+        catch (ClassCastException e){
+            Log.d(this.getClass().getSimpleName(), "Fragment must be instance of InviteFragment");
+        }
+    }
+
+    //UserListItemView
+    @Override
+    public void sendInvite(InviteData inviteData) {
+        restBackgroundTask.sendInvite(Integer.toString(preferences.id().get()), preferences.sessionId().get(), inviteData);
+    }
+
+    //Logout communication
     @Override
     public void logout(){
         restBackgroundTask.logout(preferences.sessionId().get());

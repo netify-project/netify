@@ -6,7 +6,7 @@
     android:background="@drawable/youtube_list_item"
     >
 
-    <TextView android:id="@+id/firstNameField"
+    <TextView android:id="@+id/fullNameField"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_toRightOf="@+id/groupThumbnail"
@@ -21,25 +21,12 @@
         android:text="imie"
         />
 
-    <TextView android:id="@+id/lastNameField"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_toRightOf="@+id/firstNameField"
-        android:textSize="18sp"
-        android:singleLine="true"
-        android:ellipsize="end"
-        android:text="nazwisko"
-        android:textStyle="bold"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="5dp"
-        />
-
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Tekst zaproszenia"
         android:id="@+id/inviteText"
-        android:layout_below="@+id/firstNameField"
+        android:layout_below="@+id/fullNameField"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
@@ -49,8 +36,8 @@
         android:text="Accept"
         android:id="@+id/accept"
         android:layout_alignParentBottom="true"
-        android:layout_toRightOf="@+id/firstNameField"
-        android:layout_toEndOf="@+id/firstNameField"
+        android:layout_toLeftOf="@+id/delete"
+        android:layout_marginRight="30dp"
         android:onClick="acceptInvite"/>
 
     <Button

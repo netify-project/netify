@@ -72,7 +72,6 @@ public class RestSongGraphBackgroundTask {
         try{
             restClient.setHeader("X-Dreamfactory-Application-Name", "netify");
             restClient.setHeader("X-Dreamfactory-Session-Token", sessionId);
-            //TODO
             MemberGroupData memberGroupData = new MemberGroupData();
             memberGroupData.userId = userId; memberGroupData.groupId = groupId;
             IdData result = restClient.addMemberGroupData(memberGroupData);

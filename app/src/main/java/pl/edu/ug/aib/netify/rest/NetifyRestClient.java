@@ -9,6 +9,7 @@ import org.androidannotations.api.rest.RestClientHeaders;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 
 import pl.edu.ug.aib.netify.data.EmailAndPassword;
+import pl.edu.ug.aib.netify.data.FriendData;
 import pl.edu.ug.aib.netify.data.FriendDataList;
 import pl.edu.ug.aib.netify.data.GroupData;
 import pl.edu.ug.aib.netify.data.GroupDataList;
@@ -59,6 +60,10 @@ public interface NetifyRestClient extends RestClientHeaders{
     @Get("/db/frienddata?filter={filter}")
     FriendDataList getFriendDataByUserId(String filter);
 
+    @Post("/db/frienddata")
+    @RequiresHeader({"X-Dreamfactory-Session-Token","X-Dreamfactory-Application-Name" })
+    IdData addFriendData(FriendData friendData);
+
     //INVITEDATA
 
     @Post("/db/invitedata")
@@ -68,8 +73,9 @@ public interface NetifyRestClient extends RestClientHeaders{
     @Get("/db/invitedata?filter={filter}")
     InviteDataList getInviteDataByUserId(String filter);
 
-    @Delete("/db/invitedata?filter={filter}")
-    InviteDataList deleteInviteById(String filter);
+    @Delete("/db/invitedata/{id}")
+    @RequiresHeader({"X-Dreamfactory-Session-Token","X-Dreamfactory-Application-Name" })
+    InviteDataList deleteInviteById(String id);
 
     //USER
     @Get("/system/user?ids={ids}")

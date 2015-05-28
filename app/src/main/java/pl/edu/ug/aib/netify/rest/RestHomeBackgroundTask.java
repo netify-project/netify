@@ -8,6 +8,7 @@ import org.androidannotations.annotations.RootContext;
 import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.rest.RestService;
 
+import java.util.HashMap;
 import java.util.HashSet;
 
 import pl.edu.ug.aib.netify.HomeActivity;
@@ -116,14 +117,41 @@ public class RestHomeBackgroundTask {
             restClient.setHeader("X-Dreamfactory-Application-Name", "netify");
             restClient.setHeader("X-Dreamfactory-Session-Token", sessionId);
             InviteDataList inviteDataList = restClient.getInviteDataByUserId("ToUser=" + userId);
+            UserList userList;
+            GroupDataList groupDataList;
+            //Check if user has any friends, if true, return empty object without sending request
+            if (inviteDataList.records.isEmpty()) userList = new UserList();
+            else {
+                //used to provide unique ids
+                HashMap<Integer, String> usersIds = new HashMap<>();
+                HashMap<Integer, String> groupIds = new HashMap<>();
+                for (InviteData item : inviteDataList.records) {
+                    if(item.groupId != null) groupIds.put(inviteDataList.records.indexOf(item), item.groupId);
+                    usersIds.put(inviteDataList.records.indexOf(item), item.fromUser);
+                }
 
+                //get users and groups info
+                userList = restClient.getUsersById(TextUtils.join(",", usersIds.values()));
+                groupDataList = restClient.getGroupsById(TextUtils.join(",", groupIds.values()));
+                //create hashmap to make matching easier
+                HashMap<String, String> usersNames = new HashMap<>();
+                HashMap<String, String> groupNames = new HashMap<>();
+                for(User user : userList.records) usersNames.put(Integer.toString(user.id), user.firstName + " " + user.lastName);
+                for(GroupData group : groupDataList.records) groupNames.put(group.id, group.name);
+                //add display info to invite data
+                InviteData currentInvite;
+                for (int i=0; i< inviteDataList.records.size(); i++) {
+                    currentInvite = inviteDataList.records.get(i);
+                    currentInvite.fullName = usersNames.get(currentInvite.fromUser);
+                    if(currentInvite.groupId != null) currentInvite.groupName = groupNames.get(currentInvite.groupId);
+                }
+
+            }
             publishUserInviteResult(inviteDataList);
         } catch (Exception e) {
             publishError(e);
         }
     }
-
-        //TODO
 
         @Background
         public void logout (String sessionId){
@@ -138,12 +166,12 @@ public class RestHomeBackgroundTask {
         }
 
     @Background
-    public void deleteInvite (String userId, String sessionId, InviteData inviteData){
+    public void deleteInvite (String sessionId, InviteData inviteData){
         try {
             restClient.setHeader("X-Dreamfactory-Application-Name", "netify");
             restClient.setHeader("X-Dreamfactory-Session-Token", sessionId);
             restClient.deleteInviteById(inviteData.id);
-            publishDeleteResult();
+            publishDeleteResult(inviteData);
         } catch (Exception e) {
             publishError(e);
         }
@@ -185,6 +213,40 @@ public class RestHomeBackgroundTask {
                 publishError(e);
             }
         }
+
+        @Background
+        public void addMemberToGroup(String sessionId, InviteData inviteData){
+            try {
+                restClient.setHeader("X-Dreamfactory-Application-Name", "netify");
+                restClient.setHeader("X-Dreamfactory-Session-Token", sessionId);
+                MemberGroupData memberGroupData = new MemberGroupData();
+                memberGroupData.userId = inviteData.toUser;
+                memberGroupData.groupId = inviteData.groupId;
+                IdData result = restClient.addMemberGroupData(memberGroupData);
+                publishAddMemberToGroupResult(inviteData);
+                //delete invite after success
+                deleteInvite(sessionId, inviteData);
+            } catch (Exception e) {
+                publishError(e);
+            }
+        }
+
+        @Background
+        public void addFriendData(String sessionId, InviteData inviteData){
+            try {
+                restClient.setHeader("X-Dreamfactory-Application-Name", "netify");
+                restClient.setHeader("X-Dreamfactory-Session-Token", sessionId);
+                FriendData friendData = new FriendData();
+                friendData.userId = inviteData.fromUser; friendData.user2Id = inviteData.toUser;
+                IdData result = restClient.addFriendData(friendData);
+                publishAddFriendDataResult(inviteData);
+                //delete invite after success
+                deleteInvite(sessionId, inviteData);
+            } catch (Exception e) {
+                publishError(e);
+            }
+        }
+
         //TODO
         //Calls to activity and pushing objects to UiThread
         @UiThread
@@ -196,8 +258,8 @@ public class RestHomeBackgroundTask {
             activity.onNewGroupAdded(groupData);
         }
         @UiThread
-        void publishDeleteResult (){
-        activity.onDeleteInviteSuccess();
+        void publishDeleteResult (InviteData inviteData){
+        activity.onDeleteInviteSuccess(inviteData);
          }
         @UiThread
         void publishSearchGroupsResult (GroupDataList groupDataList){
@@ -223,6 +285,14 @@ public class RestHomeBackgroundTask {
         @UiThread
         void publishSendInviteResult (InviteData inviteData){
             list.sendInviteConfirmed(inviteData);
+        }
+        @UiThread
+        void publishAddMemberToGroupResult(InviteData inviteData){
+            activity.onAcceptGroupInviteSuccess(inviteData);
+        }
+        @UiThread
+        void publishAddFriendDataResult(InviteData inviteData){
+            activity.onAcceptFriendInviteSuccess(inviteData);
         }
         @UiThread
         void publishError (Exception e){

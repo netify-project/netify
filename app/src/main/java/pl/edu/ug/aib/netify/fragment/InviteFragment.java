@@ -55,6 +55,11 @@ public class InviteFragment extends Fragment {
         progressBar.setVisibility(View.GONE);
         if(adapter.getCount() == 0) noInvitesInfo.setVisibility(View.VISIBLE);
     }
+    //remove invite from list after accepting or deleting invite
+    public void removeInvite(InviteData inviteData){
+        adapter.remove(inviteData);
+        if(adapter.getCount() == 0) noInvitesInfo.setVisibility(View.VISIBLE);
+    }
 
 
     @Override

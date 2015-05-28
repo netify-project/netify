@@ -1,5 +1,6 @@
 package pl.edu.ug.aib.netify.data;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -19,5 +20,10 @@ public class InviteData extends NodeData implements Serializable {
     @JsonProperty("text")
     public String text;
     @JsonProperty("toUser")
-    public Integer toUser;
+    public String toUser;
+    //fields only for display purposes
+    @JsonIgnore
+    public String fullName;
+    @JsonIgnore
+    public String groupName;
 }

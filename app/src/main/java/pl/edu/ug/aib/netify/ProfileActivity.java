@@ -17,6 +17,7 @@ import org.androidannotations.annotations.sharedpreferences.Pref;
 
 import pl.edu.ug.aib.netify.adapter.TabsPagerAdapter;
 import pl.edu.ug.aib.netify.data.GroupDataList;
+import pl.edu.ug.aib.netify.data.InviteData;
 import pl.edu.ug.aib.netify.data.User;
 import pl.edu.ug.aib.netify.data.UserList;
 import pl.edu.ug.aib.netify.fragment.FriendsFragment;
@@ -100,6 +101,12 @@ public class ProfileActivity extends ActionBarActivity implements ActionBar.TabL
     public void getUserFriendsList() {
         restBackgroundTask.getUserFriends(Integer.toString(user.id), preferences.sessionId().get());
     }
+
+    @Override
+    public void sendInvite(InviteData inviteData) {
+
+    }
+
     public void onUserFriendsListDownloaded(UserList userList){
         //adapter.getFriendsFragment().setUserFriends(userList);
     }

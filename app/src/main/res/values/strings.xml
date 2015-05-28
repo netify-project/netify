@@ -59,5 +59,7 @@
     <string name="send_invite_successful">Invite sent</string>
     <string name="no_user_invites_info">You don\'t have any invites.</string>
     <string name="title_invites">Invites</string>
+    <string name="add_friend_successful">You are now friends with</string>
+    <string name="invite_deleted">You rejected the invite</string>
 
 </resources>

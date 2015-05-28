@@ -31,8 +31,8 @@ public class UserListItemView extends RelativeLayout {
     TextView firstNameField;
     @ViewById
     TextView lastNameField;
-    @ViewById
-    Button sendInvite;
+    /*@ViewById
+    Button sendInviteButton;*/
 
     User user;
 
@@ -45,27 +45,24 @@ public class UserListItemView extends RelativeLayout {
     }
 
     public void bind(User user){
-
         firstNameField.setText(user.firstName);
         lastNameField.setText(user.lastName);
-
+        this.user = user;
     }
 
     public void sendInviteConfirmed(InviteData inviteData){
-        sendInvite.setVisibility(View.GONE);
+        //sendInviteButton.setVisibility(View.GONE);
     }
 
+    /*@Click
+    void sendInviteButtonClicked(){
+        //InviteData inviteData = new InviteData();
+        //inviteData.groupId=null;
+        //inviteData.toUser=user.id;
+        //commented out to prevent crushing app, no listener defined yet
+        //listener.sendInvite(inviteData);
 
-
-    @Click
-    void sendInviteClicked(){
-        InviteData inviteData = new InviteData();
-        inviteData.groupId=null;
-        inviteData.toUser=user.id;
-        listener.sendInvite(inviteData);
-
-
-    }
+    }*/
     public interface OnUserListCommunicationListener {
         void sendInvite(InviteData inviteData);
     }
