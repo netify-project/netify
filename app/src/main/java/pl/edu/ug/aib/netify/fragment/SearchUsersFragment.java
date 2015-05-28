@@ -13,10 +13,13 @@ import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EFragment;
+import org.androidannotations.annotations.ItemClick;
 import org.androidannotations.annotations.ViewById;
 
+import pl.edu.ug.aib.netify.ProfileActivity_;
 import pl.edu.ug.aib.netify.R;
 import pl.edu.ug.aib.netify.adapter.UserListAdapter;
+import pl.edu.ug.aib.netify.data.User;
 import pl.edu.ug.aib.netify.data.UserList;
 import pl.edu.ug.aib.netify.eventListener.OnEditTextFocusChangeListener;
 
@@ -86,11 +89,11 @@ public class SearchUsersFragment extends Fragment {
     public interface OnSearchUsersFragmentCommunicationListener {
         void searchForUsers(String query);
     }
-/*
+
     @ItemClick
     void friendListItemClicked(User user){
-        friendActivity_.intent(this).userId(user.id).start();
+        ProfileActivity_.intent(this).user(user).start();
     }
-*/
+
 
 }

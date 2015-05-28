@@ -12,6 +12,7 @@ import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.NonConfigurationInstance;
+import org.androidannotations.annotations.OptionsItem;
 import org.androidannotations.annotations.ViewById;
 import org.androidannotations.annotations.sharedpreferences.Pref;
 
@@ -21,13 +22,15 @@ import pl.edu.ug.aib.netify.data.InviteData;
 import pl.edu.ug.aib.netify.data.User;
 import pl.edu.ug.aib.netify.data.UserList;
 import pl.edu.ug.aib.netify.fragment.FriendsFragment;
+import pl.edu.ug.aib.netify.fragment.ProfileFragment;
 import pl.edu.ug.aib.netify.fragment.UserGroupsFragment;
 import pl.edu.ug.aib.netify.rest.RestProfileBackgroundTask;
 
 @EActivity(R.layout.activity_profile)
 public class ProfileActivity extends ActionBarActivity implements ActionBar.TabListener,
         FriendsFragment.OnUserFriendsFragmentCommunicationListener,
-        UserGroupsFragment.OnUserGroupsFragmentCommunicationListener {
+        UserGroupsFragment.OnUserGroupsFragmentCommunicationListener,
+        ProfileFragment.OnProfileFragmentCommunicationListener {
     @ViewById
     ViewPager pager;
     TabsPagerAdapter adapter;
@@ -108,7 +111,7 @@ public class ProfileActivity extends ActionBarActivity implements ActionBar.TabL
     }
 
     public void onUserFriendsListDownloaded(UserList userList){
-        //adapter.getFriendsFragment().setUserFriends(userList);
+        adapter.getFriendsFragment().setUserFriends(userList);
     }
     @Override
     public void getUserGroupList() {
@@ -123,5 +126,14 @@ public class ProfileActivity extends ActionBarActivity implements ActionBar.TabL
         Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG).show();
     }
 
+    //ProfileFragment communication
+    @Override
+    public User getUser() {
+        return user;
+    }
 
+    @OptionsItem(android.R.id.home)
+    void homeSelected(){
+        finish();
+    }
 }

@@ -6,20 +6,20 @@ import android.support.v4.app.FragmentPagerAdapter;
 
 import pl.edu.ug.aib.netify.fragment.FriendsFragment;
 import pl.edu.ug.aib.netify.fragment.FriendsFragment_;
+import pl.edu.ug.aib.netify.fragment.ProfileFragment;
+import pl.edu.ug.aib.netify.fragment.ProfileFragment_;
+import pl.edu.ug.aib.netify.fragment.ProgressBarFragment_;
 import pl.edu.ug.aib.netify.fragment.UserGroupsFragment;
 import pl.edu.ug.aib.netify.fragment.UserGroupsFragment_;
 
 public class TabsPagerAdapter extends FragmentPagerAdapter {
 
-    Fragment profileFragment;
+    ProfileFragment profileFragment;
     UserGroupsFragment groupsFragment;
     FriendsFragment friendsFragment;
 
     public TabsPagerAdapter(FragmentManager fm) {
         super(fm);
-        profileFragment = new FriendsFragment_();
-        groupsFragment = new UserGroupsFragment_();
-        friendsFragment = new FriendsFragment_();
     }
 
     @Override
@@ -28,12 +28,15 @@ public class TabsPagerAdapter extends FragmentPagerAdapter {
         switch (index) {
             case 0:
                 // Profile fragment
+                profileFragment = new ProfileFragment_();
                 return profileFragment;
             case 1:
                 // Groups list fragment
+                groupsFragment = new UserGroupsFragment_();
                 return groupsFragment;
             case 2:
                 // Friend list fragment
+                friendsFragment = new FriendsFragment_();
                 return friendsFragment;
         }
 
@@ -46,7 +49,7 @@ public class TabsPagerAdapter extends FragmentPagerAdapter {
         return 3;
     }
 
-    public Fragment getProfileFragment() {
+    public ProfileFragment getProfileFragment() {
         return profileFragment;
     }
 
