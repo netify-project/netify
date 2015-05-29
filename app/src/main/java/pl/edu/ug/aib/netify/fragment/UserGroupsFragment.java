@@ -63,9 +63,11 @@ public class UserGroupsFragment extends Fragment {
 
     public interface OnUserGroupsFragmentCommunicationListener {
         void getUserGroupList();
+        void launchGroupFragment(GroupData groupData);
     }
     @ItemClick
     void groupListItemClicked(GroupData group){
-        GroupActivity_.intent(this).groupData(group).start();
+        //GroupActivity_.intent(this).groupData(group).start();
+        listener.launchGroupFragment(group);
     }
 }

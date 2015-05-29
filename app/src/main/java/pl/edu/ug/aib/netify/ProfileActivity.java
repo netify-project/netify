@@ -17,6 +17,7 @@ import org.androidannotations.annotations.ViewById;
 import org.androidannotations.annotations.sharedpreferences.Pref;
 
 import pl.edu.ug.aib.netify.adapter.TabsPagerAdapter;
+import pl.edu.ug.aib.netify.data.GroupData;
 import pl.edu.ug.aib.netify.data.GroupDataList;
 import pl.edu.ug.aib.netify.data.InviteData;
 import pl.edu.ug.aib.netify.data.User;
@@ -117,6 +118,12 @@ public class ProfileActivity extends ActionBarActivity implements ActionBar.TabL
     public void getUserGroupList() {
         restBackgroundTask.getUserGroups(Integer.toString(user.id));
     }
+
+    @Override
+    public void launchGroupFragment(GroupData groupData) {
+
+    }
+
     public void onUserGroupListDownloaded(GroupDataList groupDataList){
         adapter.getGroupsFragment().setUserGroups(groupDataList);
     }

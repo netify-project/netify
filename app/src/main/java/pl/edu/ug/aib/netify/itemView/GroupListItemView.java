@@ -31,7 +31,7 @@ public class GroupListItemView extends RelativeLayout {
     }
 
     public void bind(GroupData groupData){
-        Picasso.with(context).load(groupData.thumbnail).placeholder(R.drawable.ic_launcher).into(groupThumbnail);
+        Picasso.with(context).load(groupData.thumbnail).placeholder(R.drawable.netifylogo).into(groupThumbnail);
         groupName.setText(groupData.name);
         groupDescription.setText(groupData.description);
     }

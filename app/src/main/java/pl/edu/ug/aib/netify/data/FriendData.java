@@ -8,6 +8,7 @@ import java.io.Serializable;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class FriendData implements Serializable {
 
+    public String id;
     @JsonProperty("UserId")
     public String userId;
     @JsonProperty("User2Id")

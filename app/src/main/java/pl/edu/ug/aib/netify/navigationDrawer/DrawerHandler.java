@@ -17,6 +17,9 @@ import org.androidannotations.annotations.ViewById;
 
 import pl.edu.ug.aib.netify.HomeActivity;
 import pl.edu.ug.aib.netify.R;
+import pl.edu.ug.aib.netify.data.GroupData;
+import pl.edu.ug.aib.netify.fragment.GroupFragment;
+import pl.edu.ug.aib.netify.fragment.GroupFragment_;
 import pl.edu.ug.aib.netify.fragment.ProgressBarFragment;
 import pl.edu.ug.aib.netify.fragment.ProgressBarFragment_;
 
@@ -24,6 +27,7 @@ import pl.edu.ug.aib.netify.fragment.ProgressBarFragment_;
 public class DrawerHandler implements ListView.OnItemClickListener {
     private static final String LOG_TAG = DrawerHandler.class.getSimpleName();
     private static final int DEFAULT_MENU_ITEM_POSITION = 0;
+    private static final int GROUP_FRAGMENT_POSITION = 999;
 
     @RootContext
     HomeActivity drawerActivity;
@@ -34,7 +38,6 @@ public class DrawerHandler implements ListView.OnItemClickListener {
     @ViewById(R.id.left_drawer)
     ListView drawerList;
     private ActionBarDrawerToggle drawerToggle;
-    ProgressBarFragment progressBarFragment;
     //stores current fragment and position
     Fragment currentFragment;
     int currentPosition;
@@ -102,23 +105,6 @@ public class DrawerHandler implements ListView.OnItemClickListener {
             Log.e(LOG_TAG, "Error in drawer item selection", e);
         }
     }
-    //Shows progress bar fragment
-    private void replaceWithProgressBarFragment(){
-        FragmentManager fragmentManager = drawerActivity.getSupportFragmentManager();
-        progressBarFragment = new ProgressBarFragment_();
-        fragmentManager.beginTransaction()
-                .setCustomAnimations(R.anim.abc_fade_in, R.anim.abc_fade_out, R.anim.abc_fade_in, R.anim.abc_fade_out)
-                .replace(R.id.contentFrame, progressBarFragment)
-                .commit();
-    }
-    //Removes progress bar from fragment manager and from backstack
-    private void removeProgressBarFragment(){
-        FragmentManager fragmentManager = drawerActivity.getSupportFragmentManager();
-        fragmentManager.beginTransaction()
-                .remove(progressBarFragment)
-                .commit();
-        //fragmentManager.popBackStack();
-    }
 
     public boolean drawerToggleSelected(MenuItem item) {
         // Pass the event to ActionBarDrawerToggle, if it returns
@@ -136,6 +122,18 @@ public class DrawerHandler implements ListView.OnItemClickListener {
 
     private DrawerItem getDrawerItem(int position) {
         return (DrawerItem)drawerList.getAdapter().getItem(position);
+    }
+    //workaround to show fragment which is not on the navigation drawer list
+    public void setGroupFragment(GroupData groupData){
+        FragmentManager fragmentManager = drawerActivity.getSupportFragmentManager();
+        Fragment fragment = GroupFragment_.builder().group(groupData).build();
+        fragmentManager.beginTransaction()
+                .replace(R.id.content_frame, fragment)
+                .commit();
+        currentFragment = fragment;
+        currentPosition = GROUP_FRAGMENT_POSITION;
+        //Show current fragment title on actionbar
+        drawerActivity.setTitle(groupData.name);
     }
 
 }

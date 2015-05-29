@@ -88,10 +88,12 @@ public class SearchGroupsFragment extends Fragment {
 
     @ItemClick
     void groupListItemClicked(GroupData group){
-        GroupActivity_.intent(this).groupData(group).start();
+        //GroupActivity_.intent(this).groupData(group).start();
+        listener.launchGroupFragment(group);
     }
 
     public interface OnSearchGroupsFragmentCommunicationListener {
         void searchForGroups(String query);
+        void launchGroupFragment(GroupData group);
     }
 }

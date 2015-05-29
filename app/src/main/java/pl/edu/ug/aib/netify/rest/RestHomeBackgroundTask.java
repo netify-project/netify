@@ -246,6 +246,29 @@ public class RestHomeBackgroundTask {
                 publishError(e);
             }
         }
+    @Background
+    public void getGroupMembers(String sessionId, GroupData groupData){
+        try {
+            restClient.setHeader("X-Dreamfactory-Application-Name", "netify");
+            restClient.setHeader("X-Dreamfactory-Session-Token", sessionId);
+            //find all group members by groupId filter
+            MemberGroupDataList memberGroupDataList = restClient.getMemberGroupsByUserId("groupId=" + groupData.id);
+            //Check if user has any groups, if true, return empty object without sending request
+            UserList userList;
+            if (memberGroupDataList.records.isEmpty()) userList = new UserList();
+            else {
+                //used to provide unique ids
+                HashSet<String> userIds = new HashSet<String>();
+                for (MemberGroupData item : memberGroupDataList.records) userIds.add(item.userId);
+                userList = restClient.getUsersById(TextUtils.join(",", userIds));
+            }
+            publishGetGroupMembersResult(userList);
+
+        } catch (Exception e) {
+            publishError(e);
+        }
+    }
+
 
         //TODO
         //Calls to activity and pushing objects to UiThread
@@ -293,6 +316,10 @@ public class RestHomeBackgroundTask {
         @UiThread
         void publishAddFriendDataResult(InviteData inviteData){
             activity.onAcceptFriendInviteSuccess(inviteData);
+        }
+        @UiThread
+        void publishGetGroupMembersResult(UserList userList){
+            activity.onGetGroupMembersSuccess(userList);
         }
         @UiThread
         void publishError (Exception e){

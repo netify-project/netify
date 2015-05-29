@@ -23,6 +23,7 @@ import pl.edu.ug.aib.netify.data.SongData;
 import pl.edu.ug.aib.netify.data.UserList;
 import pl.edu.ug.aib.netify.fragment.AddGroupFragment;
 import pl.edu.ug.aib.netify.fragment.FriendsFragment;
+import pl.edu.ug.aib.netify.fragment.GroupFragment;
 import pl.edu.ug.aib.netify.fragment.InviteFragment;
 import pl.edu.ug.aib.netify.fragment.LogoutFragment;
 import pl.edu.ug.aib.netify.fragment.SearchGroupsFragment;
@@ -42,7 +43,8 @@ public class HomeActivity extends ActionBarActivity implements UserGroupsFragmen
         LogoutFragment.OnLogoutFragmentCommunicationListener,
         UserListItemView.OnUserListCommunicationListener,
         InviteFragment.OnUserInvitesFragmentCommunicationListener,
-        InviteListItemView.OnInviteListItemViewCommunicationListener
+        InviteListItemView.OnInviteListItemViewCommunicationListener,
+        GroupFragment.OnGroupFragmentCommunicationListener
 
 {
 
@@ -267,5 +269,23 @@ public class HomeActivity extends ActionBarActivity implements UserGroupsFragmen
         }
     }
 
-
+    //GroupFragment communication
+    @Override
+    public void getGroupMembers(GroupData groupData) {
+        restBackgroundTask.getGroupMembers(preferences.sessionId().get(), groupData);
+    }
+    public void onGetGroupMembersSuccess(UserList userList){
+        try {
+            GroupFragment fragment = (GroupFragment)drawerHandler.getCurrentFragment();
+            //push group members to the fragment
+            fragment.setGroupMembers(userList);
+        }
+        catch (ClassCastException e){
+            Log.d(this.getClass().getSimpleName(), "Fragment must be instance of GroupFragment");
+        }
+    }
+    @Override
+    public void launchGroupFragment(GroupData groupData){
+        drawerHandler.setGroupFragment(groupData);
+    }
 }

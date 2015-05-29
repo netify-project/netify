@@ -7,6 +7,7 @@ import java.io.Serializable;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class MemberGroupData implements Serializable{
 
+    public String id;
     public String userId;
     public String groupId;
     public String created;
