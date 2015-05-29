@@ -13,4 +13,10 @@ public class MemberGroupDataList implements Serializable{
     @JsonProperty("record")
     public List<MemberGroupData> records = new ArrayList<MemberGroupData>();
 
+    public MemberGroupData getMemberGroupDataByUserId(String userId){
+        for(MemberGroupData memberGroupData : records){
+            if(memberGroupData.userId.equals(userId)) return memberGroupData;
+        }
+        return null;
+    }
 }

@@ -63,5 +63,13 @@
     <string name="new_invite_friend">has sent you a friend request!</string>
     <string name="friend_invitation">You have been invited to friends.</string>
     <string name="group_invitation">You have been invited to join group.</string>
+    <string name="group_members_header">Group members</string>
+    <string name="change_group_status">Change group status</string>
+    <string name="invite_user_button">Invite a friend</string>
+    <string name="group_playlist_button">View group playlist</string>
+    <string name="join_group_button">Join group</string>
+    <string name="leave_group_button">Leave group</string>
+    <string name="genre">Genre</string>
+    <string name="description">Description</string>
 
 </resources>

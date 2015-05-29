@@ -67,7 +67,7 @@ public class RestSongGraphBackgroundTask {
             publishError(e);
         }
     }
-    @Background
+    /*@Background
     public void addGroupMember(String groupId, String userId, String sessionId){
         try{
             restClient.setHeader("X-Dreamfactory-Application-Name", "netify");
@@ -80,7 +80,7 @@ public class RestSongGraphBackgroundTask {
         catch(Exception e){
             publishError(e);
         }
-    }
+    }*/
 
 
     @UiThread
@@ -98,10 +98,10 @@ public class RestSongGraphBackgroundTask {
     void publishGroupMembersResult(ArrayList<String> memberIds){
         activity.onGroupMembersDownloaded(memberIds);
     }
-    @UiThread
+    /*@UiThread
     void publishAddGroupMemberResult(String userId){
         activity.addGroupMemberConfirmed(userId);
-    }
+    }*/
     @UiThread
     void publishError(Exception e) {
         activity.showError(e);

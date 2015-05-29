@@ -38,13 +38,13 @@ import pl.edu.ug.aib.netify.rest.RestSongGraphBackgroundTask;
 
 
 @EActivity(R.layout.activity_group)
-@OptionsMenu(R.menu.menu_group)
+//@OptionsMenu(R.menu.menu_group)
 public class GroupActivity extends ActionBarActivity {
 
     public static final int INTENT_SONG_ADDED = 1;
     public static final int JS_HANDLER_TIMEOUT = 500;
-    @OptionsMenuItem
-    MenuItem action_joingroup; //not visible by default
+    /*@OptionsMenuItem
+    MenuItem action_joingroup; //not visible by default*/
     @ViewById
     WebView webView;
     Gson gson;
@@ -107,19 +107,19 @@ public class GroupActivity extends ActionBarActivity {
     public void onGroupMembersDownloaded(ArrayList<String> memberIds) {
         this.memberIds = memberIds;
         //If current user is not a member, make menuItem JoinGroup visible
-        if(!isCurrentUserGroupMember()) action_joingroup.setVisible(true);
+        //if(!isCurrentUserGroupMember()) action_joingroup.setVisible(true);
     }
     //Check if current user is group member, returns false by default
     private boolean isCurrentUserGroupMember(){
         return memberIds != null ? memberIds.contains(Integer.toString(preferences.id().get())) : false;
     }
     //After adding user to group members, update activity's members list and hide join menu item
-    public void addGroupMemberConfirmed(String userId){
+/*    public void addGroupMemberConfirmed(String userId){
         memberIds.add(userId);
-        action_joingroup.setVisible(false);
+        //action_joingroup.setVisible(false);
         isProcessingAddMember = false;
         Toast.makeText(this, getString(R.string.join_group_successful), Toast.LENGTH_LONG).show();
-    }
+    }*/
 
     public void updateSongGraph(SongDataList songDataList){
         //push nodes and edges of SongGraph to webView Javascript code
@@ -191,13 +191,13 @@ public class GroupActivity extends ActionBarActivity {
     void onSongAdded(int result, @OnActivityResult.Extra SongData songData){
         if(result == RESULT_OK) restSongGraphBackgroundTask.addSongToGraph(songData, preferences.sessionId().get()); //addSongToGraph(songData);
     }
-    //On clicking join group menuItem
+/*    //On clicking join group menuItem
     @OptionsItem(R.id.action_joingroup)
     void actionJoinGroupSelected(){
         //check if request is currently processed
         if(isProcessingAddMember) return;
         restSongGraphBackgroundTask.addGroupMember(groupData.id, Integer.toString(preferences.id().get()), preferences.sessionId().get());
         isProcessingAddMember = true;
-    }
+    }*/
 
 }

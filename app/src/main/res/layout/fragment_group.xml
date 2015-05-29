@@ -1,115 +1,197 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:background="@drawable/background">
-
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/groupThumbnail"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Group name"
-        android:id="@+id/groupName"
-        android:layout_alignTop="@+id/groupThumbnail"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Description"
-        android:id="@+id/groupDescription"
-        android:layout_below="@+id/groupName"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Genre"
-        android:id="@+id/groupGenre"
-        android:layout_below="@+id/groupDescription"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-
-    <RadioGroup
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/groupGenre"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:id="@+id/radioGroupStatus">
+        android:orientation="vertical"
+        android:padding="5dp">
 
-        <RadioButton
-            android:layout_width="wrap_content"
+        <Button
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Public"
-            android:id="@+id/publicStatus" />
+            android:text="@string/group_playlist_button"
+            android:id="@+id/groupPlaylistButton"
+            android:layout_margin="10dp"
+            android:paddingBottom="5dp"
+            android:paddingLeft="15dp"
+            android:paddingTop="5dp"
+            android:paddingRight="20dp"
+            android:background="@color/dark_blue"
+            android:textColor="@color/white"
+            android:drawableLeft="@drawable/ic_action_play_over_video"/>
 
-        <RadioButton
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:id="@+id/groupInfoLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/youtube_list_item"
+            android:padding="10dp"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/groupThumbnail"
+                android:layout_gravity="center_horizontal"
+                android:layout_margin="15dp"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/genre"
+                android:id="@+id/groupGenre"
+                android:textColor="@color/black"/>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/dark_blue"
+                android:padding="5dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/description"
+                android:id="@+id/groupDescription"
+                android:textColor="@color/black"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/radioGroupLayout"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Private"
-            android:id="@+id/privateStatus" />
-    </RadioGroup>
+            android:orientation="vertical"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/youtube_list_item"
+            android:visibility="gone">
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Join group"
-        android:id="@+id/joinGroupButton"
-        android:layout_below="@+id/radioGroupStatus"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/dark_blue"
+                android:textColor="@color/white"
+                android:text="@string/change_group_status"
+                android:textSize="16dp"
+                android:textStyle="bold"
+                android:padding="5dp"
+                android:gravity="center"/>
+            <RadioGroup
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:id="@+id/radioGroupStatus">
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Leave group"
-        android:id="@+id/leaveGroupButton"
-        android:layout_below="@+id/radioGroupStatus"
-        android:layout_alignLeft="@+id/groupPlaylistButton"
-        android:layout_alignStart="@+id/groupPlaylistButton" />
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/radio_public_text"
+                    android:id="@+id/publicStatus" />
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Invite user"
-        android:id="@+id/inviteUserButton"
-        android:layout_below="@+id/leaveGroupButton"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/radio_private_text"
+                    android:id="@+id/privateStatus" />
+            </RadioGroup>
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/buttonsLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:orientation="vertical">
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/join_group_button"
+                android:id="@+id/joinGroupButton"
+                android:layout_margin="5dp"
+                android:paddingBottom="5dp"
+                android:paddingLeft="5dp"
+                android:paddingTop="5dp"
+                android:paddingRight="10dp"
+                android:background="@color/dark_blue"
+                android:textColor="@color/white"
+                android:drawableLeft="@drawable/ic_action_add_person"
+                android:visibility="gone"/>
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Group playlist"
-        android:id="@+id/groupPlaylistButton"
-        android:layout_alignTop="@+id/inviteUserButton"
-        android:layout_toRightOf="@+id/groupMembersHeader"
-        android:layout_toEndOf="@+id/groupMembersHeader" />
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/leave_group_button"
+                android:id="@+id/leaveGroupButton"
+                android:layout_margin="5dp"
+                android:paddingBottom="5dp"
+                android:paddingLeft="5dp"
+                android:paddingTop="5dp"
+                android:paddingRight="10dp"
+                android:background="@color/dark_blue"
+                android:textColor="@color/white"
+                android:drawableLeft="@drawable/ic_action_remove"
+                android:visibility="gone"/>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Members Header"
-        android:id="@+id/groupMembersHeader"
-        android:layout_below="@+id/groupPlaylistButton"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/invite_user_button"
+                android:id="@+id/inviteUserButton"
+                android:layout_margin="5dp"
+                android:paddingBottom="5dp"
+                android:paddingLeft="5dp"
+                android:paddingTop="5dp"
+                android:paddingRight="10dp"
+                android:background="@color/dark_blue"
+                android:textColor="@color/white"
+                android:drawableLeft="@drawable/ic_action_send_now"
+                android:visibility="gone"/>
+        </LinearLayout>
 
-    <ListView
-        android:layout_width="wrap_content"
-        android:layout_height="fill_parent"
-        android:id="@+id/groupMembersList"
-        android:layout_below="@+id/groupMembersHeader"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        <LinearLayout
+            android:id="@+id/progressBarLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <ProgressBar
+                android:id="@+id/progressBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:indeterminate="true"
+                style="?android:attr/progressBarStyleLargeInverse"
+                />
+        </LinearLayout>
 
-</RelativeLayout>
+        <LinearLayout
+            android:id="@+id/memberListLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:orientation="vertical"
+            android:visibility="gone">
+            <TextView
+                android:id="@+id/groupMembersHeader"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/dark_blue"
+                android:textColor="@color/white"
+                android:text="@string/group_members_header"
+                android:textSize="16dp"
+                android:textStyle="bold"
+                android:padding="5dp"
+                android:gravity="center"/>
+
+            <ListView
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:id="@+id/groupMembersList"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+</ScrollView>

@@ -19,7 +19,10 @@ import pl.edu.ug.aib.netify.data.GroupData;
 import pl.edu.ug.aib.netify.data.GroupDataList;
 import pl.edu.ug.aib.netify.data.InviteData;
 import pl.edu.ug.aib.netify.data.InviteDataList;
+import pl.edu.ug.aib.netify.data.MemberGroupData;
+import pl.edu.ug.aib.netify.data.MemberGroupDataList;
 import pl.edu.ug.aib.netify.data.SongData;
+import pl.edu.ug.aib.netify.data.User;
 import pl.edu.ug.aib.netify.data.UserList;
 import pl.edu.ug.aib.netify.fragment.AddGroupFragment;
 import pl.edu.ug.aib.netify.fragment.FriendsFragment;
@@ -268,18 +271,84 @@ public class HomeActivity extends ActionBarActivity implements UserGroupsFragmen
     public void getGroupMembers(GroupData groupData) {
         restBackgroundTask.getGroupMembers(preferences.sessionId().get(), groupData);
     }
-    public void onGetGroupMembersSuccess(UserList userList){
+
+    @Override
+    public void joinGroup(MemberGroupData memberGroupData) {
+        restBackgroundTask.addGroupMember(memberGroupData, preferences.sessionId().get());
+    }
+
+    @Override
+    public void leaveGroup(MemberGroupData memberGroupData) {
+        restBackgroundTask.removeGroupMember(memberGroupData, preferences.sessionId().get());
+    }
+
+    @Override
+    public void inviteUser() {
+
+    }
+
+    @Override
+    public void removeMember(MemberGroupData memberGroupData) {
+
+    }
+
+    public void onGetGroupMembersSuccess(UserList userList, MemberGroupDataList memberGroupDataList){
         try {
             GroupFragment fragment = (GroupFragment)drawerHandler.getCurrentFragment();
             //push group members to the fragment
-            fragment.setGroupMembers(userList);
+            fragment.setGroupMembers(userList, memberGroupDataList);
         }
         catch (ClassCastException e){
             Log.d(this.getClass().getSimpleName(), "Fragment must be instance of GroupFragment");
         }
     }
+
+    public void onAddGroupMemberSuccess(MemberGroupData memberGroupData){
+        try {
+            GroupFragment fragment = (GroupFragment)drawerHandler.getCurrentFragment();
+            //push new group member to the fragment
+            fragment.setNewGroupMember(memberGroupData, getCurrentUser());
+        }
+        catch (ClassCastException e){
+            Log.d(this.getClass().getSimpleName(), "Fragment must be instance of GroupFragment");
+        }
+    }
+    private User getCurrentUser(){
+        User currentUser = new User();
+        currentUser.id = preferences.id().get();
+        currentUser.firstName = preferences.firstName().get();
+        currentUser.lastName = preferences.lastName().get();
+        currentUser.email = preferences.email().get();
+        currentUser.displayName = preferences.displayName().get();
+        return currentUser;
+    }
+    public void onRemoveGroupMemberSuccess(MemberGroupData memberGroupData){
+        //if user left group, redirect to default screen
+        if(memberGroupData.userId.equals(Integer.toString(preferences.id().get()))) drawerHandler.showDefaultScreen();
+        else {
+            try {
+                GroupFragment fragment = (GroupFragment) drawerHandler.getCurrentFragment();
+                //push group member to the fragment in order to remove him
+                fragment.removeGroupMember(memberGroupData);
+            } catch (ClassCastException e) {
+                Log.d(this.getClass().getSimpleName(), "Fragment must be instance of GroupFragment");
+            }
+        }
+    }
     @Override
-    public void launchGroupFragment(GroupData groupData){
-        drawerHandler.setGroupFragment(groupData);
+    public void launchGroupFragment(GroupData groupData) {
+        drawerHandler.setGroupFragment(groupData, preferences.id().get());
+    }
+    //if back pressed on GroupFragment, it opens default screen
+    @Override
+    public void onBackPressed(){
+        try {
+            GroupFragment fragment = (GroupFragment) drawerHandler.getCurrentFragment();
+            //push group member to the fragment in order to remove him
+            drawerHandler.showDefaultScreen();
+        } catch (ClassCastException e) {
+            super.onBackPressed();
+        }
+
     }
 }

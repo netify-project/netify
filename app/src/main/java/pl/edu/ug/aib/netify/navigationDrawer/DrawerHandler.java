@@ -124,9 +124,9 @@ public class DrawerHandler implements ListView.OnItemClickListener {
         return (DrawerItem)drawerList.getAdapter().getItem(position);
     }
     //workaround to show fragment which is not on the navigation drawer list
-    public void setGroupFragment(GroupData groupData){
+    public void setGroupFragment(GroupData groupData, int userId){
         FragmentManager fragmentManager = drawerActivity.getSupportFragmentManager();
-        Fragment fragment = GroupFragment_.builder().group(groupData).build();
+        Fragment fragment = GroupFragment_.builder().group(groupData).userId(userId).build();
         fragmentManager.beginTransaction()
                 .replace(R.id.content_frame, fragment)
                 .commit();

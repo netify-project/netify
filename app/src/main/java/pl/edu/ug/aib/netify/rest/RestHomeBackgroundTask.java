@@ -248,9 +248,34 @@ public class RestHomeBackgroundTask {
                 for (MemberGroupData item : memberGroupDataList.records) userIds.add(item.userId);
                 userList = restClient.getUsersById(TextUtils.join(",", userIds));
             }
-            publishGetGroupMembersResult(userList);
+            publishGetGroupMembersResult(userList, memberGroupDataList);
 
         } catch (Exception e) {
+            publishError(e);
+        }
+    }
+    @Background
+    public void addGroupMember(MemberGroupData memberGroupData, String sessionId){
+        try{
+            restClient.setHeader("X-Dreamfactory-Application-Name", "netify");
+            restClient.setHeader("X-Dreamfactory-Session-Token", sessionId);
+            IdData result = restClient.addMemberGroupData(memberGroupData);
+            memberGroupData.id = result.id;
+            publishAddGroupMemberResult(memberGroupData);
+        }
+        catch(Exception e){
+            publishError(e);
+        }
+    }
+    @Background
+    public void removeGroupMember(MemberGroupData memberGroupData, String sessionId){
+        try{
+            restClient.setHeader("X-Dreamfactory-Application-Name", "netify");
+            restClient.setHeader("X-Dreamfactory-Session-Token", sessionId);
+            IdData result = restClient.deleteMemberGroupDataById(memberGroupData.id);
+            publishRemoveGroupMemberResult(memberGroupData);
+        }
+        catch(Exception e){
             publishError(e);
         }
     }
@@ -300,10 +325,18 @@ public class RestHomeBackgroundTask {
         void publishAddFriendDataResult(InviteData inviteData){
             activity.onAcceptFriendInviteSuccess(inviteData);
         }
-        @UiThread
-        void publishGetGroupMembersResult(UserList userList){
-            activity.onGetGroupMembersSuccess(userList);
-        }
+    @UiThread
+    void publishGetGroupMembersResult(UserList userList, MemberGroupDataList memberGroupDataList){
+        activity.onGetGroupMembersSuccess(userList, memberGroupDataList);
+    }
+    @UiThread
+    void publishAddGroupMemberResult(MemberGroupData memberGroupData){
+        activity.onAddGroupMemberSuccess(memberGroupData);
+    }
+    @UiThread
+    void publishRemoveGroupMemberResult(MemberGroupData memberGroupData){
+        activity.onRemoveGroupMemberSuccess(memberGroupData);
+    }
         @UiThread
         void publishError (Exception e){
             activity.showError(e);
