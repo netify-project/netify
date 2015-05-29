@@ -56,10 +56,12 @@
     <string name="action_sendrequest">Send request</string>
     <string name="title_profile">Profile</string>
     <string name="title_groups">Groups</string>
-    <string name="send_invite_successful">Invite sent</string>
     <string name="no_user_invites_info">You don\'t have any invites.</string>
     <string name="title_invites">Invites</string>
     <string name="add_friend_successful">You are now friends with</string>
     <string name="invite_deleted">You rejected the invite</string>
+    <string name="new_invite_friend">has sent you a friend request!</string>
+    <string name="friend_invitation">You have been invited to friends.</string>
+    <string name="group_invitation">You have been invited to join group.</string>
 
 </resources>

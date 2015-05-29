@@ -43,7 +43,14 @@ public class InviteListItemView extends RelativeLayout {
 
     public void bind(InviteData inviteData){
         fullNameField.setText(inviteData.fullName);
-        inviteText.setText(inviteData.text);
+        if (inviteData.groupId==null)
+        {
+            inviteText.setText(R.string.friend_invitation);
+        }
+        else
+        {
+            inviteText.setText(R.string.group_invitation);
+        }
         //set a field
         this.inviteData = inviteData;
     }

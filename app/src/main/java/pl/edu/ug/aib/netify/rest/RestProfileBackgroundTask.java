@@ -12,11 +12,13 @@ import java.util.HashSet;
 
 import pl.edu.ug.aib.netify.HomeActivity;
 import pl.edu.ug.aib.netify.ProfileActivity;
+import pl.edu.ug.aib.netify.R;
 import pl.edu.ug.aib.netify.data.FriendData;
 import pl.edu.ug.aib.netify.data.FriendDataList;
 import pl.edu.ug.aib.netify.data.GroupData;
 import pl.edu.ug.aib.netify.data.GroupDataList;
 import pl.edu.ug.aib.netify.data.IdData;
+import pl.edu.ug.aib.netify.data.InviteData;
 import pl.edu.ug.aib.netify.data.MemberGroupData;
 import pl.edu.ug.aib.netify.data.MemberGroupDataList;
 import pl.edu.ug.aib.netify.data.SongData;
@@ -77,6 +79,21 @@ public class RestProfileBackgroundTask {
             publishError(e);
         }
     }
+    @Background
+    public void sendNewInvite (String userId, String sessionId, String firstName, String lastName, InviteData inviteData){
+        try {
+            restClient.setHeader("X-Dreamfactory-Application-Name", "netify");
+            restClient.setHeader("X-Dreamfactory-Session-Token", sessionId);
+            //send group data and receive group id
+            inviteData.fromUser=userId;
+           // inviteData.text=(firstName + " " + lastName + " " + getString(R.string.new_invite_friend));
+            IdData result = restClient.sendInvite(inviteData);
+            inviteData.id = result.id;
+            publishSendNewInviteResult(inviteData);
+        } catch (Exception e) {
+            publishError(e);
+        }
+    }
     //TODO
 
 
@@ -88,6 +105,10 @@ public class RestProfileBackgroundTask {
     @UiThread
     void publishUserFriendsResult(UserList userList) {
         activity.onUserFriendsListDownloaded(userList);
+    }
+    @UiThread
+    void publishSendNewInviteResult(InviteData inviteData) {
+        activity.onSendNewInviteSuccess(inviteData);
     }
     @UiThread
     void publishError(Exception e) {

@@ -18,4 +18,13 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/lastNameField"/>
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Send Invite"
+        android:id="@+id/sendNewInviteButton"
+        android:layout_below="@+id/emailField"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="40dp" />
+
 </RelativeLayout>

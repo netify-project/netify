@@ -106,9 +106,8 @@ public class ProfileActivity extends ActionBarActivity implements ActionBar.TabL
         restBackgroundTask.getUserFriends(Integer.toString(user.id), preferences.sessionId().get());
     }
 
-    @Override
-    public void sendInvite(InviteData inviteData) {
-
+    public void onSendNewInviteSuccess(InviteData inviteData){
+        Toast.makeText(this, "You have sent the invitation.", Toast.LENGTH_LONG).show();
     }
 
     public void onUserFriendsListDownloaded(UserList userList){
@@ -137,6 +136,12 @@ public class ProfileActivity extends ActionBarActivity implements ActionBar.TabL
     @Override
     public User getUser() {
         return user;
+    }
+
+    @Override
+    public void sendNewInvite(InviteData inviteData) {
+        restBackgroundTask.sendNewInvite(Integer.toString(preferences.id().get()), preferences.sessionId().get(),
+                preferences.firstName().get(), preferences.lastName().get(), inviteData);
     }
 
     @OptionsItem(android.R.id.home)

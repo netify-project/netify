@@ -199,20 +199,6 @@ public class RestHomeBackgroundTask {
                 publishError(e);
             }
         }
-        @Background
-        public void sendInvite (String userId, String sessionId, InviteData inviteData){
-            try {
-                restClient.setHeader("X-Dreamfactory-Application-Name", "netify");
-                restClient.setHeader("X-Dreamfactory-Session-Token", sessionId);
-                IdData send = restClient.sendInvite(inviteData);
-                inviteData.id = send.id;
-                inviteData.fromUser = userId;
-
-                publishSendInviteResult(inviteData);
-            } catch (Exception e) {
-                publishError(e);
-            }
-        }
 
         @Background
         public void addMemberToGroup(String sessionId, InviteData inviteData){
@@ -305,10 +291,7 @@ public class RestHomeBackgroundTask {
         void publishLogoutResult (Boolean success){
             activity.onLogout(success);
         }
-        @UiThread
-        void publishSendInviteResult (InviteData inviteData){
-            list.sendInviteConfirmed(inviteData);
-        }
+
         @UiThread
         void publishAddMemberToGroupResult(InviteData inviteData){
             activity.onAcceptGroupInviteSuccess(inviteData);

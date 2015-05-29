@@ -72,7 +72,6 @@ public class FriendsFragment extends Fragment {
 
     public interface OnUserFriendsFragmentCommunicationListener {
         void getUserFriendsList();
-        void sendInvite(InviteData inviteData);
     }
 
 }

@@ -41,7 +41,6 @@ public class HomeActivity extends ActionBarActivity implements UserGroupsFragmen
         SearchUsersFragment.OnSearchUsersFragmentCommunicationListener,
         FriendsFragment.OnUserFriendsFragmentCommunicationListener,
         LogoutFragment.OnLogoutFragmentCommunicationListener,
-        UserListItemView.OnUserListCommunicationListener,
         InviteFragment.OnUserInvitesFragmentCommunicationListener,
         InviteListItemView.OnInviteListItemViewCommunicationListener,
         GroupFragment.OnGroupFragmentCommunicationListener
@@ -244,11 +243,6 @@ public class HomeActivity extends ActionBarActivity implements UserGroupsFragmen
         }
     }
 
-    //UserListItemView
-    @Override
-    public void sendInvite(InviteData inviteData) {
-        restBackgroundTask.sendInvite(Integer.toString(preferences.id().get()), preferences.sessionId().get(), inviteData);
-    }
 
     //Logout communication
     @Override
