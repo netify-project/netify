@@ -71,5 +71,6 @@
     <string name="leave_group_button">Leave group</string>
     <string name="genre">Genre</string>
     <string name="description">Description</string>
+    <string name="group_status_changed">Group status has been changed</string>
 
 </resources>

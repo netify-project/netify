@@ -3,6 +3,7 @@ package pl.edu.ug.aib.netify.rest;
 import org.androidannotations.annotations.rest.Delete;
 import org.androidannotations.annotations.rest.Get;
 import org.androidannotations.annotations.rest.Post;
+import org.androidannotations.annotations.rest.Put;
 import org.androidannotations.annotations.rest.RequiresHeader;
 import org.androidannotations.annotations.rest.Rest;
 import org.androidannotations.api.rest.RestClientHeaders;
@@ -47,6 +48,9 @@ public interface NetifyRestClient extends RestClientHeaders{
     @Post("/db/groupdata")
     @RequiresHeader({"X-Dreamfactory-Session-Token","X-Dreamfactory-Application-Name" })
     IdData addGroup(GroupData groupData);
+    @Put("/db/groupdata")
+    @RequiresHeader({"X-Dreamfactory-Session-Token","X-Dreamfactory-Application-Name" })
+    void updateGroup(GroupData groupData);
 
     //MEMBER_GROUP_DATA
     @Get("/db/membergroupdata?filter={filter}")

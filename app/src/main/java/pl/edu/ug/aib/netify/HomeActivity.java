@@ -292,6 +292,11 @@ public class HomeActivity extends ActionBarActivity implements UserGroupsFragmen
 
     }
 
+    @Override
+    public void updateGroup(GroupData groupData) {
+        restBackgroundTask.updateGroupData(groupData, preferences.sessionId().get());
+    }
+
     public void onGetGroupMembersSuccess(UserList userList, MemberGroupDataList memberGroupDataList){
         try {
             GroupFragment fragment = (GroupFragment)drawerHandler.getCurrentFragment();
@@ -333,6 +338,15 @@ public class HomeActivity extends ActionBarActivity implements UserGroupsFragmen
             } catch (ClassCastException e) {
                 Log.d(this.getClass().getSimpleName(), "Fragment must be instance of GroupFragment");
             }
+        }
+    }
+    public void onUpdateGroupSuccess(){
+        try {
+            GroupFragment fragment = (GroupFragment) drawerHandler.getCurrentFragment();
+            //push group member to the fragment in order to remove him
+            fragment.groupStatusUpdated();
+        } catch (ClassCastException e) {
+            Log.d(this.getClass().getSimpleName(), "Fragment must be instance of GroupFragment");
         }
     }
     @Override

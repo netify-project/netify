@@ -279,6 +279,19 @@ public class RestHomeBackgroundTask {
             publishError(e);
         }
     }
+    @Background
+    public void updateGroupData(GroupData groupData, String sessionId){
+        try{
+            restClient.setHeader("X-Dreamfactory-Application-Name", "netify");
+            restClient.setHeader("X-Dreamfactory-Session-Token", sessionId);
+            restClient.updateGroup(groupData);
+            publishUpdateGroupDataResult();
+        }
+        catch(Exception e){
+            publishError(e);
+        }
+    }
+
 
 
         //TODO
@@ -336,6 +349,10 @@ public class RestHomeBackgroundTask {
     @UiThread
     void publishRemoveGroupMemberResult(MemberGroupData memberGroupData){
         activity.onRemoveGroupMemberSuccess(memberGroupData);
+    }
+    @UiThread
+    void publishUpdateGroupDataResult(){
+        activity.onUpdateGroupSuccess();
     }
         @UiThread
         void publishError (Exception e){

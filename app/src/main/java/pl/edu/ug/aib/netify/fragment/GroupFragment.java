@@ -10,7 +10,9 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
@@ -48,6 +50,8 @@ public class GroupFragment extends Fragment {
     TextView groupDescription;
     @ViewById
     LinearLayout radioGroupLayout;
+    @ViewById
+    RadioGroup radioGroupStatus;
     @ViewById
     RadioButton privateStatus;
     @ViewById
@@ -88,9 +92,28 @@ public class GroupFragment extends Fragment {
         Picasso.with(getActivity()).load(group.thumbnail).placeholder(R.drawable.netifylogo).into(groupThumbnail);
         groupGenre.setText(String.format("%s: %s", getString(R.string.genre), group.genre));
         if(group.description != null) groupDescription.setText(String.format("%s: %s", getString(R.string.description), group.description));
-
+        //choose which radio button is checked
+        if(group.isPrivate) privateStatus.setChecked(true);
+        else publicStatus.setChecked(true);
+        //set listener to radio button check
+        radioGroupStatus.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                updateGroupPrivateStatusTo(privateStatus.isChecked());
+            }
+        });
     }
 
+    public GroupData getGroup() {
+        return group;
+    }
+    //update group status according to which button is checked
+    private void updateGroupPrivateStatusTo(Boolean status){
+        GroupData updatedGroup = getGroup();
+        updatedGroup.isPrivate = status;
+        listener.updateGroup(updatedGroup);
+        showProgressBar();
+    }
 
     public void setGroupMembers(UserList groupMembers, MemberGroupDataList memberGroupDataList) {
         this.groupMembers = groupMembers;
@@ -109,6 +132,10 @@ public class GroupFragment extends Fragment {
         groupMembers.deleteUser(Integer.parseInt(removedMemberGroupData.userId));
         adapter.update(groupMembers);
         updateLayoutVisibility();
+    }
+    public void groupStatusUpdated(){
+        updateLayoutVisibility();
+        Toast.makeText(getActivity(), getString(R.string.group_status_changed), Toast.LENGTH_LONG).show();
     }
 
     private void updateLayoutVisibility(){
@@ -151,6 +178,7 @@ public class GroupFragment extends Fragment {
         joinGroupButton.setVisibility(View.GONE);
         leaveGroupButton.setVisibility(View.GONE);
         inviteUserButton.setVisibility(View.GONE);
+        radioGroupLayout.setVisibility(View.GONE);
     }
     private void hideProgressBar(){
         progressBarLayout.setVisibility(View.GONE);
@@ -182,6 +210,7 @@ public class GroupFragment extends Fragment {
 
     }
 
+
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
@@ -200,5 +229,6 @@ public class GroupFragment extends Fragment {
         public void leaveGroup(MemberGroupData memberGroupData);
         public void inviteUser();
         public void removeMember(MemberGroupData memberGroupData);
+        public void updateGroup(GroupData groupData);
     }
 }
