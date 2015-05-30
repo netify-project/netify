@@ -8,6 +8,7 @@ import org.androidannotations.annotations.RootContext;
 import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.rest.RestService;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 
@@ -19,6 +20,7 @@ import pl.edu.ug.aib.netify.data.FriendDataList;
 import pl.edu.ug.aib.netify.data.GroupData;
 import pl.edu.ug.aib.netify.data.GroupDataList;
 import pl.edu.ug.aib.netify.data.IdData;
+import pl.edu.ug.aib.netify.data.IdDataList;
 import pl.edu.ug.aib.netify.data.InviteData;
 import pl.edu.ug.aib.netify.data.InviteDataList;
 import pl.edu.ug.aib.netify.data.MemberGroupData;
@@ -291,6 +293,18 @@ public class RestHomeBackgroundTask {
             publishError(e);
         }
     }
+    @Background
+    public void postGroupInvites(ArrayList<InviteData> inviteDatas, String sessionId){
+        try{
+            restClient.setHeader("X-Dreamfactory-Application-Name", "netify");
+            restClient.setHeader("X-Dreamfactory-Session-Token", sessionId);
+            IdDataList result = restClient.sendMultipleInvites(inviteDatas);
+            publishSendGroupInvitesResult();
+        }
+        catch(Exception e){
+            publishError(e);
+        }
+    }
 
 
 
@@ -353,6 +367,10 @@ public class RestHomeBackgroundTask {
     @UiThread
     void publishUpdateGroupDataResult(){
         activity.onUpdateGroupSuccess();
+    }
+    @UiThread
+    void publishSendGroupInvitesResult(){
+        activity.onSendGroupInvitesSuccess();
     }
         @UiThread
         void publishError (Exception e){

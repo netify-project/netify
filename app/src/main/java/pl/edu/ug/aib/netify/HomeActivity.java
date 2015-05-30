@@ -1,6 +1,9 @@
 package pl.edu.ug.aib.netify;
 
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -15,6 +18,8 @@ import org.androidannotations.annotations.OnActivityResult;
 import org.androidannotations.annotations.OptionsItem;
 import org.androidannotations.annotations.sharedpreferences.Pref;
 
+import java.util.ArrayList;
+
 import pl.edu.ug.aib.netify.data.GroupData;
 import pl.edu.ug.aib.netify.data.GroupDataList;
 import pl.edu.ug.aib.netify.data.InviteData;
@@ -28,6 +33,8 @@ import pl.edu.ug.aib.netify.fragment.AddGroupFragment;
 import pl.edu.ug.aib.netify.fragment.FriendsFragment;
 import pl.edu.ug.aib.netify.fragment.GroupFragment;
 import pl.edu.ug.aib.netify.fragment.InviteFragment;
+import pl.edu.ug.aib.netify.fragment.InviteFriendsFragment;
+import pl.edu.ug.aib.netify.fragment.InviteFriendsFragment_;
 import pl.edu.ug.aib.netify.fragment.LogoutFragment;
 import pl.edu.ug.aib.netify.fragment.SearchGroupsFragment;
 import pl.edu.ug.aib.netify.fragment.SearchUsersFragment;
@@ -46,7 +53,8 @@ public class HomeActivity extends ActionBarActivity implements UserGroupsFragmen
         LogoutFragment.OnLogoutFragmentCommunicationListener,
         InviteFragment.OnUserInvitesFragmentCommunicationListener,
         InviteListItemView.OnInviteListItemViewCommunicationListener,
-        GroupFragment.OnGroupFragmentCommunicationListener
+        GroupFragment.OnGroupFragmentCommunicationListener,
+        InviteFriendsFragment.OnInviteFriendsFragmentCommunicationListener
 
 {
 
@@ -55,6 +63,7 @@ public class HomeActivity extends ActionBarActivity implements UserGroupsFragmen
 
     public static final int INTENT_FIRST_SONG_ADDED = 1;
     public final String LOG_TAG = this.getClass().getSimpleName();
+    public static final String DIALOG_FRAGMENT_TAG = "dialog";
     @Bean
     DrawerHandler drawerHandler;
     @Bean
@@ -198,6 +207,7 @@ public class HomeActivity extends ActionBarActivity implements UserGroupsFragmen
     public void getUserFriendsList() {
         restBackgroundTask.getUserFriends(Integer.toString(preferences.id().get()), preferences.sessionId().get());
     }
+
     public void onUserFriendsListDownloaded(UserList userFriendsList){
         try {
             FriendsFragment fragment = (FriendsFragment)drawerHandler.getCurrentFragment();
@@ -205,6 +215,13 @@ public class HomeActivity extends ActionBarActivity implements UserGroupsFragmen
         }
         catch (ClassCastException e){
             Log.d(this.getClass().getSimpleName(), "Fragment must be instance of FriendsFragment");
+        }
+        try {
+            InviteFriendsFragment fragment = (InviteFriendsFragment)getSupportFragmentManager().findFragmentByTag(DIALOG_FRAGMENT_TAG);
+            if(fragment != null) fragment.setUsersList(userFriendsList);
+        }
+        catch (ClassCastException e){
+            Log.d(this.getClass().getSimpleName(), "Fragment must be instance of InviteFriendsFragment");
         }
     }
 
@@ -245,6 +262,30 @@ public class HomeActivity extends ActionBarActivity implements UserGroupsFragmen
             Log.d(this.getClass().getSimpleName(), "Fragment must be instance of InviteFragment");
         }
     }
+    //InviteFriendsFragment communication
+    @Override
+    public void sendGroupInvites(ArrayList<InviteData> inviteDatas) {
+        try {
+            GroupFragment fragment = (GroupFragment)drawerHandler.getCurrentFragment();
+            ///show progressBar indicating that invites are being processed
+            fragment.onSendInvitesStart();
+        }
+        catch (ClassCastException e){
+            Log.d(this.getClass().getSimpleName(), "Fragment must be instance of GroupFragment");
+        }
+        restBackgroundTask.postGroupInvites(inviteDatas, preferences.sessionId().get());
+    }
+    public void onSendGroupInvitesSuccess(){
+        try {
+            GroupFragment fragment = (GroupFragment)drawerHandler.getCurrentFragment();
+            //show that processing is finished
+            fragment.onSendInvitesFinish();
+            Toast.makeText(this, getString(R.string.invites_sent), Toast.LENGTH_LONG).show();
+        }
+        catch (ClassCastException e){
+            Log.d(this.getClass().getSimpleName(), "Fragment must be instance of GroupFragment");
+        }
+    }
 
 
     //Logout communication
@@ -283,8 +324,18 @@ public class HomeActivity extends ActionBarActivity implements UserGroupsFragmen
     }
 
     @Override
-    public void inviteUser() {
+    public void inviteUsers(GroupData group) {
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        Fragment previous = getSupportFragmentManager().findFragmentByTag(DIALOG_FRAGMENT_TAG);
+        if (previous != null) {
+            ft.remove(previous);
+        }
+        ft.addToBackStack(null);
 
+        // Create and show the dialog.
+        DialogFragment newFragment = InviteFriendsFragment_.builder()
+                .group(group).userId(preferences.id().get()).build();
+        newFragment.show(ft, DIALOG_FRAGMENT_TAG);
     }
 
     @Override

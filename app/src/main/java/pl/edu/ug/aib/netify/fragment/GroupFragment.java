@@ -207,7 +207,15 @@ public class GroupFragment extends Fragment {
     //Invite user to join the group
     @Click
     void inviteUserButtonClicked(){
-
+        listener.inviteUsers(group);
+    }
+    //show progressBar while invites are processed
+    public void onSendInvitesStart(){
+        showProgressBar();
+    }
+    //dismiss progressBar
+    public void onSendInvitesFinish(){
+        updateLayoutVisibility();
     }
 
 
@@ -227,7 +235,7 @@ public class GroupFragment extends Fragment {
         public void getGroupMembers(GroupData groupData);
         public void joinGroup(MemberGroupData memberGroupData);
         public void leaveGroup(MemberGroupData memberGroupData);
-        public void inviteUser();
+        public void inviteUsers(GroupData groupData);
         public void removeMember(MemberGroupData memberGroupData);
         public void updateGroup(GroupData groupData);
     }
