@@ -119,7 +119,7 @@ public class RestHomeBackgroundTask {
             InviteDataList inviteDataList = restClient.getInviteDataByUserId("ToUser=" + userId);
             UserList userList;
             GroupDataList groupDataList;
-            //Check if user has any friends, if true, return empty object without sending request
+            //Check if user has any invites, if true, return empty object without sending request
             if (inviteDataList.records.isEmpty()) userList = new UserList();
             else {
                 //used to provide unique ids
@@ -186,7 +186,7 @@ public class RestHomeBackgroundTask {
                 //send group data and receive group id
                 IdData result = restClient.addGroup(groupData);
                 groupData.id = result.id;
-                firstSong.groupId = Integer.parseInt(result.id);
+                firstSong.groupId = result.id;
                 //send data about user membership in the group and receive confirmation
                 MemberGroupData memberGroupData = new MemberGroupData();
                 memberGroupData.groupId = groupData.id;

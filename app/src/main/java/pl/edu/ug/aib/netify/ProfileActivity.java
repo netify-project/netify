@@ -20,6 +20,7 @@ import pl.edu.ug.aib.netify.adapter.TabsPagerAdapter;
 import pl.edu.ug.aib.netify.data.GroupData;
 import pl.edu.ug.aib.netify.data.GroupDataList;
 import pl.edu.ug.aib.netify.data.InviteData;
+import pl.edu.ug.aib.netify.data.SongDataList;
 import pl.edu.ug.aib.netify.data.User;
 import pl.edu.ug.aib.netify.data.UserList;
 import pl.edu.ug.aib.netify.fragment.FriendsFragment;
@@ -101,7 +102,7 @@ public class ProfileActivity extends ActionBarActivity implements ActionBar.TabL
     public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction ft) {
     }
 
-    @Override
+    @AfterViews
     public void getUserFriendsList() {
         restBackgroundTask.getUserFriends(Integer.toString(user.id), preferences.sessionId().get());
     }
@@ -121,6 +122,15 @@ public class ProfileActivity extends ActionBarActivity implements ActionBar.TabL
     @Override
     public void launchGroupFragment(GroupData groupData) {
 
+    }
+
+    @Override
+    public void getUserSongs(){
+        restBackgroundTask.getUserSongs(Integer.toString(user.id), preferences.sessionId().get());
+    }
+
+    public void onUserSongsListDownloaded(SongDataList songDataList){
+        adapter.getProfileFragment().setUserSongsList(songDataList);
     }
 
     public void onUserGroupListDownloaded(GroupDataList groupDataList){

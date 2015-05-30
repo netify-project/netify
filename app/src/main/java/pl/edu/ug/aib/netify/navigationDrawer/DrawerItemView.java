@@ -17,6 +17,7 @@ public class DrawerItemView extends LinearLayout {
     @ViewById
     TextView name;
 
+
     public DrawerItemView(Context context) {
         super(context);
     }
@@ -24,6 +25,9 @@ public class DrawerItemView extends LinearLayout {
     public void bind(DrawerItem drawerItem) {
         icon.setImageResource(drawerItem.getIconResId());
         name.setText(drawerItem.getTitleResId());
+
     }
+
+
 
 }

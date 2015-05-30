@@ -23,7 +23,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Last Name:"
-        android:layout_marginTop="31dp"
         android:textColor="@android:drawable/screen_background_dark"
         android:textStyle="bold"
         android:layout_below="@+id/firstName"
@@ -54,22 +53,20 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="email"
-        android:layout_marginTop="30dp"
         android:textColor="@android:drawable/screen_background_dark"
         android:layout_below="@+id/lastNameField"
-        android:layout_alignLeft="@+id/lastNameField"
-        android:layout_alignStart="@+id/lastNameField" />
+        android:layout_alignRight="@+id/firstNameField"
+        android:layout_alignEnd="@+id/firstNameField" />
     <TextView
         android:id="@+id/email"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Email"
-        android:layout_alignBaseline="@+id/emailField"
-        android:layout_alignBottom="@+id/emailField"
-        android:layout_alignLeft="@+id/lastName"
-        android:layout_alignStart="@+id/lastName"
         android:textColor="@android:drawable/screen_background_dark"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:layout_below="@+id/lastName"
+        android:layout_alignLeft="@+id/lastName"
+        android:layout_alignStart="@+id/lastName" />
 
     <Button
         android:layout_width="350dp"
@@ -83,4 +80,42 @@
         android:layout_below="@+id/email"
         android:layout_centerHorizontal="true" />
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Songs added by this user recently:"
+        android:id="@+id/textView"
+        android:layout_below="@+id/sendNewInviteButton"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="29dp" />
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:indeterminate="true"
+        style="?android:attr/progressBarStyleLargeInverse"
+        />
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@+id/textView"
+        android:layout_alignParentRight="true"
+        android:background="@color/white"
+        android:id="@+id/userSongsLayout"
+        android:layout_alignParentEnd="true">
+
+        <ListView
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:id="@+id/userSongsList"/>
+
+        </LinearLayout>
+
+
 </RelativeLayout>
+
