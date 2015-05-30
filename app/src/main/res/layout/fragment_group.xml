@@ -150,6 +150,19 @@
                 android:textColor="@color/white"
                 android:drawableLeft="@drawable/ic_action_send_now"
                 android:visibility="gone"/>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/remove_members"
+                android:id="@+id/removeMembersButton"
+                android:layout_margin="5dp"
+                android:paddingBottom="5dp"
+                android:paddingLeft="10dp"
+                android:paddingTop="5dp"
+                android:paddingRight="10dp"
+                android:background="@color/dark_blue"
+                android:textColor="@color/white"
+                android:visibility="gone"/>
         </LinearLayout>
 
         <LinearLayout

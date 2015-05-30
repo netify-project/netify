@@ -36,6 +36,8 @@ import pl.edu.ug.aib.netify.fragment.InviteFragment;
 import pl.edu.ug.aib.netify.fragment.InviteFriendsFragment;
 import pl.edu.ug.aib.netify.fragment.InviteFriendsFragment_;
 import pl.edu.ug.aib.netify.fragment.LogoutFragment;
+import pl.edu.ug.aib.netify.fragment.RemoveMembersFragment;
+import pl.edu.ug.aib.netify.fragment.RemoveMembersFragment_;
 import pl.edu.ug.aib.netify.fragment.SearchGroupsFragment;
 import pl.edu.ug.aib.netify.fragment.SearchUsersFragment;
 import pl.edu.ug.aib.netify.fragment.UserGroupsFragment;
@@ -54,7 +56,8 @@ public class HomeActivity extends ActionBarActivity implements UserGroupsFragmen
         InviteFragment.OnUserInvitesFragmentCommunicationListener,
         InviteListItemView.OnInviteListItemViewCommunicationListener,
         GroupFragment.OnGroupFragmentCommunicationListener,
-        InviteFriendsFragment.OnInviteFriendsFragmentCommunicationListener
+        InviteFriendsFragment.OnInviteFriendsFragmentCommunicationListener,
+        RemoveMembersFragment.OnRemoveMembersFragmentCommunicationListener
 
 {
 
@@ -63,7 +66,8 @@ public class HomeActivity extends ActionBarActivity implements UserGroupsFragmen
 
     public static final int INTENT_FIRST_SONG_ADDED = 1;
     public final String LOG_TAG = this.getClass().getSimpleName();
-    public static final String DIALOG_FRAGMENT_TAG = "dialog";
+    public static final String INVITE_DIALOG_FRAGMENT_TAG = "inviteDialog";
+    public static final String REMOVE_DIALOG_FRAGMENT_TAG = "removeDialog";
     @Bean
     DrawerHandler drawerHandler;
     @Bean
@@ -217,7 +221,7 @@ public class HomeActivity extends ActionBarActivity implements UserGroupsFragmen
             Log.d(this.getClass().getSimpleName(), "Fragment must be instance of FriendsFragment");
         }
         try {
-            InviteFriendsFragment fragment = (InviteFriendsFragment)getSupportFragmentManager().findFragmentByTag(DIALOG_FRAGMENT_TAG);
+            InviteFriendsFragment fragment = (InviteFriendsFragment)getSupportFragmentManager().findFragmentByTag(INVITE_DIALOG_FRAGMENT_TAG);
             if(fragment != null) fragment.setUsersList(userFriendsList);
         }
         catch (ClassCastException e){
@@ -287,6 +291,31 @@ public class HomeActivity extends ActionBarActivity implements UserGroupsFragmen
         }
     }
 
+    //RemoveMembersFragment communication
+    @Override
+    public void removeGroupMembers(ArrayList<MemberGroupData> memberGroupDatas, ArrayList<User> removedUsers){
+        try {
+            GroupFragment fragment = (GroupFragment)drawerHandler.getCurrentFragment();
+            ///show progressBar indicating that removals are being processed (the same method as send invites)
+            fragment.onSendInvitesStart();
+        }
+        catch (ClassCastException e){
+            Log.d(this.getClass().getSimpleName(), "Fragment must be instance of GroupFragment");
+        }
+        restBackgroundTask.removeGroupMembers(memberGroupDatas, removedUsers, preferences.sessionId().get());
+    }
+    public void onRemoveMultipleGroupMembersSuccess(ArrayList<User> removedUsers){
+        try {
+            GroupFragment fragment = (GroupFragment)drawerHandler.getCurrentFragment();
+            //show that processing is finished and remove users from listview adapter
+            fragment.onRemoveMembersFinish(removedUsers);
+            Toast.makeText(this, getString(R.string.users_removed), Toast.LENGTH_LONG).show();
+        }
+        catch (ClassCastException e){
+            Log.d(this.getClass().getSimpleName(), "Fragment must be instance of GroupFragment");
+        }
+    }
+
 
     //Logout communication
     @Override
@@ -326,7 +355,7 @@ public class HomeActivity extends ActionBarActivity implements UserGroupsFragmen
     @Override
     public void inviteUsers(GroupData group) {
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        Fragment previous = getSupportFragmentManager().findFragmentByTag(DIALOG_FRAGMENT_TAG);
+        Fragment previous = getSupportFragmentManager().findFragmentByTag(INVITE_DIALOG_FRAGMENT_TAG);
         if (previous != null) {
             ft.remove(previous);
         }
@@ -335,12 +364,23 @@ public class HomeActivity extends ActionBarActivity implements UserGroupsFragmen
         // Create and show the dialog.
         DialogFragment newFragment = InviteFriendsFragment_.builder()
                 .group(group).userId(preferences.id().get()).build();
-        newFragment.show(ft, DIALOG_FRAGMENT_TAG);
+        newFragment.show(ft, INVITE_DIALOG_FRAGMENT_TAG);
     }
 
     @Override
-    public void removeMember(MemberGroupData memberGroupData) {
+    public void removeMembers(MemberGroupDataList memberGroupDataList, UserList groupMembers) {
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        Fragment previous = getSupportFragmentManager().findFragmentByTag(REMOVE_DIALOG_FRAGMENT_TAG);
+        if (previous != null) {
+            ft.remove(previous);
+        }
+        ft.addToBackStack(null);
 
+        // Create and show the dialog.
+        DialogFragment newFragment = RemoveMembersFragment_.builder()
+                .memberGroupDataList(memberGroupDataList).groupMembers(groupMembers)
+                .userId(preferences.id().get()).build();
+        newFragment.show(ft, REMOVE_DIALOG_FRAGMENT_TAG);
     }
 
     @Override

@@ -9,16 +9,16 @@
     <TextView android:id="@+id/firstNameField"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@+id/groupThumbnail"
-        android:layout_alignParentTop="true"
         android:layout_marginTop="5dp"
         android:layout_marginBottom="5dp"
         android:layout_marginRight="5dp"
+        android:layout_marginLeft="10dp"
         android:singleLine="true"
         android:ellipsize="end"
         android:textSize="18sp"
         android:textStyle="bold"
         android:text="imie"
+        android:layout_centerVertical="true"
         />
 
     <TextView android:id="@+id/lastNameField"
@@ -32,6 +32,7 @@
         android:textStyle="bold"
         android:layout_marginTop="5dp"
         android:layout_marginBottom="5dp"
+        android:layout_centerVertical="true"
         />
 
     <!--<Button

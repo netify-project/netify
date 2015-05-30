@@ -75,5 +75,8 @@
     <string name="select_friends">Select friends</string>
     <string name="invite_button">Invite</string>
     <string name="invites_sent">Your invites has been sent</string>
+    <string name="remove_members">Remove members</string>
+    <string name="remove">Remove</string>
+    <string name="users_removed">Users has been removed from the group</string>
 
 </resources>

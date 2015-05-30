@@ -22,9 +22,13 @@ import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.FragmentArg;
+import org.androidannotations.annotations.ItemClick;
 import org.androidannotations.annotations.ViewById;
 
+import java.util.ArrayList;
+
 import pl.edu.ug.aib.netify.GroupActivity_;
+import pl.edu.ug.aib.netify.ProfileActivity_;
 import pl.edu.ug.aib.netify.R;
 import pl.edu.ug.aib.netify.adapter.UserListAdapter;
 import pl.edu.ug.aib.netify.data.GroupData;
@@ -65,6 +69,8 @@ public class GroupFragment extends Fragment {
     @ViewById
     Button inviteUserButton;
     @ViewById
+    Button removeMembersButton;
+    @ViewById
     LinearLayout memberListLayout;
     @ViewById
     ListView groupMembersList;
@@ -74,7 +80,7 @@ public class GroupFragment extends Fragment {
     OnGroupFragmentCommunicationListener listener;
 
     UserList groupMembers;
-    //List of objects connecting users to the groups
+    //List of objects connecting users to the group
     MemberGroupDataList membersOfTheGroupDataList;
     @Bean
     UserListAdapter adapter;
@@ -162,6 +168,7 @@ public class GroupFragment extends Fragment {
             //show only invite button
             leaveGroupButton.setVisibility(View.GONE);
             inviteUserButton.setVisibility(View.VISIBLE);
+            removeMembersButton.setVisibility(View.VISIBLE);
         }
 
     }
@@ -209,6 +216,8 @@ public class GroupFragment extends Fragment {
     void inviteUserButtonClicked(){
         listener.inviteUsers(group);
     }
+    @Click
+    void removeMembersButtonClicked(){listener.removeMembers(membersOfTheGroupDataList, groupMembers);}
     //show progressBar while invites are processed
     public void onSendInvitesStart(){
         showProgressBar();
@@ -217,7 +226,16 @@ public class GroupFragment extends Fragment {
     public void onSendInvitesFinish(){
         updateLayoutVisibility();
     }
-
+    //remove users from list and adapter, dismiss progressbar
+    public void onRemoveMembersFinish(ArrayList<User> removedUsers){
+        groupMembers.deleteUsers(removedUsers);
+        adapter.update(groupMembers);
+        updateLayoutVisibility();
+    }
+    @ItemClick
+    void groupMembersListItemClicked(User item){
+        ProfileActivity_.intent(getActivity()).user(item).start();
+    }
 
     @Override
     public void onAttach(Activity activity) {
@@ -236,7 +254,7 @@ public class GroupFragment extends Fragment {
         public void joinGroup(MemberGroupData memberGroupData);
         public void leaveGroup(MemberGroupData memberGroupData);
         public void inviteUsers(GroupData groupData);
-        public void removeMember(MemberGroupData memberGroupData);
+        public void removeMembers(MemberGroupDataList memberGroupDataList, UserList groupMembers);
         public void updateGroup(GroupData groupData);
     }
 }

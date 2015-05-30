@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -20,6 +21,9 @@ public class UserList implements Serializable{
                 return;
             }
         }
+    }
+    public void deleteUsers(Collection<User> users){
+        records.removeAll(users);
     }
 
 }

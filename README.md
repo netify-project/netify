@@ -6,3 +6,4 @@ Currently it allows users to:
 * search for public groups and listen to their playlists
 * join public groups and add songs to them
 * search for other users and become friends with them
+* invite your friends to groups you created or joined

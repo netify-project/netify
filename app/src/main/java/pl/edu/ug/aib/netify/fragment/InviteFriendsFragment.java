@@ -82,7 +82,7 @@ public class InviteFriendsFragment extends DialogFragment {
             listener.getUserFriendsList();
         }
         catch (ClassCastException e){
-            throw new ClassCastException(activity.toString() + " must implement OnGroupFragmentCommunicationListener");
+            throw new ClassCastException(activity.toString() + " must implement OnInviteFriendsFragmentCommunicationListener");
         }
     }
 

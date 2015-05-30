@@ -30,6 +30,15 @@ public class SelectUserListAdapter extends UserListAdapter {
         }
         return selected;
     }
+    public void removeUser(int userId){
+        for(User user : users){
+            if(user.id == userId) {
+                users.remove(user);
+                notifyDataSetChanged();
+                return;
+            }
+        }
+    }
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         SelectUserListItemView selectUserListItemView;

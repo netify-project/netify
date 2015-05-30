@@ -68,7 +68,7 @@ public interface NetifyRestClient extends RestClientHeaders{
     IdData deleteMemberGroupDataById(String id);
     @Delete("/db/membergroupdata?ids={ids}")
     @RequiresHeader({"X-Dreamfactory-Session-Token","X-Dreamfactory-Application-Name" })
-    IdData deleteMemberGroupDataByMultipleIds(String ids);
+    IdDataList deleteMemberGroupDataByMultipleIds(String ids);
 
     //FRIENDDATA
     @Get("/db/frienddata?filter={filter}")

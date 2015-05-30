@@ -305,6 +305,20 @@ public class RestHomeBackgroundTask {
             publishError(e);
         }
     }
+    @Background
+    public void removeGroupMembers(ArrayList<MemberGroupData> memberGroupDatas, ArrayList<User> removedUsers, String sessionId){
+        try{
+            restClient.setHeader("X-Dreamfactory-Application-Name", "netify");
+            restClient.setHeader("X-Dreamfactory-Session-Token", sessionId);
+            HashSet<String> mgdIds = new HashSet<>();
+            for(MemberGroupData mgd : memberGroupDatas) mgdIds.add(mgd.id);
+            IdDataList result = restClient.deleteMemberGroupDataByMultipleIds(TextUtils.join(",", mgdIds));
+            publishRemoveMultipleGroupMembersResult(removedUsers);
+        }
+        catch(Exception e){
+            publishError(e);
+        }
+    }
 
 
 
@@ -371,6 +385,10 @@ public class RestHomeBackgroundTask {
     @UiThread
     void publishSendGroupInvitesResult(){
         activity.onSendGroupInvitesSuccess();
+    }
+    @UiThread
+    void publishRemoveMultipleGroupMembersResult(ArrayList<User> removedUsers){
+        activity.onRemoveMultipleGroupMembersSuccess(removedUsers);
     }
         @UiThread
         void publishError (Exception e){
