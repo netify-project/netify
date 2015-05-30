@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import pl.edu.ug.aib.netify.R;
+import pl.edu.ug.aib.netify.adapter.InviteListAdapter;
 import pl.edu.ug.aib.netify.fragment.AddGroupFragment_;
 import pl.edu.ug.aib.netify.fragment.FriendsFragment;
 import pl.edu.ug.aib.netify.fragment.FriendsFragment_;
@@ -56,6 +57,8 @@ public class DrawerListAdapter extends BaseAdapter {
             drawerItemView = (DrawerItemView) convertView;
         }
         drawerItemView.bind(getItem(position));
+
+
         return drawerItemView;
     }
 

@@ -20,6 +20,8 @@ import pl.edu.ug.aib.netify.data.InviteData;
 import pl.edu.ug.aib.netify.data.InviteDataList;
 import pl.edu.ug.aib.netify.data.User;
 import pl.edu.ug.aib.netify.data.UserList;
+import pl.edu.ug.aib.netify.navigationDrawer.DrawerItem;
+import pl.edu.ug.aib.netify.navigationDrawer.DrawerItemView;
 
 @EFragment(R.layout.fragment_invites)
 public class InviteFragment extends Fragment {
@@ -59,7 +61,10 @@ public class InviteFragment extends Fragment {
     public void removeInvite(InviteData inviteData){
         adapter.remove(inviteData);
         if(adapter.getCount() == 0) noInvitesInfo.setVisibility(View.VISIBLE);
+
     }
+
+
 
 
     @Override

@@ -37,6 +37,9 @@ public interface NetifyRestClient extends RestClientHeaders{
     @Get("/db/songdata?filter={filter}")
     SongDataList getSongsByGroupId(String filter);
 
+    @Get("/db/songdata?filter={filter}")
+    SongDataList getSongByUserId (String filter);
+
     @Post("/db/songdata")
     @RequiresHeader({"X-Dreamfactory-Session-Token","X-Dreamfactory-Application-Name" })
     IdData addSongToGraph(SongData songData);

@@ -4,17 +4,24 @@ import android.app.Activity;
 import android.support.v4.app.Fragment;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.ViewById;
 
 import pl.edu.ug.aib.netify.R;
+import pl.edu.ug.aib.netify.adapter.SongListAdapter;
 import pl.edu.ug.aib.netify.data.GroupData;
 import pl.edu.ug.aib.netify.data.InviteData;
+import pl.edu.ug.aib.netify.data.SongData;
+import pl.edu.ug.aib.netify.data.SongDataList;
 import pl.edu.ug.aib.netify.data.User;
 
 @EFragment(R.layout.fragment_profile)
@@ -28,9 +35,17 @@ public class ProfileFragment extends Fragment {
     TextView emailField;
     @ViewById
     Button sendNewInviteButton;
-
+    @ViewById
+    LinearLayout userSongsLayout;
+    @ViewById
+    ListView userSongsList;
+    @ViewById
+    ProgressBar progressBar;
     User user;
-
+    @Bean
+    SongListAdapter adapter;
+    SongDataList userSong;
+    SongData songData;
     OnProfileFragmentCommunicationListener listener;
 
     @AfterViews
@@ -41,11 +56,18 @@ public class ProfileFragment extends Fragment {
         emailField.setText(user.email);
     }
 
+    public void setUserSongsList(SongDataList userSong) {
+        this.userSong = userSong;
+        adapter.update(userSong);
+        progressBar.setVisibility(View.GONE);
+    }
+
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         try{
             listener = (OnProfileFragmentCommunicationListener)activity;
+            listener.getUserSongs();
         }
         catch (ClassCastException e){
             throw new ClassCastException(activity.toString() + " must implement OnProfileFragmentCommunicationListener");
@@ -66,6 +88,8 @@ public class ProfileFragment extends Fragment {
     public interface OnProfileFragmentCommunicationListener{
         User getUser();
         void sendNewInvite(InviteData inviteData);
+        void getUserSongs();
+
     }
 
 }

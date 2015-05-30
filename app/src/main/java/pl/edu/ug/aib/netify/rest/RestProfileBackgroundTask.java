@@ -8,6 +8,7 @@ import org.androidannotations.annotations.RootContext;
 import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.rest.RestService;
 
+import java.util.HashMap;
 import java.util.HashSet;
 
 import pl.edu.ug.aib.netify.HomeActivity;
@@ -22,6 +23,7 @@ import pl.edu.ug.aib.netify.data.InviteData;
 import pl.edu.ug.aib.netify.data.MemberGroupData;
 import pl.edu.ug.aib.netify.data.MemberGroupDataList;
 import pl.edu.ug.aib.netify.data.SongData;
+import pl.edu.ug.aib.netify.data.SongDataList;
 import pl.edu.ug.aib.netify.data.UserList;
 import pl.edu.ug.aib.netify.data.UserLogout;
 
@@ -80,6 +82,35 @@ public class RestProfileBackgroundTask {
         }
     }
     @Background
+    public void getUserSongs(String userId, String sessionId){
+        try {
+            restClient.setHeader("X-Dreamfactory-Application-Name", "netify");
+            restClient.setHeader("X-Dreamfactory-Session-Token", sessionId);
+            //search for userId on both positions of relation
+            SongDataList songDataList = restClient.getSongByUserId("UserId=" + userId);
+            GroupDataList groupDataList;
+            //Check if user has any friends, if true, return empty object without sending request
+            if(songDataList.records.isEmpty()) groupDataList = new GroupDataList();
+            else {
+                //used to provide unique ids
+                HashSet<String> groupIds = new HashSet<String>();
+                for (SongData item : songDataList.records) groupIds.add(item.groupId);
+                groupDataList = restClient.getGroupsById(TextUtils.join(",", groupIds));
+            }
+            HashMap<String, String> groupNames = new HashMap<>();
+            for(GroupData group : groupDataList.records) groupNames.put(group.id, group.name);
+            publishUserSongsResult(songDataList);
+            SongData currentSong;
+            for (int i=0; i< songDataList.records.size(); i++) {
+                currentSong = songDataList.records.get(i);
+                currentSong.groupName = groupNames.get(currentSong.groupId);
+            }
+        }catch(Exception e){
+            publishError(e);
+        }
+    }
+
+    @Background
     public void sendNewInvite (String userId, String sessionId, String firstName, String lastName, InviteData inviteData){
         try {
             restClient.setHeader("X-Dreamfactory-Application-Name", "netify");
@@ -101,6 +132,10 @@ public class RestProfileBackgroundTask {
     @UiThread
     void publishUserGroupsResult(GroupDataList groupDataList){
         activity.onUserGroupListDownloaded(groupDataList);
+    }
+    @UiThread
+    void publishUserSongsResult(SongDataList songDataList){
+        activity.onUserSongsListDownloaded(songDataList);
     }
     @UiThread
     void publishUserFriendsResult(UserList userList) {
