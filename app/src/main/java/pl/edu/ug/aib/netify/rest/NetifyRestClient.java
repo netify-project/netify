@@ -9,12 +9,15 @@ import org.androidannotations.annotations.rest.Rest;
 import org.androidannotations.api.rest.RestClientHeaders;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 
+import java.util.ArrayList;
+
 import pl.edu.ug.aib.netify.data.EmailAndPassword;
 import pl.edu.ug.aib.netify.data.FriendData;
 import pl.edu.ug.aib.netify.data.FriendDataList;
 import pl.edu.ug.aib.netify.data.GroupData;
 import pl.edu.ug.aib.netify.data.GroupDataList;
 import pl.edu.ug.aib.netify.data.IdData;
+import pl.edu.ug.aib.netify.data.IdDataList;
 import pl.edu.ug.aib.netify.data.InviteData;
 import pl.edu.ug.aib.netify.data.InviteDataList;
 import pl.edu.ug.aib.netify.data.MemberGroupData;
@@ -63,6 +66,9 @@ public interface NetifyRestClient extends RestClientHeaders{
     @Delete("/db/membergroupdata/{id}")
     @RequiresHeader({"X-Dreamfactory-Session-Token","X-Dreamfactory-Application-Name" })
     IdData deleteMemberGroupDataById(String id);
+    @Delete("/db/membergroupdata?ids={ids}")
+    @RequiresHeader({"X-Dreamfactory-Session-Token","X-Dreamfactory-Application-Name" })
+    IdData deleteMemberGroupDataByMultipleIds(String ids);
 
     //FRIENDDATA
     @Get("/db/frienddata?filter={filter}")
@@ -77,6 +83,10 @@ public interface NetifyRestClient extends RestClientHeaders{
     @Post("/db/invitedata")
     @RequiresHeader({"X-Dreamfactory-Session-Token","X-Dreamfactory-Application-Name" })
     IdData sendInvite(InviteData inviteData);
+
+    @Post("/db/invitedata")
+    @RequiresHeader({"X-Dreamfactory-Session-Token","X-Dreamfactory-Application-Name" })
+    IdDataList sendMultipleInvites(ArrayList<InviteData> inviteDataArray);
 
     @Get("/db/invitedata?filter={filter}")
     InviteDataList getInviteDataByUserId(String filter);

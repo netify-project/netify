@@ -44,6 +44,10 @@ public class UserListItemView extends RelativeLayout {
         //this.context = context;
     }
 
+    public User getUser(){
+        return this.user;
+    }
+
     public void bind(User user){
         firstNameField.setText(user.firstName);
         lastNameField.setText(user.lastName);

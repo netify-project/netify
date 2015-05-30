@@ -1,5 +1,6 @@
 package pl.edu.ug.aib.netify.data;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -17,4 +18,7 @@ public class User implements Serializable {
     public String lastName;
     public String email;
 
+    //for selection purposes in InviteFriendsFragment
+    @JsonIgnore
+    public Boolean isChecked = false;
 }
