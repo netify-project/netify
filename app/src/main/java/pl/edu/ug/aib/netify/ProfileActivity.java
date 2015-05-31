@@ -23,6 +23,7 @@ import pl.edu.ug.aib.netify.data.InviteData;
 import pl.edu.ug.aib.netify.data.SongDataList;
 import pl.edu.ug.aib.netify.data.User;
 import pl.edu.ug.aib.netify.data.UserList;
+import pl.edu.ug.aib.netify.dataManager.ProfileDataManager;
 import pl.edu.ug.aib.netify.fragment.FriendsFragment;
 import pl.edu.ug.aib.netify.fragment.ProfileFragment;
 import pl.edu.ug.aib.netify.fragment.UserGroupsFragment;
@@ -32,7 +33,8 @@ import pl.edu.ug.aib.netify.rest.RestProfileBackgroundTask;
 public class ProfileActivity extends ActionBarActivity implements ActionBar.TabListener,
         FriendsFragment.OnUserFriendsFragmentCommunicationListener,
         UserGroupsFragment.OnUserGroupsFragmentCommunicationListener,
-        ProfileFragment.OnProfileFragmentCommunicationListener {
+        ProfileFragment.OnProfileFragmentCommunicationListener,
+        ProfileDataManager.OnProfileDataManagerCommunicationListener {
     @ViewById
     ViewPager pager;
     TabsPagerAdapter adapter;
@@ -58,7 +60,7 @@ public class ProfileActivity extends ActionBarActivity implements ActionBar.TabL
         actionBar.setHomeButtonEnabled(false);
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-        restBackgroundTask.getUserSongs(Integer.toString(user.id), preferences.sessionId().get());
+        //restBackgroundTask.getUserSongs(Integer.toString(user.id), preferences.sessionId().get());
         // Adding Tabs
         for (String tab_name : tabs) {
             actionBar.addTab(actionBar.newTab().setText(tab_name)
@@ -152,6 +154,27 @@ public class ProfileActivity extends ActionBarActivity implements ActionBar.TabL
     public void sendNewInvite(InviteData inviteData) {
         restBackgroundTask.sendNewInvite(Integer.toString(preferences.id().get()), preferences.sessionId().get(),
                 preferences.firstName().get(), preferences.lastName().get(), inviteData);
+    }
+
+    //ProfileDataManager communication
+    @Override
+    public void getUserSongsForManager() {
+
+    }
+
+    @Override
+    public void getUserFriendsForManager() {
+
+    }
+
+    @Override
+    public void getUserGroupsForManager() {
+
+    }
+
+    @Override
+    public void getUserInvitesForManager() {
+
     }
 
     @OptionsItem(android.R.id.home)

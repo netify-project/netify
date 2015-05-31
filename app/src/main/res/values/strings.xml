@@ -78,5 +78,8 @@
     <string name="remove_members">Remove members</string>
     <string name="remove">Remove</string>
     <string name="users_removed">Users has been removed from the group</string>
+    <string name="songs_added_recently">Songs added recently</string>
+    <string name="unfriend_button">Remove from friends</string>
+    <string name="personal_info">Personal details</string>
 
 </resources>

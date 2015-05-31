@@ -16,7 +16,7 @@ public class SongData extends NodeData implements Serializable{
     public String parentId;
     public String title;
     public String thumbnail;
-    @JsonProperty("user_id")
+    @JsonProperty("userid")
     public Integer userId;
     public String created;
     @JsonProperty("videoid")

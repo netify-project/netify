@@ -20,23 +20,23 @@ public class SongListItemView extends RelativeLayout {
     @ViewById
     TextView group;
 
-    SongData songData;
+    //SongData songData;
 
-    OnSongListItemViewCommunicationListener listener;
+    //OnSongListItemViewCommunicationListener listener;
 
     public SongListItemView(Context context) {
         super(context);
-        try{
+        /*try{
             listener = (OnSongListItemViewCommunicationListener)context;
         }
         catch (ClassCastException e){
             throw new ClassCastException("Context must implement OnSongListItemViewCommunicationListener");
-        }
+        }*/
     }
 
     public void bind(SongData songData){
        title.setText(songData.title);
-        group.setText(songData.groupName);
+       group.setText(songData.groupName);
 
     }
 

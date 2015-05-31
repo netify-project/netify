@@ -17,6 +17,7 @@ import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.ViewById;
 
 import pl.edu.ug.aib.netify.R;
+import pl.edu.ug.aib.netify.adapter.PlayerPropositionAdapter;
 import pl.edu.ug.aib.netify.adapter.SongListAdapter;
 import pl.edu.ug.aib.netify.data.GroupData;
 import pl.edu.ug.aib.netify.data.InviteData;
@@ -38,28 +39,38 @@ public class ProfileFragment extends Fragment {
     @ViewById
     LinearLayout userSongsLayout;
     @ViewById
+    LinearLayout buttonsLayout;
+    @ViewById
     ListView userSongsList;
     @ViewById
     ProgressBar progressBar;
     User user;
     @Bean
-    SongListAdapter adapter;
+    PlayerPropositionAdapter adapter;
     SongDataList userSong;
-    SongData songData;
     OnProfileFragmentCommunicationListener listener;
 
     @AfterViews
     void init(){
+        userSongsList.setAdapter(adapter);
         user = listener.getUser();
-        firstNameField.setText(user.firstName);
-        lastNameField.setText(user.lastName);
-        emailField.setText(user.email);
+        firstNameField.setText(String.format("%s: %s", getString(R.string.first_name), user.firstName));
+        lastNameField.setText(String.format("%s: %s", getString(R.string.last_name), user.lastName));
+        emailField.setText(String.format("%s: %s", getString(R.string.email), user.email));
+        updateLayoutVisibility();
     }
 
     public void setUserSongsList(SongDataList userSong) {
         this.userSong = userSong;
-        adapter.update(userSong);
+        adapter.update(userSong.records);
+        updateLayoutVisibility();
+    }
+
+    private void updateLayoutVisibility(){
+        if(userSong == null) return;
         progressBar.setVisibility(View.GONE);
+        userSongsLayout.setVisibility(View.VISIBLE);
+        buttonsLayout.setVisibility(View.VISIBLE);
     }
 
     @Override

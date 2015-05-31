@@ -144,7 +144,7 @@ public class GroupActivity extends ActionBarActivity {
 
     public void addSongToGraph(SongData songData){
         songDataList.records.add(songData);
-        GroupActivity_.intent(this).songDataList(songDataList).start();
+        GroupActivity_.intent(this).songDataList(songDataList).groupData(groupData).start();
         finish();
     }
     public void showError(Exception e){
