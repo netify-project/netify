@@ -39,11 +39,18 @@ public class UserGroupsFragment extends Fragment {
     @AfterViews
     void init(){
         groupList.setAdapter(adapter);
+        if(userGroups != null) adapter.update(userGroups);
+        updateLayoutVisibility();
     }
 
     public void setUserGroups(GroupDataList userGroups) {
         this.userGroups = userGroups;
         adapter.update(userGroups);
+        //update if layout is already loaded
+        if(groupList != null) updateLayoutVisibility();
+    }
+    private void updateLayoutVisibility(){
+        if(userGroups == null) return;
         progressBar.setVisibility(View.GONE);
         if(adapter.getCount() == 0) noGroupsInfo.setVisibility(View.VISIBLE);
     }

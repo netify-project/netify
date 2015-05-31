@@ -81,6 +81,10 @@ public interface NetifyRestClient extends RestClientHeaders{
     @RequiresHeader({"X-Dreamfactory-Session-Token","X-Dreamfactory-Application-Name" })
     IdData addFriendData(FriendData friendData);
 
+    @Delete("/db/frienddata/{id}")
+    @RequiresHeader({"X-Dreamfactory-Session-Token","X-Dreamfactory-Application-Name" })
+    IdData deleteFriendDataById(String id);
+
     //INVITEDATA
 
     @Post("/db/invitedata")

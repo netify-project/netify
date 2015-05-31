@@ -22,6 +22,8 @@ public class PlayerPropositionItemView extends RelativeLayout {
     TextView video_title;
     @ViewById
     TextView video_user;
+    @ViewById
+    TextView video_added_by;
 
     Context context;
 
@@ -33,7 +35,14 @@ public class PlayerPropositionItemView extends RelativeLayout {
     public void bind(SongData songData){
         Picasso.with(context).load(songData.thumbnail).into(video_thumbnail);
         video_title.setText(songData.title);
-        //TODO Get and show name of the user
-        video_user.setText("User");
+        if(songData.groupName != null){
+            //if item view used in ProfileFragment
+            video_added_by.setText(R.string.video_added_in);
+            video_user.setText(songData.groupName);
+        }
+        else {
+            //TODO Get and show name of the user
+            video_user.setText("User");
+        }
     }
 }

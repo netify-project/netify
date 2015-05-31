@@ -20,6 +20,9 @@ public class TabsPagerAdapter extends FragmentPagerAdapter {
 
     public TabsPagerAdapter(FragmentManager fm) {
         super(fm);
+        profileFragment = new ProfileFragment_();
+        groupsFragment = new UserGroupsFragment_();
+        friendsFragment = new FriendsFragment_();
     }
 
     @Override
@@ -28,15 +31,12 @@ public class TabsPagerAdapter extends FragmentPagerAdapter {
         switch (index) {
             case 0:
                 // Profile fragment
-                profileFragment = new ProfileFragment_();
                 return profileFragment;
             case 1:
                 // Groups list fragment
-                groupsFragment = new UserGroupsFragment_();
                 return groupsFragment;
             case 2:
                 // Friend list fragment
-                friendsFragment = new FriendsFragment_();
                 return friendsFragment;
         }
 

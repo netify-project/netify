@@ -40,13 +40,22 @@ public class FriendsFragment extends Fragment {
     @AfterViews
     void init(){
         friendsList.setAdapter(adapter);
-        //prevent to show the progressBar when view is reloaded after changing tabs in ProfileActivity
-        if(userFriends != null) progressBarFriends.setVisibility(View.GONE);
+        if(userFriends != null) adapter.update(userFriends);
+        updateLayoutVisibility();
     }
 
     public void setUserFriends(UserList userFriends) {
         this.userFriends = userFriends;
-        adapter.update(userFriends);
+        //update if layout is already loaded
+        if(friendsList != null){
+            adapter.update(userFriends);
+            updateLayoutVisibility();
+        }
+
+    }
+
+    private void updateLayoutVisibility(){
+        if(userFriends == null) return;
         progressBarFriends.setVisibility(View.GONE);
         if(adapter.getCount() == 0) noFriendsInfo.setVisibility(View.VISIBLE);
     }

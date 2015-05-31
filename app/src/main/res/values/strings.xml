@@ -74,12 +74,16 @@
     <string name="group_status_changed">Group status has been changed</string>
     <string name="select_friends">Select friends</string>
     <string name="invite_button">Invite</string>
-    <string name="invites_sent">Your invites has been sent</string>
+    <string name="invites_sent">Your invite has been sent</string>
     <string name="remove_members">Remove members</string>
     <string name="remove">Remove</string>
     <string name="users_removed">Users has been removed from the group</string>
     <string name="songs_added_recently">Songs added recently</string>
     <string name="unfriend_button">Remove from friends</string>
     <string name="personal_info">Personal details</string>
+    <string name="already_invited_info">You have already invited this user.</string>
+    <string name="friendship_destroyed">You removed user from your friends</string>
+    <string name="has_invited_you_info">The user has invited you.</string>
+    <string name="video_added_in">Added in</string>
 
 </resources>

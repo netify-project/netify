@@ -17,9 +17,11 @@ import org.androidannotations.annotations.ViewById;
 import org.androidannotations.annotations.sharedpreferences.Pref;
 
 import pl.edu.ug.aib.netify.adapter.TabsPagerAdapter;
+import pl.edu.ug.aib.netify.data.FriendDataList;
 import pl.edu.ug.aib.netify.data.GroupData;
 import pl.edu.ug.aib.netify.data.GroupDataList;
 import pl.edu.ug.aib.netify.data.InviteData;
+import pl.edu.ug.aib.netify.data.InviteDataList;
 import pl.edu.ug.aib.netify.data.SongDataList;
 import pl.edu.ug.aib.netify.data.User;
 import pl.edu.ug.aib.netify.data.UserList;
@@ -46,16 +48,18 @@ public class ProfileActivity extends ActionBarActivity implements ActionBar.TabL
     RestProfileBackgroundTask restBackgroundTask;
     @Pref
     UserPreferences_ preferences;
+    ProfileDataManager dataManager;
 
 
     @AfterViews
     void init() {
-        // Initialization
         // Tab titles
         String[] tabs = { getString(R.string.title_profile), getString(R.string.title_groups), getString(R.string.title_friends) };
         actionBar = getSupportActionBar();
         adapter = new TabsPagerAdapter(getSupportFragmentManager());
         pager.setAdapter(adapter);
+        // Initialization of downloading and storing data Manager
+        dataManager = new ProfileDataManager(this);
         actionBar.setTitle(user.firstName + " " + user.lastName);
         actionBar.setHomeButtonEnabled(false);
         actionBar.setDisplayHomeAsUpEnabled(true);
@@ -106,11 +110,12 @@ public class ProfileActivity extends ActionBarActivity implements ActionBar.TabL
 
     @Override
     public void getUserFriendsList() {
-        restBackgroundTask.getUserFriends(Integer.toString(user.id), preferences.sessionId().get());
+        //restBackgroundTask.getUserFriends(Integer.toString(user.id), preferences.sessionId().get());
     }
 
     public void onSendNewInviteSuccess(InviteData inviteData){
-        Toast.makeText(this, "You have sent the invitation.", Toast.LENGTH_LONG).show();
+        Toast.makeText(this, getString(R.string.invites_sent), Toast.LENGTH_LONG).show();
+        adapter.getProfileFragment().newInviteSent();
     }
 
     public void onUserFriendsListDownloaded(UserList userList){
@@ -118,7 +123,7 @@ public class ProfileActivity extends ActionBarActivity implements ActionBar.TabL
     }
     @Override
     public void getUserGroupList() {
-        restBackgroundTask.getUserGroups(Integer.toString(user.id));
+        //restBackgroundTask.getUserGroups(Integer.toString(user.id));
     }
 
     @Override
@@ -129,6 +134,16 @@ public class ProfileActivity extends ActionBarActivity implements ActionBar.TabL
     @Override
     public void getUserSongs(){
         restBackgroundTask.getUserSongs(Integer.toString(user.id), preferences.sessionId().get());
+    }
+
+    @Override
+    public void destroyFriendship(String friendDataId) {
+        restBackgroundTask.deleteFriendData(friendDataId, preferences.sessionId().get());
+    }
+
+    public void onFriendshipDestroyed() {
+        adapter.getProfileFragment().friendDataRemoved();
+        Toast.makeText(this, getString(R.string.friendship_destroyed), Toast.LENGTH_LONG).show();
     }
 
     public void onUserSongsListDownloaded(SongDataList songDataList){
@@ -158,23 +173,60 @@ public class ProfileActivity extends ActionBarActivity implements ActionBar.TabL
 
     //ProfileDataManager communication
     @Override
+    public int getCurrentUserId() {
+        return preferences.id().get();
+    }
+    @Override
     public void getUserSongsForManager() {
-
+        restBackgroundTask.getUserSongs(Integer.toString(user.id), preferences.sessionId().get());
     }
 
     @Override
     public void getUserFriendsForManager() {
-
+        restBackgroundTask.getUserFriends(Integer.toString(user.id), preferences.sessionId().get());
     }
 
     @Override
     public void getUserGroupsForManager() {
-
+        restBackgroundTask.getUserGroups(Integer.toString(user.id));
     }
 
     @Override
     public void getUserInvitesForManager() {
+        restBackgroundTask.getUserInvites(Integer.toString(user.id), preferences.sessionId().get());
+    }
 
+    @Override
+    public void passUserSongsFromManager(SongDataList songDataList) {
+        adapter.getProfileFragment().setUserSongsList(songDataList);
+    }
+
+    @Override
+    public void passUserGroupsFromManager(GroupDataList groupDataList) {
+        adapter.getGroupsFragment().setUserGroups(groupDataList);
+    }
+
+    @Override
+    public void passUserFriendsFromManager(UserList userList) {
+        adapter.getFriendsFragment().setUserFriends(userList);
+    }
+
+    @Override
+    public void passRelationshipInfoFromManager(Boolean isAlreadyInvited, Boolean hasInvitedYou, Boolean isAlreadyFriend, String friendDataId) {
+        adapter.getProfileFragment().setRelationshipFields(isAlreadyInvited, hasInvitedYou, isAlreadyFriend, friendDataId);
+    }
+
+    public void onGetUserSongsForManagerCompleted(SongDataList userSongs){
+        dataManager.setUserSongs(userSongs);
+    }
+    public void onGetUserFriendsForManagerCompleted(UserList userFriends, FriendDataList friendDataList){
+        dataManager.setUserFriends(userFriends, friendDataList);
+    }
+    public void onGetUserGroupsForManagerCompleted(GroupDataList userGroups){
+        dataManager.setUserGroups(userGroups);
+    }
+    public void onGetUserInvitesForManagerCompleted(InviteDataList userInvites){
+        dataManager.setUserInvites(userInvites);
     }
 
     @OptionsItem(android.R.id.home)

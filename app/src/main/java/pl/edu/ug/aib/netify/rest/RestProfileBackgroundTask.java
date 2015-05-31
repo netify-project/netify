@@ -78,7 +78,7 @@ public class RestProfileBackgroundTask {
                 }
                 userFriendsList = restClient.getUsersById(TextUtils.join(",", friendIds));
             }
-            publishUserFriendsResult(userFriendsList);
+            publishUserFriendsResult(userFriendsList, friendDataList);
         }catch(Exception e){
             publishError(e);
         }
@@ -117,7 +117,7 @@ public class RestProfileBackgroundTask {
         try {
             restClient.setHeader("X-Dreamfactory-Application-Name", "netify");
             restClient.setHeader("X-Dreamfactory-Session-Token", sessionId);
-            InviteDataList inviteDataList = restClient.getInviteDataByUserId("ToUser=" + userId);
+            InviteDataList inviteDataList = restClient.getInviteDataByUserId("ToUser=" + userId + "||fromUser=" + userId);
             publishUserInvitesResult(inviteDataList);
         } catch (Exception e) {
             publishError(e);
@@ -141,27 +141,46 @@ public class RestProfileBackgroundTask {
         }
     }
 
+    @Background
+    public void deleteFriendData(String friendDataId, String sessionId) {
+        try {
+            restClient.setHeader("X-Dreamfactory-Application-Name", "netify");
+            restClient.setHeader("X-Dreamfactory-Session-Token", sessionId);
+            IdData result = restClient.deleteFriendDataById(friendDataId);
+            publishDeleteFriendDataResult();
+        } catch (Exception e) {
+            publishError(e);
+        }
+    }
+
 
     //Calls to activity and pushing objects to UiThread
     @UiThread
     void publishUserGroupsResult(GroupDataList groupDataList){
-        activity.onUserGroupListDownloaded(groupDataList);
+        //activity.onUserGroupListDownloaded(groupDataList);
+        activity.onGetUserGroupsForManagerCompleted(groupDataList);
     }
     @UiThread
     void publishUserSongsResult(SongDataList songDataList){
-        activity.onUserSongsListDownloaded(songDataList);
+        //activity.onUserSongsListDownloaded(songDataList);
+        activity.onGetUserSongsForManagerCompleted(songDataList);
     }
     @UiThread
-    void publishUserFriendsResult(UserList userList) {
-        activity.onUserFriendsListDownloaded(userList);
+    void publishUserFriendsResult(UserList userList, FriendDataList friendDataList) {
+        //activity.onUserFriendsListDownloaded(userList);
+        activity.onGetUserFriendsForManagerCompleted(userList, friendDataList);
     }
     @UiThread
     void publishUserInvitesResult(InviteDataList inviteDataList) {
-        //activity.onUserFriendsListDownloaded(userList);
+        activity.onGetUserInvitesForManagerCompleted(inviteDataList);
     }
     @UiThread
     void publishSendNewInviteResult(InviteData inviteData) {
         activity.onSendNewInviteSuccess(inviteData);
+    }
+    @UiThread
+    void publishDeleteFriendDataResult() {
+        activity.onFriendshipDestroyed();
     }
     @UiThread
     void publishError(Exception e) {

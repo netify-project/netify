@@ -3,6 +3,7 @@ package pl.edu.ug.aib.netify.fragment;
 import android.app.Activity;
 import android.support.v4.app.Fragment;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -37,6 +38,12 @@ public class ProfileFragment extends Fragment {
     @ViewById
     Button sendNewInviteButton;
     @ViewById
+    Button unfriendButton;
+    @ViewById
+    TextView alreadyInvitedInfo;
+    @ViewById
+    TextView hasInvitedYouInfo;
+    @ViewById
     LinearLayout userSongsLayout;
     @ViewById
     LinearLayout buttonsLayout;
@@ -44,15 +51,23 @@ public class ProfileFragment extends Fragment {
     ListView userSongsList;
     @ViewById
     ProgressBar progressBar;
+    @ViewById
+    TextView noSongInfo;
     User user;
     @Bean
     PlayerPropositionAdapter adapter;
     SongDataList userSong;
+    //Fields indicating what buttons should be displayed
+    Boolean isAlreadyInvited;
+    Boolean hasInvitedYou;
+    Boolean isAlreadyFriend;
+    String friendDataId;
     OnProfileFragmentCommunicationListener listener;
 
     @AfterViews
     void init(){
         userSongsList.setAdapter(adapter);
+        if(userSong!= null) adapter.update(userSong.records);
         user = listener.getUser();
         firstNameField.setText(String.format("%s: %s", getString(R.string.first_name), user.firstName));
         lastNameField.setText(String.format("%s: %s", getString(R.string.last_name), user.lastName));
@@ -63,22 +78,62 @@ public class ProfileFragment extends Fragment {
     public void setUserSongsList(SongDataList userSong) {
         this.userSong = userSong;
         adapter.update(userSong.records);
+        //update if layout is already loaded
+        if(userSongsLayout!= null) updateLayoutVisibility();
+    }
+    public void setRelationshipFields(Boolean isAlreadyInvited,  Boolean hasInvitedYou, Boolean isAlreadyFriend, String friendDataId){
+        this.isAlreadyInvited = isAlreadyInvited;
+        this.hasInvitedYou = hasInvitedYou;
+        this.isAlreadyFriend = isAlreadyFriend;
+        this.friendDataId = friendDataId;
+        //update if layout is already loaded
+        if(userSongsLayout!= null) updateLayoutVisibility();
+    }
+    public void friendDataRemoved(){
+        isAlreadyFriend = false; friendDataId = null;
+        updateLayoutVisibility();
+    }
+    public void newInviteSent(){
+        isAlreadyInvited = true;
         updateLayoutVisibility();
     }
 
     private void updateLayoutVisibility(){
-        if(userSong == null) return;
+        //return if data is not yet present
+        if(userSong == null || isAlreadyInvited == null) return;
         progressBar.setVisibility(View.GONE);
         userSongsLayout.setVisibility(View.VISIBLE);
-        buttonsLayout.setVisibility(View.VISIBLE);
+        if(adapter.getCount() == 0) noSongInfo.setVisibility(View.VISIBLE);
+        else updateListViewHeight();
+        //if user displays own profile, no buttons are visible
+        if(user.id != listener.getCurrentUserId()) buttonsLayout.setVisibility(View.VISIBLE);
+        //show buttons according to users' relationship
+        if(isAlreadyFriend) unfriendButton.setVisibility(View.VISIBLE);
+        else if(isAlreadyInvited) alreadyInvitedInfo.setVisibility(View.VISIBLE);
+        else if(hasInvitedYou) hasInvitedYouInfo.setVisibility(View.VISIBLE);
+        else sendNewInviteButton.setVisibility(View.VISIBLE);
     }
+    private void updateListViewHeight(){
+        //adjust listview height since in won't adjust automatically with scrollview as parent
+        ViewGroup.LayoutParams memberListParams = userSongsList.getLayoutParams();
+        int itemHeight = (int)getResources().getDimension(R.dimen.player_proposition_item_height);
+        memberListParams.height = (itemHeight+2) * adapter.getCount();
+        userSongsList.setLayoutParams(memberListParams);
+    }
+    private void showProgressBar(){
+        sendNewInviteButton.setVisibility(View.GONE);
+        unfriendButton.setVisibility(View.GONE);
+        alreadyInvitedInfo.setVisibility(View.GONE);
+        hasInvitedYouInfo.setVisibility(View.GONE);
+        progressBar.setVisibility(View.VISIBLE);
+    }
+
 
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         try{
             listener = (OnProfileFragmentCommunicationListener)activity;
-            listener.getUserSongs();
         }
         catch (ClassCastException e){
             throw new ClassCastException(activity.toString() + " must implement OnProfileFragmentCommunicationListener");
@@ -92,15 +147,22 @@ public class ProfileFragment extends Fragment {
         inviteData.groupId = null;
         inviteData.toUser = user.id.toString();
         listener.sendNewInvite(inviteData);
-        sendNewInviteButton.setVisibility(View.GONE);
+        showProgressBar();
+    }
+    @Click
+    void unfriendButtonClicked(){
+        if(friendDataId == null) return;
+        listener.destroyFriendship(friendDataId);
+        showProgressBar();
     }
 
 
     public interface OnProfileFragmentCommunicationListener{
-        User getUser();
-        void sendNewInvite(InviteData inviteData);
-        void getUserSongs();
-
+        public int getCurrentUserId();
+        public User getUser();
+        public void sendNewInvite(InviteData inviteData);
+        public void getUserSongs();
+        public void destroyFriendship(String friendDataId);
     }
 
 }

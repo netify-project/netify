@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:background="@drawable/background">
+<RelativeLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background"
     android:padding="5dp">
 
     <TextView
@@ -24,27 +26,25 @@
         android:layout_below="@+id/userDataHeader"
         android:orientation="vertical"
         android:background="@drawable/youtube_list_item"
-        android:padding="8dp">
+        android:padding="8dp"
+        android:layout_marginBottom="10dp">
 
         <TextView
             android:id="@+id/firstNameField"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="name"
             android:layout_margin="5dp"
             android:textColor="@android:drawable/screen_background_dark"/>
         <TextView
             android:id="@+id/lastNameField"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="surname"
             android:layout_margin="5dp"
             android:textColor="@android:drawable/screen_background_dark" />
         <TextView
             android:id="@+id/emailField"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="email"
             android:layout_margin="5dp"
             android:textColor="@android:drawable/screen_background_dark" />
 
@@ -67,7 +67,8 @@
             android:layout_gravity="center_horizontal"
             android:background="@color/dark_blue"
             android:textColor="@color/white"
-            android:drawableLeft="@drawable/ic_action_send_now"/>
+            android:drawableLeft="@drawable/ic_action_send_now"
+            android:visibility="gone"/>
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -76,7 +77,22 @@
             android:layout_gravity="center_horizontal"
             android:background="@color/dark_blue"
             android:textColor="@color/white"
-            android:drawableLeft="@drawable/ic_action_remove"/>
+            android:drawableLeft="@drawable/ic_action_remove"
+            android:visibility="gone"/>
+        <TextView
+            android:id="@+id/alreadyInvitedInfo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/already_invited_info"
+            android:gravity="center"
+            android:visibility="gone"/>
+        <TextView
+            android:id="@+id/hasInvitedYouInfo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/has_invited_you_info"
+            android:gravity="center"
+            android:visibility="gone"/>
 
         </LinearLayout>
 
@@ -128,10 +144,13 @@
             android:id="@+id/noSongInfo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/no_song_added"/>
+            android:text="@string/no_song_added"
+            android:gravity="center"
+            android:layout_marginTop="15dp"
+            android:visibility="gone"/>
 
         </LinearLayout>
 
 
 </RelativeLayout>
-
+</ScrollView>
