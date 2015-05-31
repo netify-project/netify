@@ -23,4 +23,6 @@ public class SongData extends NodeData implements Serializable{
     public String videoId;
     @JsonIgnore
     public String groupName;
+    @JsonIgnore
+    public String userName;
 }

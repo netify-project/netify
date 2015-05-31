@@ -42,6 +42,8 @@ public class YoutubePlayerActivity extends YouTubeBaseActivity implements YouTub
     @ViewById
     TextView videoTitle;
     @ViewById
+    TextView video_added_by;
+    @ViewById
     LinearLayout descriptionLayout;
     @ViewById
     TextView videoDescription;
@@ -141,6 +143,8 @@ public class YoutubePlayerActivity extends YouTubeBaseActivity implements YouTub
     private void updateVideoInfo(){
         if(initVideo != null){
             videoTitle.setText(currentVideo.title);
+            if(currentVideo.userName != null) video_added_by.setText(String.format("%s %s", getString(R.string.video_added_by), currentVideo.userName));
+            else video_added_by.setText(String.format("%s %s", getString(R.string.video_added_by), "User"));
             descriptionLayout.setVisibility(View.GONE);
         }
         else{descriptionLayout.setVisibility(View.VISIBLE);

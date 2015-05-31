@@ -7,6 +7,7 @@ import android.util.Log;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.ViewById;
@@ -16,8 +17,15 @@ import pl.edu.ug.aib.netify.R;
 @EFragment(R.layout.fragment_intro)
 public class IntroFragment extends Fragment {
 
+    @ViewById
+    ImageView bgImage;
+
     OnIntroFragmentCommunicationListener listener;
 
+    @AfterViews
+    void init(){
+        changeBgImageOrientation();
+    }
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
@@ -27,6 +35,19 @@ public class IntroFragment extends Fragment {
         catch (ClassCastException e){
             throw new ClassCastException(activity.toString() + " must implement OnIntroFragmentCommunicationListener");
         }
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        changeBgImageOrientation();
+    }
+
+    private void changeBgImageOrientation(){
+        if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE){
+            bgImage.setImageResource(R.drawable.netifygraph_land);
+        }
+        else bgImage.setImageResource(R.drawable.netifygraph);
     }
 
     @Click

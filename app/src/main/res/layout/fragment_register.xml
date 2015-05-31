@@ -2,10 +2,20 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+  <RelativeLayout
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:background="@drawable/background">
+
+      <ImageView
+          android:id="@+id/bgImage"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:src="@drawable/netifygraph"/>
+
 <RelativeLayout
-    android:layout_width="match_parent" android:layout_height="match_parent"
-    android:padding="15dp"
-    android:background="@drawable/background">
+    android:layout_width="match_parent" android:layout_height="wrap_content"
+    android:padding="15dp">
 
     <EditText
         android:id="@+id/emailField"
@@ -78,5 +88,6 @@
         android:textColor="@color/white"
         />
 
+</RelativeLayout>
 </RelativeLayout>
 </ScrollView>

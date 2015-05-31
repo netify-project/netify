@@ -41,8 +41,9 @@ public class PlayerPropositionItemView extends RelativeLayout {
             video_user.setText(songData.groupName);
         }
         else {
-            //TODO Get and show name of the user
-            video_user.setText("User");
+            //if songdata contains username
+            if(songData.userName != null) video_user.setText(songData.userName);
+            else video_user.setText("User");
         }
     }
 }

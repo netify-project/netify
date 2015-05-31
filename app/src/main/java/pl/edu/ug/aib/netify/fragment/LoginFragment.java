@@ -1,8 +1,10 @@
 package pl.edu.ug.aib.netify.fragment;
 
 import android.app.Activity;
+import android.content.res.Configuration;
 import android.support.v4.app.Fragment;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import org.androidannotations.annotations.AfterViews;
@@ -18,6 +20,8 @@ import pl.edu.ug.aib.netify.eventListener.OnEditTextFocusChangeListener;
 public class LoginFragment extends Fragment {
 
     @ViewById
+    ImageView bgImage;
+    @ViewById
     EditText emailField;
     @ViewById
     EditText passwordField;
@@ -26,10 +30,24 @@ public class LoginFragment extends Fragment {
 
     @AfterViews
     void init(){
+        changeBgImageOrientation();
         OnEditTextFocusChangeListener onEditTextFocusChangeListener = new OnEditTextFocusChangeListener();
         emailField.setOnFocusChangeListener( onEditTextFocusChangeListener);
         passwordField.setOnFocusChangeListener(onEditTextFocusChangeListener);
         emailField.requestFocus();
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        changeBgImageOrientation();
+    }
+
+    private void changeBgImageOrientation(){
+        if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE){
+            bgImage.setImageResource(R.drawable.netifygraph_land);
+        }
+        else bgImage.setImageResource(R.drawable.netifygraph);
     }
 
     @Override

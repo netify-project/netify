@@ -27,6 +27,7 @@ import org.androidannotations.annotations.ViewById;
 import org.androidannotations.annotations.sharedpreferences.Pref;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import pl.edu.ug.aib.netify.data.Edge;
 import pl.edu.ug.aib.netify.data.EdgeData;
@@ -34,6 +35,8 @@ import pl.edu.ug.aib.netify.data.GroupData;
 import pl.edu.ug.aib.netify.data.Node;
 import pl.edu.ug.aib.netify.data.SongData;
 import pl.edu.ug.aib.netify.data.SongDataList;
+import pl.edu.ug.aib.netify.data.User;
+import pl.edu.ug.aib.netify.data.UserList;
 import pl.edu.ug.aib.netify.rest.RestSongGraphBackgroundTask;
 
 
@@ -52,10 +55,13 @@ public class GroupActivity extends ActionBarActivity {
     GroupData groupData;
     @Extra
     SongDataList songDataList;
+    @Extra
+    UserList groupMembers;
     ArrayList<Node> nodes;
     ArrayList<Edge> edges;
     //List of group members' Ids
     ArrayList<String> memberIds;
+    HashMap<Integer, User> userMap;
     //prevents spamming join button
     boolean isProcessingAddMember = false;
     @Bean
@@ -98,6 +104,13 @@ public class GroupActivity extends ActionBarActivity {
         webView.loadUrl("file:///android_asset/cytoscape1.html");
         if(songDataList == null) restSongGraphBackgroundTask.getSongs(preferences.sessionId().get(), groupData.id);
         else updateSongGraph(songDataList);
+        //create a map of group members
+        if(userMap == null) getUserMap();
+    }
+    private void getUserMap(){
+        if(groupMembers == null) return;
+        userMap = new HashMap<>();
+        for(User user : groupMembers.records) userMap.put(user.id, user);
     }
 
     public void setSongDataList(SongDataList songDataList) {
@@ -126,7 +139,13 @@ public class GroupActivity extends ActionBarActivity {
         //Log.d("gson", gson.toJson(nodes));Log.d("gson", gson.toJson(edges));
         nodes = new ArrayList<Node>();
         edges = new ArrayList<Edge>();
+        User user;
         for(SongData songData : songDataList.records){
+            //add username to songdata
+            if(userMap != null){
+                user = userMap.get(songData.userId);
+                if(user != null) songData.userName = user.displayName;
+            }
             nodes.add(new Node(songData));
             if(songData.parentId != null) edges.add(new Edge(new EdgeData(songData.parentId, songData.id)));
         }
@@ -143,8 +162,13 @@ public class GroupActivity extends ActionBarActivity {
     }
 
     public void addSongToGraph(SongData songData){
+        //add username to songdata
+        if(userMap != null){
+            User user = userMap.get(songData.userId);
+            if(user != null) songData.userName = user.displayName;
+        }
         songDataList.records.add(songData);
-        GroupActivity_.intent(this).songDataList(songDataList).groupData(groupData).start();
+        GroupActivity_.intent(this).songDataList(songDataList).groupData(groupData).groupMembers(groupMembers).start();
         finish();
     }
     public void showError(Exception e){

@@ -193,7 +193,9 @@ public class GroupFragment extends Fragment {
 
     @Click
     void groupPlaylistButtonClicked(){
-        GroupActivity_.intent(this).groupData(group).start();
+        //wait for group members data
+        if(groupMembers == null) return;
+        GroupActivity_.intent(this).groupData(group).groupMembers(groupMembers).start();
     }
     @Click
     void joinGroupButtonClicked(){
