@@ -1,4 +1,4 @@
-# netify
+# ![Netify logo](https://raw.githubusercontent.com/netify-project/netify/master/app/src/main/res/drawable/netifylogo.png) netify
 Android app for sharing nonlinear playlists
 
 Currently it allows users to:
@@ -7,3 +7,5 @@ Currently it allows users to:
 * join public groups and add songs to them
 * search for other users and become friends with them
 * invite your friends to groups you created or joined
+
+![Netify graph](https://github.com/netify-project/netify/blob/master/app/src/main/res/drawable-hdpi/netifygraph.png)
