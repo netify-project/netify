@@ -58,7 +58,7 @@ public class ProfileActivity extends ActionBarActivity implements ActionBar.TabL
         actionBar.setHomeButtonEnabled(false);
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-
+        restBackgroundTask.getUserSongs(Integer.toString(user.id), preferences.sessionId().get());
         // Adding Tabs
         for (String tab_name : tabs) {
             actionBar.addTab(actionBar.newTab().setText(tab_name)
@@ -102,7 +102,7 @@ public class ProfileActivity extends ActionBarActivity implements ActionBar.TabL
     public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction ft) {
     }
 
-    @AfterViews
+    @Override
     public void getUserFriendsList() {
         restBackgroundTask.getUserFriends(Integer.toString(user.id), preferences.sessionId().get());
     }
