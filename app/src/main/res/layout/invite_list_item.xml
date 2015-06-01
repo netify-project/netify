@@ -30,27 +30,35 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Accept"
-        android:id="@+id/accept"
-        android:layout_alignParentBottom="true"
-        android:layout_toLeftOf="@+id/delete"
-        android:layout_marginRight="30dp"
-        android:onClick="acceptInvite"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:layout_below="@+id/inviteText">
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Delete"
-        android:id="@+id/delete"
-        android:layout_marginRight="61dp"
-        android:layout_marginEnd="61dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:onClick="deleteInvite"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/accept_button"
+            android:id="@+id/accept"
+            android:textColor="@color/white"
+            android:background="@color/dark_blue"
+            android:padding="5dp"
+            android:layout_marginRight="40dp"
+            android:onClick="acceptInvite"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/delete_button"
+            android:id="@+id/delete"
+            android:textColor="@color/white"
+            android:background="@color/dark_blue"
+            android:padding="5dp"
+            android:onClick="deleteInvite"/>
+
+        </LinearLayout>
+
 
 
 </RelativeLayout>

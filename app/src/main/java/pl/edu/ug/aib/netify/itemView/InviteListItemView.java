@@ -28,11 +28,13 @@ public class InviteListItemView extends RelativeLayout {
     Button delete;
 
     InviteData inviteData;
+    Context context;
 
     OnInviteListItemViewCommunicationListener listener;
 
     public InviteListItemView(Context context) {
         super(context);
+        this.context = context;
         try{
             listener = (OnInviteListItemViewCommunicationListener)context;
         }
@@ -48,8 +50,8 @@ public class InviteListItemView extends RelativeLayout {
             inviteText.setText(R.string.friend_invitation);
         }
         else
-        {
-            inviteText.setText(R.string.group_invitation);
+        {//display name of the group
+            inviteText.setText(String.format("%s %s.", context.getString(R.string.group_invitation), inviteData.groupName ));
         }
         //set a field
         this.inviteData = inviteData;

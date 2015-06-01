@@ -36,13 +36,13 @@ public class DrawerListAdapter extends BaseAdapter {
                 UserGroupsFragment_.class));
         items.add(new DrawerItem(R.string.title_addgroup, R.drawable.ic_action_add_group,
                 AddGroupFragment_.class));
-        items.add(new DrawerItem(R.string.title_searchgroup, R.drawable.ic_action_search,
+        items.add(new DrawerItem(R.string.title_searchgroup, R.drawable.ic_action_search_group,
                 SearchGroupsFragment_.class));
         items.add(new DrawerItem(R.string.title_friends, R.drawable.ic_action_person,
                 FriendsFragment_.class));
-        items.add(new DrawerItem(R.string.title_searchusers, R.drawable.ic_action_search,
+        items.add(new DrawerItem(R.string.title_searchusers, R.drawable.ic_action_search_users,
                 SearchUsersFragment_.class));
-        items.add(new DrawerItem(R.string.title_invites, R.drawable.ic_action_person,
+        items.add(new DrawerItem(R.string.title_invites, R.drawable.ic_action_add_person,
                 InviteFragment_.class));
         items.add(new DrawerItem(R.string.logout, R.drawable.ic_action_logout,
                 LogoutFragment_.class));
