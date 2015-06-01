@@ -353,7 +353,7 @@ public class HomeActivity extends ActionBarActivity implements UserGroupsFragmen
     }
 
     @Override
-    public void inviteUsers(GroupData group) {
+    public void inviteUsers(GroupData group, UserList userList) {
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         Fragment previous = getSupportFragmentManager().findFragmentByTag(INVITE_DIALOG_FRAGMENT_TAG);
         if (previous != null) {
@@ -363,7 +363,7 @@ public class HomeActivity extends ActionBarActivity implements UserGroupsFragmen
 
         // Create and show the dialog.
         DialogFragment newFragment = InviteFriendsFragment_.builder()
-                .group(group).userId(preferences.id().get()).build();
+                .group(group).groupMembers(userList).userId(preferences.id().get()).build();
         newFragment.show(ft, INVITE_DIALOG_FRAGMENT_TAG);
     }
 

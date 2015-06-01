@@ -216,7 +216,7 @@ public class GroupFragment extends Fragment {
     //Invite user to join the group
     @Click
     void inviteUserButtonClicked(){
-        listener.inviteUsers(group);
+        listener.inviteUsers(group, groupMembers);
     }
     @Click
     void removeMembersButtonClicked(){listener.removeMembers(membersOfTheGroupDataList, groupMembers);}
@@ -255,7 +255,7 @@ public class GroupFragment extends Fragment {
         public void getGroupMembers(GroupData groupData);
         public void joinGroup(MemberGroupData memberGroupData);
         public void leaveGroup(MemberGroupData memberGroupData);
-        public void inviteUsers(GroupData groupData);
+        public void inviteUsers(GroupData groupData, UserList groupMembers);
         public void removeMembers(MemberGroupDataList memberGroupDataList, UserList groupMembers);
         public void updateGroup(GroupData groupData);
     }

@@ -87,5 +87,6 @@
     <string name="video_added_in">Added in</string>
     <string name="accept_button">Accept</string>
     <string name="delete_button">Delete</string>
+    <string name="no_friends_to_add_info">There are no friends to add.</string>
 
 </resources>

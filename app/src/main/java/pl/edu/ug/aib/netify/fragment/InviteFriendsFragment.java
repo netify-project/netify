@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Bean;
@@ -28,6 +29,8 @@ import pl.edu.ug.aib.netify.data.UserList;
 public class InviteFriendsFragment extends DialogFragment {
 
     @FragmentArg
+    UserList groupMembers;
+    @FragmentArg
     GroupData group;
     @FragmentArg
     int userId;
@@ -37,6 +40,8 @@ public class InviteFriendsFragment extends DialogFragment {
     Button sendInviteButton;
     @ViewById
     ProgressBar progressBar;
+    @ViewById
+    TextView noFriendsInfo;
     @Bean
     SelectUserListAdapter adapter;
     OnInviteFriendsFragmentCommunicationListener listener;
@@ -49,11 +54,16 @@ public class InviteFriendsFragment extends DialogFragment {
     }
 
     public void setUsersList(UserList userList){
+        //remove users that are already current user's friends
+        for(User user : groupMembers.records) userList.deleteUser(user.id);
         adapter.update(userList);
         //change visibility after loading data
         progressBar.setVisibility(View.GONE);
-        friendsList.setVisibility(View.VISIBLE);
-        sendInviteButton.setVisibility(View.VISIBLE);
+        if(adapter.getCount() > 0) {
+            friendsList.setVisibility(View.VISIBLE);
+            sendInviteButton.setVisibility(View.VISIBLE);
+        }
+        else noFriendsInfo.setVisibility(View.VISIBLE);
     }
 
     @Click
