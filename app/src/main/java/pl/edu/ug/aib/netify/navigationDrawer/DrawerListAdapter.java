@@ -44,7 +44,7 @@ public class DrawerListAdapter extends BaseAdapter {
                 SearchUsersFragment_.class));
         items.add(new DrawerItem(R.string.title_invites, R.drawable.ic_action_add_person,
                 InviteFragment_.class));
-        items.add(new DrawerItem(R.string.logout, R.drawable.ic_action_logout,
+        items.add(new DrawerItem(R.string.logout, R.drawable.logout,
                 LogoutFragment_.class));
     }
 

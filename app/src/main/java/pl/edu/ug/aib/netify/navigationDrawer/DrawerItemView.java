@@ -31,6 +31,7 @@ public class DrawerItemView extends LinearLayout {
         if(drawerItem.getFragmentClass().equals(LogoutFragment_.class)){
             ViewGroup.LayoutParams layoutParams = icon.getLayoutParams();
             layoutParams.height = 42;
+            icon.setPadding(3,0,0,0);
             //layoutParams.width = 42;
             icon.setLayoutParams(layoutParams);
         }
