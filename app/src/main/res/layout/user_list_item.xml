@@ -19,7 +19,7 @@
         android:textStyle="bold"
         android:text="imie"
         android:layout_centerVertical="true"
-        />
+        android:textColor="@color/material_blue_grey_950" />
 
     <TextView android:id="@+id/lastNameField"
         android:layout_width="wrap_content"
@@ -33,7 +33,7 @@
         android:layout_marginTop="5dp"
         android:layout_marginBottom="5dp"
         android:layout_centerVertical="true"
-        />
+        android:textColor="@color/material_blue_grey_950" />
 
     <!--<Button
         android:layout_width="wrap_content"

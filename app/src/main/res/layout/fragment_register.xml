@@ -25,7 +25,8 @@
         android:inputType="textEmailAddress"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"
-        android:background="@drawable/edittext_style"/>
+        android:background="@drawable/edittext_style"
+        android:textColor="@color/switch_thumb_normal_material_dark" />
     <EditText
         android:id="@+id/passwordField"
         android:layout_width="match_parent"
@@ -35,7 +36,8 @@
         android:layout_below="@+id/emailField"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"
-        android:background="@drawable/edittext_style"/>
+        android:background="@drawable/edittext_style"
+        android:textColor="@color/switch_thumb_normal_material_dark" />
 
     <EditText
         android:id="@+id/confirmPasswordField"
@@ -46,7 +48,8 @@
         android:layout_below="@+id/passwordField"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"
-        android:background="@drawable/edittext_style"/>
+        android:background="@drawable/edittext_style"
+        android:textColor="@color/switch_thumb_normal_material_dark" />
 
     <EditText
         android:id="@+id/firstNameField"
@@ -56,7 +59,8 @@
         android:layout_below="@+id/confirmPasswordField"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"
-        android:background="@drawable/edittext_style"/>
+        android:background="@drawable/edittext_style"
+        android:textColor="@color/switch_thumb_normal_material_dark" />
 
     <EditText
         android:id="@+id/lastNameField"
@@ -66,7 +70,8 @@
         android:layout_below="@+id/firstNameField"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"
-        android:background="@drawable/edittext_style"/>
+        android:background="@drawable/edittext_style"
+        android:textColor="@color/switch_thumb_normal_material_dark" />
 
     <EditText
         android:id="@+id/displayNameField"
@@ -76,7 +81,8 @@
         android:layout_below="@+id/lastNameField"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"
-        android:background="@drawable/edittext_style"/>
+        android:background="@drawable/edittext_style"
+        android:textColor="@color/switch_thumb_normal_material_dark" />
     <Button
         android:id="@+id/registerButton"
         android:layout_width="match_parent"

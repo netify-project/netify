@@ -22,7 +22,7 @@
             android:singleLine="true"
             android:background="@drawable/edittext_style"
             android:layout_marginRight="5dp"
-            />
+            android:textColor="@color/switch_thumb_normal_material_dark" />
         <ImageButton
             android:id="@+id/searchButton"
             android:layout_width="0dp"

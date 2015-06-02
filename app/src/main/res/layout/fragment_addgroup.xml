@@ -13,7 +13,7 @@ android:layout_width="match_parent" android:layout_height="match_parent"
         android:background="@drawable/edittext_style"
         android:hint="@string/group_name"
         android:singleLine="true"
-        />
+        android:textColor="@color/switch_thumb_normal_material_dark" />
     <EditText
         android:id="@+id/groupGenre"
         android:layout_width="match_parent"
@@ -23,7 +23,7 @@ android:layout_width="match_parent" android:layout_height="match_parent"
         android:layout_marginTop="10dp"
         android:hint="@string/group_genre"
         android:singleLine="true"
-        />
+        android:textColor="@color/switch_thumb_normal_material_dark" />
     <EditText
         android:id="@+id/groupDescription"
         android:layout_width="match_parent"
@@ -34,7 +34,8 @@ android:layout_width="match_parent" android:layout_height="match_parent"
         android:inputType="textMultiLine"
         android:lines="3"
         android:gravity="top|left"
-        android:layout_marginTop="10dp"/>
+        android:layout_marginTop="10dp"
+        android:textColor="@color/switch_thumb_normal_material_dark" />
 
     <RadioGroup
         android:id="@+id/radioGroup"

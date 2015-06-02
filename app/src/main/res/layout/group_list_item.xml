@@ -25,7 +25,8 @@
         android:ellipsize="end"
         android:textSize="16sp"
         android:textStyle="bold"
-        />
+
+        android:textColor="@color/material_blue_grey_950" />
 
     <TextView android:id="@+id/groupDescription"
         android:layout_width="wrap_content"
@@ -35,6 +36,6 @@
         android:textSize="12sp"
         android:singleLine="true"
         android:ellipsize="end"
-        />
+        android:textColor="@color/material_blue_grey_950" />
 
 </RelativeLayout>
