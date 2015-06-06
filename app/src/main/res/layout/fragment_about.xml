@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:background="@drawable/background">
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent" android:layout_height="match_parent"
+        android:padding="10dp">
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="About Netify"
+            android:id="@+id/about"
+
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:layout_margin="10dp" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Netify is the best way to find the music you may like and people with similar taste !"
+            android:id="@+id/desc"
+            android:layout_below="@+id/about"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginBottom="10dp"
+            android:textColor="@color/dark_blue"
+            android:textStyle="italic" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Find groups - enter keywords to find all groups you can join (eg rock, indie)."
+            android:id="@+id/ab_fgroup"
+            android:layout_below="@+id/desc"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:textColor="@color/button_material_dark"
+            android:layout_toRightOf="@+id/about"
+            android:layout_toEndOf="@+id/about" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Add new group- create your own group and let people find it!"
+            android:id="@+id/ab_crgroup"
+            android:layout_below="@+id/ab_fgroup"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:textColor="@color/button_material_dark"
+            android:layout_alignLeft="@+id/ab_fgroup"
+            android:layout_alignStart="@+id/ab_fgroup" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Find users - find your friends by email or surname and send them invite."
+            android:id="@+id/ab_finuser"
+            android:layout_below="@+id/ab_crgroup"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
+            android:textColor="@color/button_material_dark"
+            android:layout_marginBottom="10dp"
+            android:layout_alignLeft="@+id/ab_crgroup"
+            android:layout_alignStart="@+id/ab_crgroup" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Invitations - browse your friend request or join group invitations"
+            android:id="@+id/ab_invites"
+            android:textColor="@color/button_material_dark"
+            android:layout_below="@+id/ab_finuser"
+            android:layout_alignLeft="@+id/ab_finuser"
+            android:layout_alignStart="@+id/ab_finuser" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/imageView2"
+            android:layout_alignTop="@+id/ab_fgroup"
+            android:src="@drawable/ic_action_search_group"
+            android:layout_alignBottom="@+id/ab_fgroup"
+            android:layout_alignLeft="@+id/about"
+            android:layout_alignStart="@+id/about"
+            android:layout_alignRight="@+id/about"
+            android:layout_alignEnd="@+id/about" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/imageView3"
+            android:src="@drawable/ic_action_add_group"
+            android:layout_alignBottom="@+id/ab_crgroup"
+            android:layout_alignRight="@+id/about"
+            android:layout_alignEnd="@+id/about"
+            android:layout_alignLeft="@+id/imageView2"
+            android:layout_alignStart="@+id/imageView2"
+            android:layout_below="@+id/ab_fgroup" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/imageView"
+            android:layout_alignLeft="@+id/imageView3"
+            android:layout_alignStart="@+id/imageView3"
+            android:src="@drawable/ic_action_search_users"
+            android:layout_alignTop="@+id/ab_finuser"
+            android:layout_alignBottom="@+id/ab_finuser"
+            android:layout_alignRight="@+id/imageView3"
+            android:layout_alignEnd="@+id/imageView3" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/imageView4"
+            android:src="@drawable/ic_action_add_person"
+            android:layout_alignBottom="@+id/ab_invites"
+            android:layout_alignLeft="@+id/imageView"
+            android:layout_alignStart="@+id/imageView"
+            android:layout_below="@+id/ab_finuser"
+            android:layout_alignRight="@+id/imageView"
+            android:layout_alignEnd="@+id/imageView" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Song graph - group playlist. Select song icon and choose play, to start video. Click on the add song, when you want to add your own song, related to the selected one"
+            android:id="@+id/ab_graph"
+            android:textColor="@color/button_material_dark"
+
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_toEndOf="@+id/imageView2"
+            android:layout_below="@+id/ab_invites"
+            android:layout_alignLeft="@+id/ab_invites"
+            android:layout_alignStart="@+id/ab_invites" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/imageView5"
+            android:layout_alignTop="@+id/ab_graph"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:src="@drawable/netifygraph"
+            android:layout_toLeftOf="@+id/ab_graph"
+            android:layout_toStartOf="@+id/ab_graph"
+            android:layout_alignBottom="@+id/ab_graph"
+            />
+
+    </RelativeLayout>
+</ScrollView>
