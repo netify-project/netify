@@ -57,7 +57,7 @@
     <string name="title_profile">Profile</string>
     <string name="title_groups">Groups</string>
     <string name="no_user_invites_info">You don\'t have any invites.</string>
-    <string name="title_invites">Invites</string>
+    <string name="title_invites">Invitations</string>
     <string name="add_friend_successful">You are now friends with</string>
     <string name="invite_deleted">You rejected the invite</string>
     <string name="new_invite_friend">has sent you a friend request!</string>
@@ -88,5 +88,6 @@
     <string name="accept_button">Accept</string>
     <string name="delete_button">Delete</string>
     <string name="no_friends_to_add_info">There are no friends to add.</string>
+    <string name="title_about">About</string>
 
 </resources>

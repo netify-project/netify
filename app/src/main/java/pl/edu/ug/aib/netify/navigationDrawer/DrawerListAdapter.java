@@ -13,15 +13,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import pl.edu.ug.aib.netify.R;
-import pl.edu.ug.aib.netify.adapter.InviteListAdapter;
 import pl.edu.ug.aib.netify.fragment.AddGroupFragment_;
-import pl.edu.ug.aib.netify.fragment.FriendsFragment;
 import pl.edu.ug.aib.netify.fragment.FriendsFragment_;
 import pl.edu.ug.aib.netify.fragment.InviteFragment_;
 import pl.edu.ug.aib.netify.fragment.LogoutFragment_;
 import pl.edu.ug.aib.netify.fragment.SearchGroupsFragment_;
 import pl.edu.ug.aib.netify.fragment.SearchUsersFragment_;
 import pl.edu.ug.aib.netify.fragment.UserGroupsFragment_;
+import pl.edu.ug.aib.netify.fragment.AboutFragment_;
 
 @EBean
 public class DrawerListAdapter extends BaseAdapter {
@@ -46,6 +45,8 @@ public class DrawerListAdapter extends BaseAdapter {
                 InviteFragment_.class));
         items.add(new DrawerItem(R.string.logout, R.drawable.logout,
                 LogoutFragment_.class));
+        items.add(new DrawerItem(R.string.title_about, R.drawable.ic_action_about,
+                AboutFragment_.class));
     }
 
     @Override
